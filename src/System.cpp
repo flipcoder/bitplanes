@@ -94,6 +94,10 @@ IRealtime* System :: newState(const std::string id)
     IRealtime* state = nullptr;
     if(id == "game")
         state = new GameState();
+    if(state->hasError()){
+        delete state;
+        state = NULL;
+    }
     return state;
 }
 

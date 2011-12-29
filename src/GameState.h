@@ -23,7 +23,7 @@ class GameState : public IRealtime
         }
         virtual void render() const
         {
-            m_pBackground.get()->draw();
+            m_pBackground.get()->render();
         }
 };
 
