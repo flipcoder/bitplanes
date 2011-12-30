@@ -28,12 +28,14 @@ class Sprite : public IFallible
         Sprite(unsigned int width, unsigned int height) {
             nullify();
             m_pBitmap = al_create_bitmap(width, height);
+            al_convert_mask_to_alpha(m_pBitmap, al_map_rgb(255,0,255));
             if(!m_pBitmap)
                 setError("Failed to create bitmap");
         }
         Sprite(std::string fn) {
             nullify();
             m_pBitmap = al_load_bitmap(fn.c_str());
+            al_convert_mask_to_alpha(m_pBitmap, al_map_rgb(255,0,255));
         }
         void destroy() {
             al_destroy_bitmap(m_pBitmap);
@@ -54,8 +56,8 @@ class Sprite : public IFallible
         void render();
         float x() { return m_vPos.x; }
         float y() { return m_vPos.y; }
-        unsigned int w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }
-        unsigned int h() { return m_pBitmap ? al_get_bitmap_height(m_pBitmap) : 0; }
+        float w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }
+        float h() { return m_pBitmap ? al_get_bitmap_height(m_pBitmap) : 0; }
 
         Vector2& pos() {
             return m_vPos;

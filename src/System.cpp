@@ -34,6 +34,11 @@ bool System :: init()
         setError("Could not initialize keyboard");
         return false;
     }
+    if(!al_install_mouse())
+    {
+        setError("Could not initialize keyboard");
+        return false;
+    }
 
     m_pBuffer = al_create_bitmap(320, 240);
     if(!m_pBuffer)
