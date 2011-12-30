@@ -11,6 +11,7 @@
 #include "IRealtime.h"
 #include "Freq.h"
 #include "Sprite.h"
+#include "Events.h"
 
 class System : public IStaticInstance<System>, public IFallible, public IStateManager<std::string, IRealtime>
 {
@@ -41,6 +42,8 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         bool logic();
         void render() const;
 
+        void destroy();
+
         // State manager acts as own factory
 
         bool quitFlag() const { return m_bQuit; }
@@ -49,6 +52,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         virtual IRealtime* newState(const std::string id);
         
         ALLEGRO_BITMAP* buffer() { return m_pBuffer; }
+        ALLEGRO_DISPLAY* display() { return m_pDisplay; }
 };
 
 #endif

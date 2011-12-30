@@ -7,13 +7,14 @@ class GameState : public IRealtime
 
         void nullify() {}
 
-        std::unique_ptr<Sprite> m_pBackground;
+        std::shared_ptr<Sprite> m_pBackground;
+        std::shared_ptr<Sprite> m_pPlane;
 
     public:
         GameState() {
-            //m_pBackground = std::move(Sprite::load("data/gfx/backgrounds/forest.png"));
-            //if(m_pBackground.get()->hasError())
-            //    setError(m_pBackground.get()->moveError());
+            m_pBackground.reset(Sprite::load("data/gfx/backgrounds/forest.png"));
+            if(!m_pBackground.get() || m_pBackground.get()->hasError())
+                setError(m_pBackground.get()->moveError());
         }
         virtual ~GameState() {}
 
@@ -23,7 +24,7 @@ class GameState : public IRealtime
         }
         virtual void render() const
         {
-            //m_pBackground.get()->render();
+            m_pBackground.get()->render();
         }
 };
 

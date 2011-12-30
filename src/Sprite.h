@@ -31,7 +31,7 @@ class Sprite : public IFallible
         }
         Sprite(std::string fn) {
             nullify();
-            //m_pBitmap = load_bitmap(fn.c_str(), pal);
+            m_pBitmap = al_load_bitmap(fn.c_str());
         }
         void destroy() {
             al_destroy_bitmap(m_pBitmap);
@@ -40,11 +40,11 @@ class Sprite : public IFallible
         virtual ~Sprite(){
             destroy();
         }
-        static std::shared_ptr<Sprite>&& load(std::string fn) {
-            return std::move(std::shared_ptr<Sprite>(new Sprite(fn)));
+        static Sprite* load(std::string fn) {
+            return new Sprite(fn);
         }
-        static std::shared_ptr<Sprite>&& load(unsigned int width, unsigned int height) {
-            return std::move(std::shared_ptr<Sprite>(new Sprite(width,height)));
+        static Sprite* load(unsigned int width, unsigned int height) {
+            return new Sprite(width, height);
         }
         void render();
         float x() { return m_fX; }

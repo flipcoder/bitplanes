@@ -9,6 +9,8 @@ System :: System()
 
 bool System :: init()
 {
+    destroy();
+
     if(!al_init())
     {
         setError("Could not initialize Allegro");
@@ -37,19 +39,29 @@ bool System :: init()
         setError("Unable to create buffer");
         return false;
     }
+    
+    Events::get(new Events());
+    Freq::get(new Freq());
+
+    // clear buffer
     al_set_target_bitmap(m_pBuffer);
-    al_clear_to_color(al_map_rgb(255,0,0));
+    al_clear_to_color(al_map_rgb(0,0,0));
     al_set_target_backbuffer(m_pDisplay);
 
-    Freq::get(new Freq());
+    // push default mode
     pushState("game");
-    
     return true;
 }
 
 System :: ~System()
 {
+    destroy();
+}
+
+void System :: destroy()
+{
     al_destroy_bitmap(m_pBuffer);
+    al_destroy_display(m_pDisplay);
 }
 
 bool System :: logic()
@@ -57,6 +69,8 @@ bool System :: logic()
     bool ret = true;
     unsigned long now = Freq::get().getElapsedTime();
 	unsigned long a = now - m_uiLastAdv;
+    if(!Events::get().logic(a))
+        return false;
     IRealtime* state = currentState();
     if(state)
         if(!state->logic(a))
@@ -70,9 +84,7 @@ void System :: render() const
     const IRealtime* state = currentState();
     if(state)
         state->render();
-    //stretch_blit(m_pBuffer, screen,
-    //    0, 0, SCREEN_W/m_Scale, SCREEN_H/m_Scale,
-    //    0, 0, SCREEN_W, SCREEN_H);
+
     al_draw_scaled_bitmap(m_pBuffer,
         0, 0,
         al_get_bitmap_width(m_pBuffer),
@@ -92,6 +104,7 @@ bool System :: run()
 
     while(pollState())
     {
+        
         //if(keyboard_needs_poll())
         //    poll_keyboard();
         //if(key[KEY_ESC]) {
@@ -99,7 +112,8 @@ bool System :: run()
         //    popState();
         //}
 
-        logic();
+        if(!logic())
+            break;
         render();
     }
 
