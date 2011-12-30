@@ -1,6 +1,7 @@
 #include "System.h"
 #include "GameState.h"
 #include <allegro5/allegro_color.h>
+#include <allegro5/allegro_font.h>
 
 System :: System()
 {
@@ -27,6 +28,7 @@ bool System :: init()
     al_init_font_addon();
     al_init_image_addon();
     al_init_acodec_addon();
+    al_init_font_addon();
     if(!al_install_keyboard())
     {
         setError("Could not initialize keyboard");
@@ -46,7 +48,7 @@ bool System :: init()
     // clear buffer
     al_set_target_bitmap(m_pBuffer);
     al_clear_to_color(al_map_rgb(0,0,0));
-    al_set_target_backbuffer(m_pDisplay);
+
 
     // push default mode
     pushState("game");
@@ -85,6 +87,7 @@ void System :: render() const
     if(state)
         state->render();
 
+    al_set_target_backbuffer(m_pDisplay);
     al_draw_scaled_bitmap(m_pBuffer,
         0, 0,
         al_get_bitmap_width(m_pBuffer),
@@ -95,6 +98,7 @@ void System :: render() const
         0);
     al_flip_display();
     al_clear_to_color(al_map_rgb(0,0,0));
+    al_set_target_bitmap(m_pBuffer);
 }
 
 bool System :: run()
@@ -104,14 +108,6 @@ bool System :: run()
 
     while(pollState())
     {
-        
-        //if(keyboard_needs_poll())
-        //    poll_keyboard();
-        //if(key[KEY_ESC]) {
-        //    key[KEY_ESC] = 0;
-        //    popState();
-        //}
-
         if(!logic())
             break;
         render();

@@ -20,11 +20,13 @@ class GameState : public IRealtime
 
         virtual bool logic(unsigned int advance)
         {
+            if(Events::get().key(ALLEGRO_KEY_DOWN))
+                return false;
             return true;
         }
         virtual void render() const
         {
-            m_pBackground.get()->render();
+            m_pBackground->render();
         }
 };
 

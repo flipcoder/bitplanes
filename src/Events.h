@@ -35,6 +35,14 @@ class Events : public IStaticInstance<Events>, public IRealtime
                 {
                     case ALLEGRO_EVENT_DISPLAY_CLOSE:
                         return false;
+
+                    case ALLEGRO_EVENT_KEY_DOWN:
+                        m_bKey[event.keyboard.keycode] = true;
+                        break;
+                        
+                    case ALLEGRO_EVENT_KEY_UP:
+                        m_bKey[event.keyboard.keycode] = false;
+                        break;
                 }
             }
             return true;

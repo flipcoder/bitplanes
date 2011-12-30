@@ -8,18 +8,20 @@
 #include <allegro5/allegro_image.h>
 #include "System.h"
 #include "IFallible.h"
+#include "math/vector2.h"
 
 class Sprite : public IFallible
 {
     private:
 
         ALLEGRO_BITMAP* m_pBitmap;
-        float m_fX,m_fY;
 
         void nullify() {
             m_pBitmap = nullptr;
-            m_fX = m_fY = 0.0f;
         }
+
+        Vector2 m_vPos;
+        Vector2 m_vVel;
 
     public:
 
@@ -43,14 +45,30 @@ class Sprite : public IFallible
         static Sprite* load(std::string fn) {
             return new Sprite(fn);
         }
+        static Sprite* loadAnimation(std::string fn, unsigned int width = 0, unsigned int height = 0) {
+            return nullptr; //nyi
+        }
         static Sprite* load(unsigned int width, unsigned int height) {
             return new Sprite(width, height);
         }
         void render();
-        float x() { return m_fX; }
-        float y() { return m_fY; }
+        float x() { return m_vPos.x; }
+        float y() { return m_vPos.y; }
         unsigned int w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }
         unsigned int h() { return m_pBitmap ? al_get_bitmap_height(m_pBitmap) : 0; }
+
+        Vector2& pos() {
+            return m_vPos;
+        }
+        const Vector2& pos() const {
+            return m_vPos;
+        }
+        Vector2& vel() {
+            return m_vVel;
+        }
+        const Vector2& vel() const {
+            return m_vVel;
+        }
 };
 
 #endif
