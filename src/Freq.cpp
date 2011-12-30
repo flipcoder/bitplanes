@@ -4,6 +4,8 @@
 #include <cstdio>
 #include <unistd.h>
 
+#include <allegro5/allegro5.h> // for al_get_time()
+
 Freq :: Freq()
 {
     m_ulStartTime = getTicks();
@@ -15,11 +17,12 @@ Freq :: Freq()
 
 unsigned long Freq :: getTicks() const
 {
-    timeval time;
-    gettimeofday(&time, NULL);
-    long sec = time.tv_sec;
-    long usec = time.tv_usec;
-    return (sec*1000+usec/1000.0) + 0.5;
+    //timeval time;
+    //gettimeofday(&time, NULL);
+    //long sec = time.tv_sec;
+    //long usec = time.tv_usec;
+    //return (sec*1000+usec/1000.0) + 0.5;
+    return (unsigned long)(al_get_time() * 1000.0 + 0.5);
 }
 
 void Freq :: set(int logicTickSpeed = 60)

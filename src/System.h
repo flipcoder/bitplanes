@@ -1,7 +1,10 @@
 #ifndef _SYSTEM_H
 #define _SYSTEM_H
 
-#include <allegro.h>
+#include <allegro5/allegro5.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_acodec.h>
 #include "IFallible.h"
 #include "IStaticInstance.h"
 #include "IStateManager.h"
@@ -15,14 +18,18 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
 
         bool m_bQuit;
         unsigned long m_uiLastAdv;
-        BITMAP* m_pBuffer;
+        ALLEGRO_BITMAP* m_pBuffer;
+        ALLEGRO_DISPLAY* m_pDisplay;
         unsigned int m_Scale;
 
         void nullify(){
             m_bQuit = false;
             m_uiLastAdv = 0;
-            m_Scale = 4;
+            m_Scale = 3;
+            m_pBuffer = nullptr;
+            m_pDisplay = nullptr;
         }
+
 
     public:
 
@@ -41,7 +48,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
 
         virtual IRealtime* newState(const std::string id);
         
-        BITMAP* buffer() { return m_pBuffer; }
+        ALLEGRO_BITMAP* buffer() { return m_pBuffer; }
 };
 
 #endif

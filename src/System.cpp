@@ -1,5 +1,6 @@
 #include "System.h"
 #include "GameState.h"
+#include <allegro5/allegro_color.h>
 
 System :: System()
 {
@@ -8,30 +9,37 @@ System :: System()
 
 bool System :: init()
 {
-    if(allegro_init() != 0)
+    if(!al_init())
     {
         setError("Could not initialize Allegro");
         return false;
     }
-    set_color_depth(32);
-    if(set_gfx_mode(GFX_AUTODETECT_WINDOWED, 320*m_Scale, 240*m_Scale, 0, 0) != 0)
+    //al_set_color_depth(32);
+    //if(al_set_gfx_mode(GFX_AUTODETECT_WINDOWED, 320*m_Scale, 240*m_Scale, 0, 0) != 0)
+    al_set_new_display_flags(ALLEGRO_WINDOWED);
+    if(!(m_pDisplay = al_create_display(320*m_Scale, 240*m_Scale)))
     {
         setError("Could not initialize graphics mode");
         return false;
     }
-    if(install_keyboard() != 0)
+    al_init_font_addon();
+    al_init_image_addon();
+    al_init_acodec_addon();
+    if(!al_install_keyboard())
     {
         setError("Could not initialize keyboard");
         return false;
     }
 
-    m_pBuffer = create_bitmap(320, 240);
+    m_pBuffer = al_create_bitmap(320, 240);
     if(!m_pBuffer)
     {
         setError("Unable to create buffer");
         return false;
     }
-    clear_to_color(m_pBuffer, makecol(255,0,0));
+    al_set_target_bitmap(m_pBuffer);
+    al_clear_to_color(al_map_rgb(255,0,0));
+    al_set_target_backbuffer(m_pDisplay);
 
     Freq::get(new Freq());
     pushState("game");
@@ -41,8 +49,7 @@ bool System :: init()
 
 System :: ~System()
 {
-    destroy_bitmap(m_pBuffer);
-    allegro_exit();
+    al_destroy_bitmap(m_pBuffer);
 }
 
 bool System :: logic()
@@ -63,9 +70,19 @@ void System :: render() const
     const IRealtime* state = currentState();
     if(state)
         state->render();
-    stretch_blit(m_pBuffer, screen,
-        0, 0, SCREEN_W/m_Scale, SCREEN_H/m_Scale,
-        0, 0, SCREEN_W, SCREEN_H);
+    //stretch_blit(m_pBuffer, screen,
+    //    0, 0, SCREEN_W/m_Scale, SCREEN_H/m_Scale,
+    //    0, 0, SCREEN_W, SCREEN_H);
+    al_draw_scaled_bitmap(m_pBuffer,
+        0, 0,
+        al_get_bitmap_width(m_pBuffer),
+        al_get_bitmap_height(m_pBuffer),
+        0, 0,
+        al_get_display_width(m_pDisplay), 
+        al_get_display_height(m_pDisplay),
+        0);
+    al_flip_display();
+    al_clear_to_color(al_map_rgb(0,0,0));
 }
 
 bool System :: run()
@@ -75,12 +92,12 @@ bool System :: run()
 
     while(pollState())
     {
-        if(keyboard_needs_poll())
-            poll_keyboard();
-        if(key[KEY_ESC]) {
-            key[KEY_ESC] = 0;
-            popState();
-        }
+        //if(keyboard_needs_poll())
+        //    poll_keyboard();
+        //if(key[KEY_ESC]) {
+        //    key[KEY_ESC] = 0;
+        //    popState();
+        //}
 
         logic();
         render();

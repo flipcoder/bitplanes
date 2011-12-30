@@ -11,9 +11,9 @@ class GameState : public IRealtime
 
     public:
         GameState() {
-            m_pBackground = Sprite::load("data/gfx/backgrounds/forest.png");
-            if(m_pBackground.get()->hasError())
-                setError(m_pBackground.get()->moveError());
+            //m_pBackground = std::move(Sprite::load("data/gfx/backgrounds/forest.png"));
+            //if(m_pBackground.get()->hasError())
+            //    setError(m_pBackground.get()->moveError());
         }
         virtual ~GameState() {}
 
@@ -23,7 +23,7 @@ class GameState : public IRealtime
         }
         virtual void render() const
         {
-            m_pBackground.get()->render();
+            //m_pBackground.get()->render();
         }
 };
 

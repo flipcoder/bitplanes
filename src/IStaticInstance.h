@@ -1,10 +1,6 @@
 #ifndef _ISTATICINSTANCE_H
 #define _ISTATICINSTANCE_H
 
-// A variation of a singleton, whereas a single static instance
-// is selectable and assignable to be primary for a given class.
-// Lifetime is controllable through a shared_ptr
-
 #include <memory>
 #include "Util.h"
 
@@ -35,7 +31,7 @@ class IStaticInstance
 			return *shared(p);
 		}
 		static T* ptr(T* p = NULL){
-			return &*shared(p);
+			return &shared(p)->get();
 		}
 		static void reset() {
 			shared(NULL, FREE);
