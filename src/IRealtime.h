@@ -3,12 +3,13 @@
 
 #include "IFallible.h"
 
-class IRealtime : public IFallible
+class IRealtime
 {
     public:
         virtual ~IRealtime() {}
-        virtual bool logic(unsigned int advance) {return false;}
-        virtual void render() const {}
+        virtual bool logic(float t) {return false;}
+        //virtual bool logic(unsigned int advance) {return logic(advance*0.001f);}
+        //virtual bool logic(unsigned int advance) {return false;}
 };
 
 #endif

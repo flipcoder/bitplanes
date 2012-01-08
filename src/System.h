@@ -8,12 +8,12 @@
 #include "IFallible.h"
 #include "IStaticInstance.h"
 #include "IStateManager.h"
-#include "IRealtime.h"
+#include "IState.h"
 #include "Freq.h"
 #include "Sprite.h"
 #include "Events.h"
 
-class System : public IStaticInstance<System>, public IFallible, public IStateManager<std::string, IRealtime>
+class System : public IStaticInstance<System>, public IFallible, public IStateManager<std::string, IState>
 {
     private:
 
@@ -26,7 +26,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         void nullify(){
             m_bQuit = false;
             m_uiLastAdv = 0;
-            m_Scale = 3;
+            m_Scale = 2;
             m_pBuffer = nullptr;
             m_pDisplay = nullptr;
         }
@@ -37,22 +37,22 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         System();
         virtual ~System();
 
-        bool init();
         bool run();
         bool logic();
         void render() const;
-
-        void destroy();
 
         // State manager acts as own factory
 
         bool quitFlag() const { return m_bQuit; }
         void quit(bool b = true) { m_bQuit = b; }
 
-        virtual IRealtime* newState(const std::string id);
+        virtual IState* newState(const std::string id);
         
         ALLEGRO_BITMAP* buffer() { return m_pBuffer; }
         ALLEGRO_DISPLAY* display() { return m_pDisplay; }
+
+        const float w() const { return m_pDisplay ? al_get_display_width(m_pDisplay) : 0.0f; }
+        const float h() const { return m_pDisplay ? al_get_display_height(m_pDisplay) : 0.0f; }
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include <cassert>
 #include <vector>
 #include <cmath>
+#include <stdexcept>
 
 typedef signed char byte;
 typedef unsigned char ubyte;
@@ -214,5 +215,15 @@ bool push_back_unique(T& container, const U& element)
 //#define SCOPED_ENUM(blah) enum class blah {
 //#define END_SCOPED_ENUM()
 // ;
+//
+
+template<class T>
+T safe_ptr(T ptr)
+{
+    if(!ptr)
+        throw std::runtime_error("Null Pointer Exception");
+    return ptr;
+}
+
 #endif
 

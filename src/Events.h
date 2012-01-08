@@ -24,30 +24,10 @@ class Events : public IStaticInstance<Events>, public IRealtime
 
     public:
 
-        Events();
+        Events(ALLEGRO_DISPLAY* display);
         virtual ~Events();
 
-        virtual bool logic(unsigned int advance) {
-            ALLEGRO_EVENT event;
-            while(al_get_next_event(m_pQueue, &event))
-            {
-                switch(event.type)
-                {
-                    case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                        return false;
-
-                    case ALLEGRO_EVENT_KEY_DOWN:
-                        m_bKey[event.keyboard.keycode] = true;
-                        break;
-                        
-                    case ALLEGRO_EVENT_KEY_UP:
-                        m_bKey[event.keyboard.keycode] = false;
-                        break;
-                }
-            }
-            return true;
-        }
-
+        virtual bool logic(unsigned int advance);
         bool key(unsigned int idx) const {
             return m_bKey[idx];
         }

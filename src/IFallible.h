@@ -2,10 +2,16 @@
 #define _FALLIBLE_H
 
 #include <string>
+#include <stdexcept>
 
 class IFallible
 {
 	protected:
+
+        class Failure : public std::runtime_error {
+            public:
+                Failure(): std::runtime_error("failure") {}
+        };
 
 		virtual void setError(const std::string& err){
 			m_sError = err;
@@ -18,6 +24,7 @@ class IFallible
 
 		virtual bool hasError() const { return !m_sError.empty(); }
 		virtual std::string getError() const { return m_sError; }
+        virtual std::string moveError() { return std::move(m_sError); }
 
 	private:
 
