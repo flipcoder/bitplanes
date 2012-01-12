@@ -21,7 +21,11 @@ System :: System()
         throw Failure();
     }
     //al_init_font_addon();
-    //al_init_image_addon();
+    if(!al_init_image_addon())
+    {
+        setError("Could not initialize image addon");
+        throw Failure();
+    }
     //al_init_acodec_addon();
     //al_init_font_addon();
     if(!al_install_keyboard())
@@ -81,10 +85,13 @@ bool System :: logic()
 void System :: render()
 {
     const IState* state = currentState();
+
+    queue();
     if(state)
         state->render();
 
     m_DepthQueue.render(); // not const
+    queue(false);
 
     if(m_pDisplay && m_spBuffer)
     {
@@ -127,7 +134,9 @@ IState* System :: newState(const std::string id)
     return state;
 }
 
-void System :: depthEnqueue(const std::shared_ptr<IDepth>& s)
+void System :: depthEnqueue(const std::shared_ptr<const IDepth>& s)
 {
+    assert(m_bQueued);
     m_DepthQueue.enqueue(s);
 }
+

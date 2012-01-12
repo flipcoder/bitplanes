@@ -14,7 +14,7 @@ class GameState : public IState
 
     public:
         GameState() {
-            m_spPlane.reset(new Plane("gfx/objects/plane1.ini"));
+            m_spPlane.reset(new Plane("data/gfx/objects/plane1.ini"));
             //m_spBackground.reset(Sprite::load("data/gfx/backgrounds/forest.png"));
             //if(!m_spBackground.get() || m_spBackground.get()->hasError())
             //    setError(m_spBackground.get()->getError());

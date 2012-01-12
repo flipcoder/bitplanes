@@ -14,11 +14,11 @@ class DepthQueue
         {
             public:
                 bool operator() (
-                    const std::weak_ptr<IDepth>& s,
-                    const std::weak_ptr<IDepth>& s2) const
+                    const std::weak_ptr<const IDepth>& s,
+                    const std::weak_ptr<const IDepth>& s2) const
                 {
-                    std::shared_ptr<IDepth> sp = s.lock();
-                    std::shared_ptr<IDepth> sp2 = s2.lock();
+                    std::shared_ptr<const IDepth> sp = s.lock();
+                    std::shared_ptr<const IDepth> sp2 = s2.lock();
                     if(sp && sp2)
                         return sp->depth() < sp2->depth();
                     else
@@ -28,20 +28,20 @@ class DepthQueue
 
     private:
 
-        std::priority_queue<std::weak_ptr<IDepth>, std::vector<std::weak_ptr<IDepth>>, DepthCompare> m_pqQueue;
+        std::priority_queue<std::weak_ptr<const IDepth>, std::vector<std::weak_ptr<const IDepth>>, DepthCompare> m_pqQueue;
 
     public:
         
         DepthQueue() {}
         virtual ~DepthQueue() {}
 
-        void enqueue(const std::shared_ptr<IDepth>& s) {
-            //m_pqQueue.push(std::weak_ptr<IDepth>(s));
+        void enqueue(const std::shared_ptr<const IDepth>& s) {
+            m_pqQueue.push(std::weak_ptr<const IDepth>(s));
         }
 
         virtual void render() {
             while(!m_pqQueue.empty()) {
-                std::shared_ptr<IDepth> s = m_pqQueue.top().lock();
+                std::shared_ptr<const IDepth> s = m_pqQueue.top().lock();
                 if(s)
                     s->render();
                 m_pqQueue.pop();

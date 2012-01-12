@@ -1,5 +1,4 @@
 #include <iostream>
-#include <allegro.h>
 
 #include "Util.h"
 #include "System.h"

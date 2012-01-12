@@ -19,10 +19,13 @@ class Sprite : public IDepth, public IFallible
 
         void nullify() {
             //m_pBitmap = nullptr;
+            m_vScale = Vector2(1.0f, 1.0f);
         }
 
         Vector2 m_vPos;
+        Vector2 m_vScale;
         //Vector2 m_vVel;
+        std::weak_ptr<const Image> m_wpImage;
 
     public:
 
@@ -45,6 +48,14 @@ class Sprite : public IDepth, public IFallible
         virtual ~Sprite(){
             destroy();
         }
+
+        void setImage(const std::shared_ptr<const Image>& image) {
+            m_wpImage = std::weak_ptr<const Image>(image);
+        }
+        void erase() {
+            m_wpImage.reset();
+        }
+
         //static Sprite* load(std::string fn) {
         //    Sprite* s = new (std::nothrow) Sprite(fn);
         //    if(s && s->hasError()) {
@@ -59,10 +70,7 @@ class Sprite : public IDepth, public IFallible
         //static Sprite* load(unsigned int width, unsigned int height) {
             //return new Sprite(width, height);
         //}
-        void render() const {
-            
-        }
-        void enqueue() const;
+        void render() const;
         float x() { return m_vPos.x; }
         float y() { return m_vPos.y; }
         //float w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }

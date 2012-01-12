@@ -14,6 +14,7 @@ class IFallible
 
 		virtual void setError(const std::string& err){
 			m_sError = err;
+            std::cout << "Error: " << err << std::endl;
 		}
 
 	public:

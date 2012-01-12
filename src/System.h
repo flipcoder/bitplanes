@@ -15,20 +15,24 @@
 #include "Image.h"
 #include "DepthQueue.h"
 #include "Image.h"
+#include "ResourceMap.h"
 
 class System : public IStaticInstance<System>, public IFallible, public IStateManager<std::string, IState>
 {
     private:
 
         bool m_bQuit;
+        bool m_bQueued;
         unsigned long m_uiLastAdv;
         std::shared_ptr<Image> m_spBuffer;
         ALLEGRO_DISPLAY* m_pDisplay;
         unsigned int m_Scale;
         DepthQueue m_DepthQueue;
+        ResourceMap<Image> m_ImageResources;
 
         void nullify(){
             m_bQuit = false;
+            m_bQueued = false;
             m_uiLastAdv = 0;
             m_Scale = 2;
             m_pDisplay = nullptr;
@@ -57,7 +61,12 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         const float w() const { return m_pDisplay ? al_get_display_width(m_pDisplay) : 0.0f; }
         const float h() const { return m_pDisplay ? al_get_display_height(m_pDisplay) : 0.0f; }
 
-        void depthEnqueue(const std::shared_ptr<IDepth>& s);
+        void depthEnqueue(const std::shared_ptr<const IDepth>& s);
+        bool queued() const { return m_bQueued; }
+        void queue(bool b = true) { m_bQueued = b; }
+
+        ResourceMap<Image>& imageResources() { return m_ImageResources; }
+        const ResourceMap<Image>& imageResources() const { return m_ImageResources; }
 };
 
 #endif

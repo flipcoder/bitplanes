@@ -101,6 +101,11 @@ class Vector2
 			y = v2.y;
 			return *this;
 		}
+        
+        friend bool operator==(const Vector2& a, const Vector2& b) {
+            return(floatcmp(a.x, b.x) &&
+                floatcmp(a.y, b.y));
+        }
 
 		float magnitude() const
         {

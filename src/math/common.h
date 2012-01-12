@@ -39,7 +39,7 @@ inline bool floatcmp(float a, float b){
 }
 
 template <class T>
-inline T abs(T x)
+inline T absval(T x)
 {
 	return x>0?x:-x;
 }

@@ -6,7 +6,7 @@ Image :: Image(const std::string& fn)
     m_pBitmap = al_load_bitmap(fn.c_str());
     if(!m_pBitmap)
     {
-        setError("Failed to create bitmap");
+        setError((std::string)"Failed to load bitmap " + fn);
         throw Failure();
     }
 }

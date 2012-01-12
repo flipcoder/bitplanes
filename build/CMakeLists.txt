@@ -11,7 +11,7 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 file(GLOB_RECURSE SRCS ../src/*.cpp)
 link_directories(../third_party/lib)
 add_executable(../bin/bitplanes ${SRCS})
-target_link_libraries(../bin/bitplanes allegro allegro_image allegro_font allegro_acodec allegro_font)
+target_link_libraries(../bin/bitplanes allegro allegro_image allegro_font allegro_acodec allegro_font boost_system boost_filesystem)
 
 if(CMAKE_COMPILER_IS_GNUCXX)
 	include_directories(/usr/include/freetype2/)
