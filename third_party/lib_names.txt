@@ -1,0 +1,2 @@
+libgl1-mesa-dev libglu1-mesa-dev
+cmake build-essential make
