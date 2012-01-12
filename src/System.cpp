@@ -35,8 +35,8 @@ System :: System()
         throw Failure();
     }
 
-    m_pBuffer = al_create_bitmap(320, 240);
-    if(!m_pBuffer)
+    m_spBuffer.reset(new Image(320, 240));
+    if(!m_spBuffer)
     {
        setError("Unable to create buffer");
        throw Failure();
@@ -46,7 +46,7 @@ System :: System()
     Freq::get(new Freq());
 
     // clear buffer
-    //al_set_target_bitmap(m_pBuffer);
+    //al_set_target_bitmap(m_spBuffer);
     //al_clear_to_color(al_map_rgb(0,0,0));
 
     // push default mode
@@ -56,7 +56,6 @@ System :: System()
 System :: ~System()
 {
     al_set_target_bitmap(nullptr);
-    al_destroy_bitmap(m_pBuffer);
     al_destroy_display(m_pDisplay);
 }
 
@@ -69,31 +68,37 @@ bool System :: logic()
         return false;
     IState* state = currentState();
     if(state)
+    {
         if(!state->logic(t))
             ret = false;
+    }
+    else
+        return false;
     m_uiLastAdv = now;
     return ret;
 }
 
-void System :: render() const
+void System :: render()
 {
     const IState* state = currentState();
     if(state)
         state->render();
 
-    if(m_pDisplay && m_pBuffer)
+    m_DepthQueue.render(); // not const
+
+    if(m_pDisplay && m_spBuffer)
     {
         al_set_target_backbuffer(m_pDisplay);
-        al_draw_scaled_bitmap(m_pBuffer,
+        al_draw_scaled_bitmap(m_spBuffer->bitmap(),
             0, 0,
-            al_get_bitmap_width(m_pBuffer),
-            al_get_bitmap_height(m_pBuffer),
+            al_get_bitmap_width(m_spBuffer->bitmap()),
+            al_get_bitmap_height(m_spBuffer->bitmap()),
             0, 0,
             al_get_display_width(m_pDisplay), 
             al_get_display_height(m_pDisplay),
             0);
         al_flip_display();
-        al_set_target_bitmap(m_pBuffer);
+        al_set_target_bitmap(m_spBuffer->bitmap());
         al_clear_to_color(al_map_rgb(0,0,0));
     }
 }
@@ -122,3 +127,7 @@ IState* System :: newState(const std::string id)
     return state;
 }
 
+void System :: depthEnqueue(const std::shared_ptr<IDepth>& s)
+{
+    m_DepthQueue.enqueue(s);
+}

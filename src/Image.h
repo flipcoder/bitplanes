@@ -2,7 +2,9 @@
 #define _IMAGE_H
 
 #include <allegro5/allegro5.h>
-#include "System.h"
+#include "math/vector2.h"
+#include "IRenderable.h"
+#include "IFallible.h"
 
 // OO wrapper for allegro bitmap
 class Image : public IRenderable, public IFallible
@@ -18,8 +20,11 @@ class Image : public IRenderable, public IFallible
     public:
         
         Image(const std::string& fn);
+        Image(int w, int h);
         void render(const Vector2& pos);
         void render(const Vector2& pos, const Vector2& size);
+        ALLEGRO_BITMAP* bitmap() { return m_pBitmap; }
+        const ALLEGRO_BITMAP* bitmap() const { return m_pBitmap; }
         virtual ~Image();
 };
 

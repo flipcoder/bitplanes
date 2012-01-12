@@ -6,7 +6,7 @@
 #include "Sprite.h"
 #include "PropertyList.h"
 
-class Object : public IFallible
+class Object : public IFallible, public IRealtime, public IDepth
 {
     private:
 
@@ -18,12 +18,16 @@ class Object : public IFallible
 
     protected:
 
-        // TODO: Property List Accessors
+        const PropertyList& properties() const { return m_Properties; }
+        PropertyList& properties() { return m_Properties; }
 
     public:
 
         Object(const std::string& fn);
         virtual ~Object();
+
+        virtual void render() const {
+        }
 };
 
 #endif

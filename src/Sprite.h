@@ -11,8 +11,9 @@
 #include "IFallible.h"
 #include "math/vector2.h"
 #include "Image.h"
+#include "IDepth.h"
 
-class Sprite : public IFallible
+class Sprite : public IDepth, public IFallible
 {
     private:
 
@@ -61,6 +62,7 @@ class Sprite : public IFallible
         void render() const {
             
         }
+        void enqueue() const;
         float x() { return m_vPos.x; }
         float y() { return m_vPos.y; }
         //float w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }

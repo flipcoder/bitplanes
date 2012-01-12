@@ -1,10 +1,23 @@
 #include "Image.h"
+#include "System.h"
 
 Image :: Image(const std::string& fn)
 {
     m_pBitmap = al_load_bitmap(fn.c_str());
     if(!m_pBitmap)
+    {
         setError("Failed to create bitmap");
+        throw Failure();
+    }
+}
+Image :: Image(int w, int h)
+{
+    m_pBitmap = al_create_bitmap(w,h);
+    if(!m_pBitmap)
+    {
+        setError("Failed to create bitmap");
+        throw Failure();
+    }
 }
 
 Image :: ~Image()

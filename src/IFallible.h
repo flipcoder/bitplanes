@@ -1,8 +1,7 @@
 #ifndef _FALLIBLE_H
 #define _FALLIBLE_H
 
-#include <string>
-#include <stdexcept>
+#include "Util.h"
 
 class IFallible
 {

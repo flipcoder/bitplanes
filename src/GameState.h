@@ -1,6 +1,8 @@
 #ifndef _GAME_STATE_H
 #define _GAME_STATE_H
 
+#include "Plane.h"
+
 class GameState : public IState
 {
     private:
@@ -8,10 +10,11 @@ class GameState : public IState
         void nullify() {}
 
         //std::shared_ptr<Sprite> m_spBackground;
-        //std::shared_ptr<Sprite> m_spPlane;
+        std::shared_ptr<Plane> m_spPlane;
 
     public:
         GameState() {
+            m_spPlane.reset(new Plane("gfx/objects/plane1.ini"));
             //m_spBackground.reset(Sprite::load("data/gfx/backgrounds/forest.png"));
             //if(!m_spBackground.get() || m_spBackground.get()->hasError())
             //    setError(m_spBackground.get()->getError());

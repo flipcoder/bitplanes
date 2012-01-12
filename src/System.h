@@ -12,6 +12,9 @@
 #include "Freq.h"
 #include "Sprite.h"
 #include "Events.h"
+#include "Image.h"
+#include "DepthQueue.h"
+#include "Image.h"
 
 class System : public IStaticInstance<System>, public IFallible, public IStateManager<std::string, IState>
 {
@@ -19,15 +22,15 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
 
         bool m_bQuit;
         unsigned long m_uiLastAdv;
-        ALLEGRO_BITMAP* m_pBuffer;
+        std::shared_ptr<Image> m_spBuffer;
         ALLEGRO_DISPLAY* m_pDisplay;
         unsigned int m_Scale;
+        DepthQueue m_DepthQueue;
 
         void nullify(){
             m_bQuit = false;
             m_uiLastAdv = 0;
             m_Scale = 2;
-            m_pBuffer = nullptr;
             m_pDisplay = nullptr;
         }
 
@@ -39,7 +42,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
 
         bool run();
         bool logic();
-        void render() const;
+        void render();
 
         // State manager acts as own factory
 
@@ -48,11 +51,13 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
 
         virtual IState* newState(const std::string id);
         
-        ALLEGRO_BITMAP* buffer() { return m_pBuffer; }
+        ALLEGRO_BITMAP* buffer() { return m_spBuffer->bitmap(); }
         ALLEGRO_DISPLAY* display() { return m_pDisplay; }
 
         const float w() const { return m_pDisplay ? al_get_display_width(m_pDisplay) : 0.0f; }
         const float h() const { return m_pDisplay ? al_get_display_height(m_pDisplay) : 0.0f; }
+
+        void depthEnqueue(const std::shared_ptr<IDepth>& s);
 };
 
 #endif

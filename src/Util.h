@@ -1,15 +1,17 @@
 #ifndef _UTIL_H
 #define _UTIL_H
 
+#include <cstdlib>
 #include <string>
 #include <sstream>
-#include <boost/foreach.hpp>
-#include <boost/algorithm/string.hpp>
-//#include <boost/serialization/shared_ptr.hpp>
 #include <cassert>
 #include <vector>
 #include <cmath>
 #include <stdexcept>
+#include <boost/foreach.hpp>
+#include <boost/algorithm/string.hpp>
+//#include <boost/serialization/shared_ptr.hpp>
+
 
 typedef signed char byte;
 typedef unsigned char ubyte;

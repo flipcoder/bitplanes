@@ -1,11 +1,14 @@
 #ifndef _PLANE_H
 #define _PLANE_H
 
-class Plane : public Object, public IRealtime
+#include <string>
+#include "Object.h"
+
+class Plane : public Object
 {
     public:
         Plane(const std::string& fn):Object(fn) {}
-        virtual ~Plane();
+        virtual ~Plane() {}
 };
 
 #endif

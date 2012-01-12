@@ -1,8 +1,8 @@
 #include <iostream>
 #include <allegro.h>
 
-#include "System.h"
 #include "Util.h"
+#include "System.h"
 using namespace std;
 
 int main(int argc, char** argv)
