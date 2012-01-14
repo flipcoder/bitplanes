@@ -84,6 +84,12 @@ class Vector2
 		{
 			return Vector2((x*s),(y*s));
 		}
+        Vector2 operator /(float s) const
+		{
+            if(floatcmp(s,0.0f))
+                return Vector2(0.0f, 0.0f);
+			return Vector2((x/s),(y/s));
+		}
 
 		friend const Vector2 operator*(float s, const Vector2& v)
 		{

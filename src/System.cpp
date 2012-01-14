@@ -38,6 +38,7 @@ System :: System()
         setError("Could not initialize keyboard");
         throw Failure();
     }
+    al_hide_mouse_cursor(m_pDisplay);
 
     m_spBuffer.reset(new Image(320, 240));
     if(!m_spBuffer)

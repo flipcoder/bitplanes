@@ -67,6 +67,8 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
 
         ResourceMap<Image>& imageResources() { return m_ImageResources; }
         const ResourceMap<Image>& imageResources() const { return m_ImageResources; }
+
+        float scale() const { return 1.0f*m_Scale; }
 };
 
 #endif

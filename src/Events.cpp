@@ -30,6 +30,11 @@ bool Events :: logic(unsigned int advance)
             case ALLEGRO_EVENT_KEY_UP:
                 m_bKey[event.keyboard.keycode] = false;
                 break;
+
+            case ALLEGRO_EVENT_MOUSE_AXES:
+            case ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY:
+                m_vMouse = Vector2(event.mouse.x, event.mouse.y);
+                break;
         }
     }
     return true;

@@ -4,6 +4,7 @@
 #include <allegro5/allegro5.h>
 #include "IStaticInstance.h"
 #include "IRealtime.h"
+#include "math/vector2.h"
 
 class Events : public IStaticInstance<Events>, public IRealtime
 {
@@ -15,6 +16,7 @@ class Events : public IStaticInstance<Events>, public IRealtime
         
         bool m_bKey[ALLEGRO_KEY_MAX];
         ALLEGRO_EVENT_QUEUE* m_pQueue;
+        Vector2 m_vMouse;
 
         void nullify() {
             for(int i=0; i<ALLEGRO_KEY_MAX; i++)
@@ -36,6 +38,7 @@ class Events : public IStaticInstance<Events>, public IRealtime
             m_bKey[idx] = false;
             return b;
         }
+        Vector2 mousePos() const { return m_vMouse; }
 };
 
 #endif

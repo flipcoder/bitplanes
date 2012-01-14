@@ -9,6 +9,7 @@ Image :: Image(const std::string& fn)
         setError((std::string)"Failed to load bitmap " + fn);
         throw Failure();
     }
+    al_convert_mask_to_alpha(m_pBitmap, al_map_rgb(255, 0, 255));
 }
 Image :: Image(int w, int h)
 {

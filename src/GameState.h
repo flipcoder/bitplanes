@@ -1,7 +1,7 @@
 #ifndef _GAME_STATE_H
 #define _GAME_STATE_H
 
-#include "Plane.h"
+#include "Player.h"
 
 class GameState : public IState
 {
@@ -9,12 +9,17 @@ class GameState : public IState
 
         void nullify() {}
 
-        //std::shared_ptr<Sprite> m_spBackground;
-        std::shared_ptr<Plane> m_spPlane;
+        std::shared_ptr<Image> m_spBackgroundImage;
+        std::shared_ptr<Sprite> m_spBackground;
+        std::shared_ptr<Player> m_spPlayer;
 
     public:
         GameState() {
-            m_spPlane.reset(new Plane("data/gfx/objects/plane1.ini"));
+            m_spBackground.reset(new Sprite());
+            std::shared_ptr<Image> bg = System::get().imageResources().ensure_shared("data/gfx/backgrounds/forest.png");
+            m_spBackground->setImage(bg);
+
+            m_spPlayer.reset(new Player("data/gfx/objects/plane1.ini"));
         }
         virtual ~GameState() {}
 
@@ -22,6 +27,7 @@ class GameState : public IState
         {
             if(Events::get().key(ALLEGRO_KEY_F10))
                 return false;
+            m_spPlayer->logic(t);
             //if(Events::get().key(ALLEGRO_KEY_ESCAPE))
             //    return false;
 
@@ -47,7 +53,8 @@ class GameState : public IState
         }
         virtual void render() const
         {
-            m_spPlane->render();
+            m_spBackground->render();
+            m_spPlayer->render();
             //float old_y = m_spBackground->pos().y;
 
             //m_spBackground->render();

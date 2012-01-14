@@ -12,8 +12,8 @@ class Object : public IFallible, public IRealtime, public IDepth
 
         PropertyList m_Properties;
         std::shared_ptr<Sprite> m_spSprite;
-        Vector2 m_vVel;
         std::vector<std::shared_ptr<Image>> m_vImages;
+        Vector2 m_vPos;
 
         void nullify() {
         }
@@ -25,8 +25,8 @@ class Object : public IFallible, public IRealtime, public IDepth
         PropertyList& properties() { return m_Properties; }
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }
-        const Vector2& vel() const { return m_vVel; }
-        Vector2& vel() { return m_vVel; }
+        //const Vector2& vel() const { return m_vVel; }
+        //Vector2& vel() { return m_vVel; }
         const std::vector<std::shared_ptr<Image>>& images() const { return m_vImages; }
         std::vector<std::shared_ptr<Image>>& images() { return m_vImages; }
         Image* image(size_t idx) {
@@ -43,11 +43,17 @@ class Object : public IFallible, public IRealtime, public IDepth
                 return nullptr;
             }
         }
+        const Vector2& pos() const { return m_vPos; }
+        Vector2& pos() { return m_vPos; }
 
     public:
 
         Object(const std::string& fn);
         virtual ~Object();
+        virtual bool logic(float t) {
+            m_spSprite->pos() = pos();
+            return true;
+        }
         virtual void render() const {
             if(!m_spSprite)
                 return;
