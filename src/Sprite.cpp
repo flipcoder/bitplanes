@@ -3,8 +3,8 @@
 
 void Sprite :: render() const
 {
-    std::shared_ptr<const Image> image = m_wpImage.lock();
-    if(!image)
+    std::shared_ptr<const Image> image;
+    if(!(image = m_wpImage.lock()))
         return;
 
     // TODO: Probably move this queue crap out of system and into a Renderer class

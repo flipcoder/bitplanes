@@ -50,9 +50,10 @@ System :: System()
     Freq::get(new Freq());
 
     // clear buffer
-    //al_set_target_bitmap(m_spBuffer);
+    //al_set_target_bitmap(m_spBuffer->bitmap());
     //al_clear_to_color(al_map_rgb(0,0,0));
-
+    al_set_target_bitmap(m_spBuffer->bitmap());
+    al_clear_to_color(al_map_rgb(0,0,0));
     // push default mode
     pushState("game");
 }
@@ -90,8 +91,8 @@ void System :: render()
     if(state)
         state->render();
 
-    m_DepthQueue.render(); // not const
     queue(false);
+    m_DepthQueue.render(); // not const
 
     if(m_pDisplay && m_spBuffer)
     {

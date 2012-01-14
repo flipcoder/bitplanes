@@ -37,12 +37,11 @@ class Sprite : public IDepth, public IFallible
         //        setError("Failed to create bitmap");
         //}
         Sprite() {
-            //nullify();
+            nullify();
             
             //al_convert_mask_to_alpha(m_pBitmap, al_map_rgb(255,0,255));
         }
         void destroy() {
-            //al_destroy_bitmap(m_pBitmap);
             nullify();
         }
         virtual ~Sprite(){
@@ -50,7 +49,7 @@ class Sprite : public IDepth, public IFallible
         }
 
         void setImage(const std::shared_ptr<const Image>& image) {
-            m_wpImage = std::weak_ptr<const Image>(image);
+            m_wpImage = image;
         }
         void erase() {
             m_wpImage.reset();
@@ -81,6 +80,12 @@ class Sprite : public IDepth, public IFallible
         }
         const Vector2& pos() const {
             return m_vPos;
+        }
+        Vector2& scale() {
+            return m_vScale;
+        }
+        const Vector2& scale() const {
+            return m_vScale;
         }
         //Vector2& vel() {
         //    return m_vVel;

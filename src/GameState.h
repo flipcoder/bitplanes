@@ -15,15 +15,6 @@ class GameState : public IState
     public:
         GameState() {
             m_spPlane.reset(new Plane("data/gfx/objects/plane1.ini"));
-            //m_spBackground.reset(Sprite::load("data/gfx/backgrounds/forest.png"));
-            //if(!m_spBackground.get() || m_spBackground.get()->hasError())
-            //    setError(m_spBackground.get()->getError());
-            //m_spPlane.reset(Sprite::load("data/gfx/objects/plane1.png"));
-            //if(!m_spPlane.get() || m_spPlane.get()->hasError())
-            //    setError(m_spPlane.get()->getError());
-            //m_spPlane->pos() = Vector2(100.0f, 100.0f);
-            //m_spPlane->vel() = Vector2(0.1f, 0.1f);
-            //m_spBackground->vel() = Vector2(0.0f, 80.0f);
         }
         virtual ~GameState() {}
 
@@ -56,6 +47,7 @@ class GameState : public IState
         }
         virtual void render() const
         {
+            m_spPlane->render();
             //float old_y = m_spBackground->pos().y;
 
             //m_spBackground->render();

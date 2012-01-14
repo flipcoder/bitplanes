@@ -41,8 +41,8 @@ class DepthQueue
 
         virtual void render() {
             while(!m_pqQueue.empty()) {
-                std::shared_ptr<const IDepth> s = m_pqQueue.top().lock();
-                if(s)
+                std::shared_ptr<const IDepth> s;
+                if(s = m_pqQueue.top().lock())
                     s->render();
                 m_pqQueue.pop();
             }

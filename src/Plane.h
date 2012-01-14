@@ -13,7 +13,6 @@ class Plane : public Object
 
         virtual bool logic(float t) {}
         virtual void render() const {
-            sprite().render();
         }
 };
 

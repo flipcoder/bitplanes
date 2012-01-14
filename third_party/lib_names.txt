@@ -1,2 +1,7 @@
-cmake build-essential make
+cmake
+build-essential
+make
 libboost-all-dev
+libpng12-dev
+zlib1g-dev
+xorg-dev
