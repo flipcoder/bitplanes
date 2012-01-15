@@ -7,6 +7,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_image.h>
+#include "Util.h"
 #include "System.h"
 #include "IFallible.h"
 #include "math/vector2.h"
@@ -40,6 +41,11 @@ class Sprite : public IDepth, public IFallible
             nullify();
             
             //al_convert_mask_to_alpha(m_pBitmap, al_map_rgb(255,0,255));
+        }
+        Sprite(const std::string& fn);
+        Sprite(const std::shared_ptr<const Image>& image) {
+            nullify();
+            setImage(image);
         }
         void destroy() {
             nullify();

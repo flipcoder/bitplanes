@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace FS
+namespace FileSystem
 {
 	std::string getFileName(const std::string& path);
 	std::string getPathName(const std::string& path);

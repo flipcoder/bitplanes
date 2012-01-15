@@ -15,7 +15,7 @@ System :: System()
     //al_set_color_depth(32);
     //if(al_set_gfx_mode(GFX_AUTODETECT_WINDOWED, 320*m_Scale, 240*m_Scale, 0, 0) != 0)
     al_set_new_display_flags(ALLEGRO_WINDOWED);
-    if(!(m_pDisplay = al_create_display(320*m_Scale, 240*m_Scale)))
+    if(!(m_pDisplay = al_create_display(320*m_Scale, 480*m_Scale)))
     {
         setError("Could not initialize graphics mode");
         throw Failure();
@@ -40,7 +40,7 @@ System :: System()
     }
     al_hide_mouse_cursor(m_pDisplay);
 
-    m_spBuffer.reset(new Image(320, 240));
+    m_spBuffer.reset(new Image(320, 480));
     if(!m_spBuffer)
     {
        setError("Unable to create buffer");

@@ -1,6 +1,13 @@
 #include "System.h"
 #include "Sprite.h"
 
+Sprite :: Sprite(const std::string& fn)
+{
+    nullify();
+    setImage(System::get().imageResources().ensure_shared(fn));
+}
+
+
 void Sprite :: render() const
 {
     std::shared_ptr<const Image> image;

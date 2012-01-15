@@ -5,6 +5,7 @@
 #include <memory>
 #include "Sprite.h"
 #include "PropertyList.h"
+#include "FileSystem.h"
 
 class Object : public IFallible, public IRealtime, public IDepth
 {

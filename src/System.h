@@ -34,7 +34,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
             m_bQuit = false;
             m_bQueued = false;
             m_uiLastAdv = 0;
-            m_Scale = 2;
+            m_Scale = 3;
             m_pDisplay = nullptr;
         }
 
