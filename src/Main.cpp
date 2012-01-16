@@ -4,10 +4,15 @@
 #include "System.h"
 using namespace std;
 
-int main(int argc, char** argv)
+int main(int argc, const char** argv)
 {
-    System::get(new System());
-    if(System::ptr() && System::get().hasError()) {
+    try{
+        System::get(new System());
+    }catch(const std::exception& e){
+        std::cout << e.what() << std::endl;
+        return 1;
+    }
+    if(System::get().hasError()) {
         std::cout << System::get().getError() << std::endl;
         return 1;
     }
