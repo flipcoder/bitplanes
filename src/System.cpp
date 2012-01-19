@@ -15,11 +15,13 @@ System :: System()
     //al_set_color_depth(32);
     //if(al_set_gfx_mode(GFX_AUTODETECT_WINDOWED, 320*m_Scale, 240*m_Scale, 0, 0) != 0)
     al_set_new_display_flags(ALLEGRO_WINDOWED);
+    //al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_REQUIRE);
     if(!(m_pDisplay = al_create_display(320*m_Scale, 480*m_Scale)))
     {
         setError("Could not initialize graphics mode");
         throw Failure();
     }
+    al_set_window_title(m_pDisplay, "bitplanes");
     //al_init_font_addon();
     if(!al_init_image_addon())
     {
@@ -49,11 +51,11 @@ System :: System()
     
     Events::get(new Events(m_pDisplay));
     Freq::get(new Freq());
+    //m_uiLastAdv = Freq::get().getElapsedTime();
 
     // clear buffer
-    //al_set_target_bitmap(m_spBuffer->bitmap());
-    //al_clear_to_color(al_map_rgb(0,0,0));
     al_set_target_bitmap(m_spBuffer->bitmap());
+    //al_set_target_backbuffer(m_pDisplay);
     al_clear_to_color(al_map_rgb(0,0,0));
     // push default mode
     pushState("game");
@@ -68,8 +70,21 @@ System :: ~System()
 bool System :: logic()
 {
     bool ret = true;
-    unsigned long now = Freq::get().getElapsedTime();
-	float t = (now - m_uiLastAdv) * 0.001f;
+    unsigned long now, adv;
+    do{
+        now = Freq::get().getElapsedTime();
+        if(m_uiLastAdv == 0)
+            m_uiLastAdv = now;
+        adv = (now - m_uiLastAdv);
+        if(adv > 1) // if <1000tick/s stop waiting
+            break;
+        al_rest(0.001f);
+    }while(true);
+
+    m_uiLastAdv = now;
+
+	float t = adv * 0.001f;
+
     if(!Events::get().logic(t))
         return false;
     IState* state = currentState();
@@ -80,7 +95,7 @@ bool System :: logic()
     }
     else
         return false;
-    m_uiLastAdv = now;
+
     return ret;
 }
 
@@ -93,11 +108,15 @@ void System :: render()
         state->render();
 
     queue(false);
+    al_set_target_bitmap(m_spBuffer->bitmap());
+    al_clear_to_color(al_map_rgb(0,0,0));
     m_DepthQueue.render(); // not const
 
     if(m_pDisplay && m_spBuffer)
     {
         al_set_target_backbuffer(m_pDisplay);
+        //al_clear_to_color(al_map_rgb(0,0,0));
+        //al_draw_bitmap(m_spBuffer->bitmap(), 0,0,0);
         al_draw_scaled_bitmap(m_spBuffer->bitmap(),
             0, 0,
             al_get_bitmap_width(m_spBuffer->bitmap()),
@@ -107,8 +126,6 @@ void System :: render()
             al_get_display_height(m_pDisplay),
             0);
         al_flip_display();
-        al_set_target_bitmap(m_spBuffer->bitmap());
-        al_clear_to_color(al_map_rgb(0,0,0));
     }
 }
 

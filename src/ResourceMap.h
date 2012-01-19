@@ -83,6 +83,17 @@ public:
 		//}
 		m_Resources.clear();
 	}
+
+    void optimize() {
+        for(auto itr = m_Resources.begin();
+            itr != m_Resources.end();)
+        {
+            if(itr->count() == 1)
+                itr = m_Resources.erase(itr);
+            else
+                ++itr;
+        }
+    }
 };
 
 #endif

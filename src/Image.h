@@ -25,6 +25,11 @@ class Image : public IRenderable, public IFallible
         void render(const Vector2& pos, const Vector2& size);
         ALLEGRO_BITMAP* bitmap() { return m_pBitmap; }
         const ALLEGRO_BITMAP* bitmap() const { return m_pBitmap; }
+        Vector2 size() const {
+            if(!m_pBitmap)
+                return Vector2();
+            return Vector2(al_get_bitmap_width(m_pBitmap), al_get_bitmap_height(m_pBitmap));
+        }
         virtual ~Image();
 };
 

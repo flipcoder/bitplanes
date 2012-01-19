@@ -13,17 +13,22 @@ class Player : public Object, public IControllable
         void nullify() {
         }
 
+        // unused
+        //Vector2 calcVelocity(float t, const Vector2& old_pos) const {
+        //    if(floatcmp(t,0.0f))
+        //        return Vector2();
+        //    return (old_pos - pos()) / t;
+        //}
+        
+        Freq::Alarm m_FrameResetAlarm;
+
     public:
         Player(const std::string& fn):Object(fn) {
             nullify();
         }
         virtual ~Player() {}
 
-        virtual bool logic(float t) {
-            pos() = Events::get().mousePos() / System::get().scale();
-            Object::logic(t);
-            return true;
-        }
+        virtual bool logic(float t);
         virtual void render() const {
             this->Object::render();
         }

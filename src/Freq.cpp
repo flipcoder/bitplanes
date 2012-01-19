@@ -22,7 +22,7 @@ unsigned long Freq :: getTicks() const
     //long sec = time.tv_sec;
     //long usec = time.tv_usec;
     //return (sec*1000+usec/1000.0) + 0.5;
-    return (unsigned long)(al_get_time() * 1000.0 + 0.5);
+    return (unsigned long)(al_get_time() * 1000.0);
 }
 
 void Freq :: set(int logicTickSpeed = 60)

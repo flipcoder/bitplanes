@@ -15,6 +15,7 @@ class GameState : public IState
 
     public:
         GameState() {
+            nullify();
             m_spTerrain.reset(new Terrain("data/gfx/terrain/forest.png"));
             m_spPlayer.reset(new Player("data/gfx/objects/plane1.ini"));
         }

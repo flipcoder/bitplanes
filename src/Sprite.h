@@ -13,23 +13,32 @@
 #include "math/vector2.h"
 #include "Image.h"
 #include "IDepth.h"
+#include <bitset>
 
 class Sprite : public IDepth, public IFallible
 {
+    public:
+        enum eFlags {
+            F_TILE,
+            MAX_FLAGS
+        };
+
     private:
 
         void nullify() {
-            //m_pBitmap = nullptr;
             m_vScale = Vector2(1.0f, 1.0f);
         }
 
         Vector2 m_vPos;
         Vector2 m_vScale;
         //Vector2 m_vVel;
-        std::weak_ptr<const Image> m_wpImage;
+        
+        std::bitset<MAX_FLAGS> m_bsFlags;
+        std::shared_ptr<const Image> m_spImage;
 
     public:
 
+        
         //Sprite(unsigned int width, unsigned int height) {
         //    nullify();
         //    m_pBitmap = al_create_bitmap(width, height);
@@ -55,12 +64,11 @@ class Sprite : public IDepth, public IFallible
         }
 
         void setImage(const std::shared_ptr<const Image>& image) {
-            m_wpImage = image;
+            m_spImage = image;
         }
         void erase() {
-            m_wpImage.reset();
+            m_spImage.reset();
         }
-
         //static Sprite* load(std::string fn) {
         //    Sprite* s = new (std::nothrow) Sprite(fn);
         //    if(s && s->hasError()) {
@@ -80,12 +88,16 @@ class Sprite : public IDepth, public IFallible
         float y() { return m_vPos.y; }
         //float w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }
         //float h() { return m_pBitmap ? al_get_bitmap_height(m_pBitmap) : 0; }
-
+        std::bitset<MAX_FLAGS>& flags() { return m_bsFlags; }
+        const std::bitset<MAX_FLAGS>& flags() const { return m_bsFlags; }
         Vector2& pos() {
             return m_vPos;
         }
         const Vector2& pos() const {
             return m_vPos;
+        }
+        Vector2 size() const {
+            return m_spImage->size();
         }
         Vector2& scale() {
             return m_vScale;

@@ -44,7 +44,7 @@ void PropertyList :: cutAdjacentChars(std::string& s, std::string chars)
 
 std::string PropertyList :: getStringRep(const std::string& s)
 {
-	if(s.length()==0)
+	if(s.empty())
 		return "";
 
 	if(s.find(' ') != s.npos) // if string has spaces

@@ -13,7 +13,7 @@ class Object : public IFallible, public IRealtime, public IDepth
 
         PropertyList m_Properties;
         std::shared_ptr<Sprite> m_spSprite;
-        std::vector<std::shared_ptr<Image>> m_vImages;
+        std::map<std::string, std::shared_ptr<Image>> m_Images;
         Vector2 m_vPos;
 
         void nullify() {
@@ -28,22 +28,30 @@ class Object : public IFallible, public IRealtime, public IDepth
         Sprite& sprite() { return *m_spSprite.get(); }
         //const Vector2& vel() const { return m_vVel; }
         //Vector2& vel() { return m_vVel; }
-        const std::vector<std::shared_ptr<Image>>& images() const { return m_vImages; }
-        std::vector<std::shared_ptr<Image>>& images() { return m_vImages; }
-        Image* image(size_t idx) {
-            try{
-                return m_vImages.at(idx).get();
-            }catch(const std::out_of_range& e){
+        //const std::vector<std::shared_ptr<Image>>& images() const { return m_Images; }
+        std::map<std::string,std::shared_ptr<Image>>& images() { return m_Images; }
+        std::shared_ptr<Image> image(const std::string& s) {
+            if(m_Images.find(s) == m_Images.end())
                 return nullptr;
-            }
+            return m_Images[s];
         }
-        const Image* image(size_t idx) const {
-            try{
-                return m_vImages.at(idx).get();
-            }catch(const std::out_of_range& e){
-                return nullptr;
-            }
+        bool setImage(const std::string& s) {
+            m_spSprite->setImage(image(s));
         }
+        //Image* image(size_t idx) {
+        //    try{
+        //        return m_Images.at(idx).get();
+        //    }catch(const std::out_of_range& e){
+        //        return nullptr;
+        //    }
+        //}
+        //const Image* image(size_t idx) const {
+        //    try{
+        //        return m_Images.at(idx).get();
+        //    }catch(const std::out_of_range& e){
+        //        return nullptr;
+        //    }
+        //}
         const Vector2& pos() const { return m_vPos; }
         Vector2& pos() { return m_vPos; }
 
@@ -60,6 +68,7 @@ class Object : public IFallible, public IRealtime, public IDepth
                 return;
             m_spSprite->render();
         }
+        virtual float depth() const { return 0.0f; }
 };
 
 #endif

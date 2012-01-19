@@ -61,15 +61,22 @@ class PropertyList
 		void removeProperty(const char* _group, const char* _prop);
 		void removeGroup(const char* _group);
 
+        Group* getGroup(const char* _name)
+        {
+            if(!isGroup(_name))
+                return NULL;
+            return &m_GroupList[_name];
+        }
+
 		// Returns if property list is empty
-		bool isEmpty()
+		bool isEmpty() const
 		{
 			return m_GroupList.empty();
 			//return (m_GroupList.size()==0);
 		}
 
 		// returns number of groups contained in PropertyList
-		unsigned int groupCount()
+		unsigned int groupCount() const
 		{
 			return m_GroupList.size();
 		}
@@ -81,7 +88,7 @@ class PropertyList
 		}
 
 		// Checks if a group exists with the given name `_group`
-		bool isGroup(const char* _group)
+		bool isGroup(const char* _group) const
 		{
 			return (m_GroupList.find(_group)!=m_GroupList.end());
 		}

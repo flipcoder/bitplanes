@@ -34,7 +34,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
             m_bQuit = false;
             m_bQueued = false;
             m_uiLastAdv = 0;
-            m_Scale = 3;
+            m_Scale = 2;
             m_pDisplay = nullptr;
         }
 
@@ -58,8 +58,8 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         ALLEGRO_BITMAP* buffer() { return m_spBuffer->bitmap(); }
         ALLEGRO_DISPLAY* display() { return m_pDisplay; }
 
-        const float w() const { return m_pDisplay ? al_get_display_width(m_pDisplay) : 0.0f; }
-        const float h() const { return m_pDisplay ? al_get_display_height(m_pDisplay) : 0.0f; }
+        const float w() const { return m_spBuffer ? m_spBuffer->size().x : 0.0f; }
+        const float h() const { return m_spBuffer ? m_spBuffer->size().y : 0.0f; }
 
         void depthEnqueue(const std::shared_ptr<const IDepth>& s);
         bool queued() const { return m_bQueued; }

@@ -75,9 +75,19 @@ class Vector2
 			return p[idx];
 		}
 
-		float operator *(const Vector2& v2) const// dot product
+        float dot(const Vector2& v2) const
         {
             return ((x*v2.x)+(y*v2.y));
+        }
+        Vector2 operator *(const Vector2 v2) const
+        {
+            return Vector2(x*v2.x, y*v2.y);
+        }
+        Vector2 operator /(const Vector2& v2) const
+        {
+            if(floatcmp(v2.x,0.0f) || floatcmp(v2.y,0.0f))
+                return Vector2();
+            return Vector2(x/v2.x,y/v2.y);
         }
 
 		Vector2 operator *(float s) const
@@ -90,7 +100,6 @@ class Vector2
                 return Vector2(0.0f, 0.0f);
 			return Vector2((x/s),(y/s));
 		}
-
 		friend const Vector2 operator*(float s, const Vector2& v)
 		{
 			return v*s;
