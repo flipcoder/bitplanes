@@ -6,6 +6,7 @@
 #include "Sprite.h"
 #include "PropertyList.h"
 #include "FileSystem.h"
+#include "World.h"
 
 class Object : public IFallible, public IRealtime, public IDepth
 {
@@ -15,17 +16,18 @@ class Object : public IFallible, public IRealtime, public IDepth
         std::shared_ptr<Sprite> m_spSprite;
         std::map<std::string, std::shared_ptr<Image>> m_Images;
         Vector2 m_vPos;
+        World* m_pWorld; // weak
+        bool m_bInvalid;
 
         void nullify() {
+            m_bInvalid = false;
         }
-
 
     protected:
 
         const PropertyList& properties() const { return m_Properties; }
         PropertyList& properties() { return m_Properties; }
-        const Sprite& sprite() const { return *m_spSprite.get(); }
-        Sprite& sprite() { return *m_spSprite.get(); }
+        
         //const Vector2& vel() const { return m_vVel; }
         //Vector2& vel() { return m_vVel; }
         //const std::vector<std::shared_ptr<Image>>& images() const { return m_Images; }
@@ -38,6 +40,8 @@ class Object : public IFallible, public IRealtime, public IDepth
         bool setImage(const std::string& s) {
             m_spSprite->setImage(image(s));
         }
+        World* world() { return m_pWorld; }
+        const World* world() const { return m_pWorld; }
         //Image* image(size_t idx) {
         //    try{
         //        return m_Images.at(idx).get();
@@ -52,9 +56,7 @@ class Object : public IFallible, public IRealtime, public IDepth
         //        return nullptr;
         //    }
         //}
-        const Vector2& pos() const { return m_vPos; }
-        Vector2& pos() { return m_vPos; }
-
+        
     public:
 
         Object(const std::string& fn);
@@ -69,6 +71,18 @@ class Object : public IFallible, public IRealtime, public IDepth
             m_spSprite->render();
         }
         virtual float depth() const { return 0.0f; }
+
+        // (to be called by World) assigns a world pointer to this item
+        void setWorld(World* world) {
+            m_pWorld = world;
+        }
+
+        bool invalid() const { return m_bInvalid; }
+
+        const Vector2& pos() const { return m_vPos; }
+        Vector2& pos() { return m_vPos; }
+        const Sprite& sprite() const { return *m_spSprite.get(); }
+        Sprite& sprite() { return *m_spSprite.get(); }
 };
 
 #endif

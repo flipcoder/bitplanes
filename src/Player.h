@@ -21,6 +21,7 @@ class Player : public Object, public IControllable
         //}
         
         Freq::Alarm m_FrameResetAlarm;
+        Freq::Alarm m_FireRate;
 
     public:
         Player(const std::string& fn):Object(fn) {
@@ -30,7 +31,7 @@ class Player : public Object, public IControllable
 
         virtual bool logic(float t);
         virtual void render() const {
-            this->Object::render();
+            Object::render();
         }
 };
 

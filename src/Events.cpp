@@ -35,6 +35,14 @@ bool Events :: logic(unsigned int advance)
             case ALLEGRO_EVENT_MOUSE_ENTER_DISPLAY:
                 m_vMouse = Vector2(event.mouse.x, event.mouse.y);
                 break;
+
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+                m_bMouse[event.mouse.button-1] = true;
+                break;
+
+            case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+                m_bMouse[event.mouse.button-1] = false;
+                break;
         }
     }
     return true;

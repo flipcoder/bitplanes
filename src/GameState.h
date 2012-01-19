@@ -3,21 +3,28 @@
 
 #include "Player.h"
 #include "Terrain.h"
+#include "World.h"
 
 class GameState : public IState
 {
     private:
 
+        std::shared_ptr<World> m_spWorld;
         void nullify() {}
-
-        std::shared_ptr<Terrain> m_spTerrain;
-        std::shared_ptr<Player> m_spPlayer;
 
     public:
         GameState() {
             nullify();
-            m_spTerrain.reset(new Terrain("data/gfx/terrain/forest.png"));
-            m_spPlayer.reset(new Player("data/gfx/objects/plane1.ini"));
+            m_spWorld.reset(new World());
+
+            std::shared_ptr<Object> terrain;
+            std::shared_ptr<Object> player;
+            
+            terrain.reset(new Terrain("data/gfx/terrain/forest.png"));
+            player.reset(new Player("data/gfx/objects/plane1.ini"));
+
+            m_spWorld->add(terrain);
+            m_spWorld->add(player);
         }
         virtual ~GameState() {}
 
@@ -25,14 +32,15 @@ class GameState : public IState
         {
             if(Events::get().key(ALLEGRO_KEY_F10))
                 return false;
-            m_spTerrain->logic(t);
-            m_spPlayer->logic(t);
+            
+            m_spWorld->logic(t);
             return true;
         }
         virtual void render() const
         {
-            m_spTerrain->render();
-            m_spPlayer->render();
+            m_spWorld->render();
+            //m_spTerrain->render();
+            //m_spPlayer->render();
         }
 };
 
