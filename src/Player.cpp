@@ -8,7 +8,7 @@ bool Player :: logic(float t)
     const unsigned int turn_frame_time = 100;
 
     Vector2 old_pos = pos();
-    pos() = (Events::get().mousePos() - sprite().size()/2.0f) / System::get().scale();
+    pos() = (Events::get().mousePos() / System::get().scale()) - sprite().size()/2.0f;
 
     float xvel = (pos().x - old_pos.x) / t; // t will never be 0
     if(xvel > min_turn_vel)

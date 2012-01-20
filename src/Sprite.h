@@ -111,6 +111,8 @@ class Sprite : public IDepth, public IFallible
         //const Vector2& vel() const {
         //    return m_vVel;
         //}
+        const std::shared_ptr<const Image>& image() const { return m_spImage; }
+        std::shared_ptr<const Image>& image() { return m_spImage; }
 };
 
 #endif

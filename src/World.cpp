@@ -41,3 +41,32 @@ bool World :: add(std::shared_ptr<Object>& obj) {
     return true;
 }
 
+bool World :: collision(const Box_t& a, const Box_t& b) const
+{
+    return false;
+}
+
+bool World :: collision(std::shared_ptr<Object>& a, std::shared_ptr<Object>& b) const
+{
+    if(!a || !b || !a->sprite().image() || !b->sprite().image())
+        return false;
+
+    Box_t box_a,box_b;
+    std::vector<const Image*> img(2);
+
+    img[0] = a->sprite().image().get();
+    img[1] = b->sprite().image().get();
+
+    box_a.set(round_int(a->pos().x), round_int(a->pos().y),
+        round_int(img[0]->size().x), round_int(img[0]->size().y));
+    box_b.set(round_int(b->pos().x), round_int(b->pos().y),
+        round_int(img[1]->size().x), round_int(img[1]->size().y));
+
+    if(!collision(box_a,box_b))
+        return false;
+    
+    // TODO: Pixel-perfect collision here
+    
+    return true;
+}
+

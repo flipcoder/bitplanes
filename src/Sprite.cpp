@@ -34,7 +34,8 @@ void Sprite :: render() const
                     j < System::get().h();
                     j += size().y)
                 {
-                    al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), i, j, 0);
+                    //al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), i, j, 0);
+                    image()->render(Vector2(i,j));
                 }
             //al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), pos().x, pos().y, 0);
         }

@@ -27,20 +27,20 @@ Image :: ~Image()
 }
 
 
-void Image :: render(const Vector2& pos)
+void Image :: render(const Vector2& pos) const
 {
-    al_draw_bitmap(m_pBitmap, pos.x, pos.y, 0);
+    al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_pBitmap), pos.x, pos.y, 0);
 }
 
-void Image :: render(const Vector2& pos, const Vector2& size)
-{
-    al_draw_scaled_bitmap(m_pBitmap,
-        0, 0,
-        al_get_bitmap_width(m_pBitmap),
-        al_get_bitmap_height(m_pBitmap),
-        0, 0,
-        System::get().w(),
-        System::get().h(),
-        0);
-}
+//void Image :: render(const Vector2& pos, const Vector2& size)
+//{
+//   al_draw_scaled_bitmap(m_pBitmap,
+//       0, 0,
+//       al_get_bitmap_width(m_pBitmap),
+//       al_get_bitmap_height(m_pBitmap),
+//       0, 0,
+//       System::get().w(),
+//       System::get().h(),
+//       0);
+//}
 
