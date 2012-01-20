@@ -40,3 +40,4 @@ bool World :: add(std::shared_ptr<Object>& obj) {
     obj->setWorld(this);
     return true;
 }
+

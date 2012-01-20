@@ -16,6 +16,7 @@ class GameState : public IState
         GameState() {
             nullify();
             m_spWorld.reset(new World());
+            m_spWorld->scrollVel(Vector2(0.0f, -100.0f));
 
             std::shared_ptr<Object> terrain;
             std::shared_ptr<Object> player;

@@ -3,6 +3,7 @@
 
 #include "Util.h"
 #include "IRealtime.h"
+#include "math/vector2.h"
 
 class Object;
 class World : public IRealtime
@@ -18,6 +19,8 @@ class World : public IRealtime
             m_bLocked = false;
         }
 
+        Vector2 m_vScrollVel;
+
     public:
         World() {
             nullify();
@@ -31,6 +34,10 @@ class World : public IRealtime
         void clear() {
             m_Objects.clear();
         }
+
+        const Vector2 scrollVel() const { return m_vScrollVel; }
+        Vector2 scrollVel() { return m_vScrollVel; }
+        void scrollVel(Vector2 s) { m_vScrollVel = s; }
 };
 
 #endif

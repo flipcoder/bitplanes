@@ -4,15 +4,14 @@
 #include <vector>
 #include <memory>
 #include "Sprite.h"
-#include "PropertyList.h"
 #include "FileSystem.h"
 #include "World.h"
+#include "IConfig.h"
 
-class Object : public IFallible, public IRealtime, public IDepth
+class Object : public IFallible, public IRealtime, public IDepth, public IConfig
 {
     private:
 
-        PropertyList m_Properties;
         std::shared_ptr<Sprite> m_spSprite;
         std::map<std::string, std::shared_ptr<Image>> m_Images;
         Vector2 m_vPos;
@@ -24,9 +23,6 @@ class Object : public IFallible, public IRealtime, public IDepth
         }
 
     protected:
-
-        const PropertyList& properties() const { return m_Properties; }
-        PropertyList& properties() { return m_Properties; }
         
         //const Vector2& vel() const { return m_vVel; }
         //Vector2& vel() { return m_vVel; }

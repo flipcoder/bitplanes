@@ -1,31 +1,22 @@
 #include "Object.h"
 
-Object :: Object(const std::string& fn)
+Object :: Object(const std::string& fn):
+    IConfig(fn)
 {
     nullify();
 
-    std::string ext = FileSystem::getExtension(fn);
-    if(ext=="ini") // load as properties
+    if(FileSystem::hasExtension(fn,"ini")) // load as properties
     {
-        if(!m_Properties.open(fn.c_str()))
-        {
-            setError("Failed to load object \"" + fn + "\"");
-            throw Failure();
-        }
-
         m_spSprite.reset(new Sprite());
-        
-        // TODO: once propertylist supports list of elements in group, load all relevant images
-        //  otherwise, load default
-        //std::string image_path;
-        PropertyList::Group* imagelist = m_Properties.getGroup("images");
+
+        PropertyList::Group* imagelist = properties().getGroup("images");
         for(auto img = imagelist->cbegin();
             img != imagelist->cend();
             img++)
         {
             m_Images[img->first] = System::get().imageResources().ensure_shared((std::string)"data/gfx/objects/"+img->second);
         }
-        //if(m_Properties.getStringValue("images","default",image_path)) {
+        //if(properties().getStringValue("images","default",image_path)) {
         //    m_vImages.push_back(System::get().imageResources().ensure_shared(
         //        (std::string)"data/gfx/objects/"+image_path));
         //}

@@ -7,7 +7,6 @@ class Terrain : public Object
         Vector2 m_vVel;
 
         void nullify() {
-            m_vVel = Vector2(0.0f, 100.0f);
             sprite().flags().set(Sprite::F_TILE);
         }
     public:
@@ -16,7 +15,7 @@ class Terrain : public Object
         }
         virtual ~Terrain() {}
         virtual bool logic(float t) {
-            pos() += (m_vVel * t);
+            pos() += (-world()->scrollVel() * t);
             Object::logic(t);
             return true;
         }
