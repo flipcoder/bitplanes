@@ -1,7 +1,7 @@
 #ifndef _IPOSITION_H
 #define _IPOSITION_H
 
-// Unused at this point
+// File unused at this point, ignore
 
 #include "math/vector2.h"
 #include "Freq.h"

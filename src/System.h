@@ -30,6 +30,8 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         DepthQueue m_DepthQueue;
         ResourceMap<Image> m_ImageResources;
 
+        //std::list<Alarm*> m_AlarmList;
+
         void nullify(){
             m_bQuit = false;
             m_bQueued = false;

@@ -20,7 +20,11 @@ void Sprite :: render() const
         System::get().depthEnqueue(spthis);
     } else {
 
-        if(m_bsFlags[F_TILE])
+        if(m_Tint) {
+            // tinted blit
+            al_draw_tinted_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), m_Tint->allegro(), pos().x, pos().y, 0);
+        }
+        else if(m_bsFlags[F_TILE])
         {
             // fullscreen tile blit
             Vector2 offset(

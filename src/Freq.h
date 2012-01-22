@@ -21,9 +21,9 @@ public:
 		Time(const Time& t) {
 			value = t.get();
 		}
-		static Time seconds(unsigned int s) { return Time(s * 1000);}
+		//static Time seconds(unsigned int s) { return Time(s * 1000);}
 		static Time seconds(float s) { return Time((unsigned int)(s * 1000.0f)); }
-		static Time minutes(unsigned int m) { return Time(m * 60000);}
+		//static Time minutes(unsigned int m) { return Time(m * 60000);}
 		static Time minutes(float m) { return Time((unsigned int)(m * 60000.0f));}
 		static Time milleseconds(unsigned int ms) { return Time(ms); }
 
@@ -55,6 +55,11 @@ public:
 			m_pTimer(timer)
 		{
 		}
+        Alarm(Time t):
+            m_pTimer(Freq::ptr())
+        {
+            set(t);
+        }
 		virtual ~Alarm() {}
 		
 		bool hasTimer() const { return (m_pTimer!=NULL); }

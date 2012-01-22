@@ -17,7 +17,7 @@ class Text : public IDepth, public IRenderable
         }
         std::shared_ptr<Font> m_spFont;
         std::string m_sText;
-        Freq::Timed<Vector2> m_vPos;
+        Vector2 m_vPos;
         Color m_Color;
         int m_Align;
         bool m_bVisible;
@@ -35,6 +35,9 @@ class Text : public IDepth, public IRenderable
 
         bool visible() const { return m_bVisible; }
         void visible(bool b = true) { m_bVisible = b; }
+
+        Vector2& pos() { return m_vPos; }
+        const Vector2& pos() const { return m_vPos; }
 
         virtual void render() const;
         virtual ~Text() {

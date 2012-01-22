@@ -19,13 +19,16 @@ class Font : public IFallible
 
     private:
         ALLEGRO_FONT* m_pFont;
+        int m_Size;
 
         void nullify() {
             m_pFont = nullptr;
+            m_Size = 0;
         }
     public:
-        Font(const std::string& fn, int size) {
+        Font(const std::string& fn, int size){
             nullify();
+            m_Size = size;
             m_pFont = al_load_ttf_font(fn.c_str(), size, 0);
             if(!m_pFont){
                 setError("Failed to load font");
@@ -36,6 +39,7 @@ class Font : public IFallible
             al_destroy_font(m_pFont);
         }
 
+        int size() const { return m_Size; }
         ALLEGRO_FONT* allegro() const { return m_pFont; }
 };
 

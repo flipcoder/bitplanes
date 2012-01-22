@@ -22,6 +22,7 @@ class Player : public Object, public IControllable
         
         Freq::Alarm m_FrameResetAlarm;
         Freq::Alarm m_FireRate;
+        Freq::Alarm m_SmokeTimer;
 
     public:
         Player(const std::string& fn):Object(fn) {

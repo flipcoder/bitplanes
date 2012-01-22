@@ -4,16 +4,18 @@
 #include <string>
 #include <memory>
 #include <new>
+#include <bitset>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_image.h>
+#include <boost/optional/optional.hpp>
 #include "Util.h"
 #include "System.h"
 #include "IFallible.h"
 #include "math/vector2.h"
 #include "Image.h"
 #include "IDepth.h"
-#include <bitset>
+#include "Graphics.h"
 
 class Sprite : public IDepth, public IFallible
 {
@@ -35,6 +37,7 @@ class Sprite : public IDepth, public IFallible
         
         std::bitset<MAX_FLAGS> m_bsFlags;
         std::shared_ptr<const Image> m_spImage;
+        boost::optional<Color> m_Tint;
 
     public:
 
@@ -113,6 +116,14 @@ class Sprite : public IDepth, public IFallible
         //}
         const std::shared_ptr<const Image>& image() const { return m_spImage; }
         std::shared_ptr<const Image>& image() { return m_spImage; }
+        
+        void tint(Color c) {
+            m_Tint = c;
+        }
+        boost::optional<Color> tint() const { return m_Tint; }
+        void clearTint() {
+            m_Tint = boost::optional<Color>();
+        }
 };
 
 #endif
