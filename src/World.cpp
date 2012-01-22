@@ -46,14 +46,13 @@ bool World :: collision(const Box_t& a, const Box_t& b) const
     return false;
 }
 
-bool World :: collision(std::shared_ptr<Object>& a, std::shared_ptr<Object>& b) const
+bool World :: collision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const
 {
     if(!a || !b || !a->sprite().image() || !b->sprite().image())
         return false;
 
     Box_t box_a,box_b;
     std::vector<const Image*> img(2);
-
     img[0] = a->sprite().image().get();
     img[1] = b->sprite().image().get();
 
@@ -68,5 +67,32 @@ bool World :: collision(std::shared_ptr<Object>& a, std::shared_ptr<Object>& b) 
     // TODO: Pixel-perfect collision here
     
     return true;
+}
+
+bool World :: outsideScreen(const Box_t& a) const
+{
+    return true;
+    //return (a.x+a.w < 0) ||
+    //       (a.y+a.h < 0) ||
+    //       (a.x > System::get().w()) ||
+    //       (a.y > System::get().h());
+
+}
+
+bool World :: outsideScreen(const std::shared_ptr<const Object>& a) const
+{
+    if(!a || a->sprite().image())
+        return false;
+
+    const Image* img = a->sprite().image().get();
+
+    Box_t box_a(
+        round_int(a->pos().x),
+        round_int(a->pos().y),
+        round_int(img->size().x),
+        round_int(img->size().y)
+    );
+
+    return outsideScreen(box_a);
 }
 

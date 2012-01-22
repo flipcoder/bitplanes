@@ -8,7 +8,7 @@
 #include "World.h"
 #include "IConfig.h"
 
-class Object : public IFallible, public IRealtime, public IDepth, public IConfig
+class Object : public std::enable_shared_from_this<Object>, public IFallible, public IRealtime, public IConfig
 {
     private:
 
@@ -74,6 +74,7 @@ class Object : public IFallible, public IRealtime, public IDepth, public IConfig
         }
 
         bool invalid() const { return m_bInvalid; }
+        void invalidate(bool b = true) { m_bInvalid = b; }
 
         const Vector2& pos() const { return m_vPos; }
         Vector2& pos() { return m_vPos; }

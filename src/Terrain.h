@@ -8,6 +8,7 @@ class Terrain : public Object
 
         void nullify() {
             sprite().flags().set(Sprite::F_TILE);
+            sprite().depth(100.0f);
         }
     public:
         Terrain(const std::string& fn): Object(fn) {
@@ -15,7 +16,7 @@ class Terrain : public Object
         }
         virtual ~Terrain() {}
         virtual bool logic(float t) {
-            pos() += (-world()->scrollVel() * t);
+            pos() += (-world()->vel() * t);
             Object::logic(t);
             return true;
         }
@@ -24,7 +25,6 @@ class Terrain : public Object
         }
         Vector2& vel() {return m_vVel;}
         const Vector2& vel() const {return m_vVel;}
-        virtual float depth() const {return 100.0f;}
 };
 
 #endif

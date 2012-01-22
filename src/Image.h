@@ -31,8 +31,8 @@ class Image : public IRenderable, public IFallible
             return Vector2(al_get_bitmap_width(m_pBitmap), al_get_bitmap_height(m_pBitmap));
         }
 
-        ALLEGRO_COLOR pixel(int x, int y) {
-            return al_get_pixel(m_pBitmap,x,y);
+        ALLEGRO_COLOR pixel(int x, int y) const {
+            return al_get_pixel(const_cast<ALLEGRO_BITMAP*>(m_pBitmap),x,y);
         }
 
         virtual ~Image();

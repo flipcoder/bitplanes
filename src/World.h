@@ -55,12 +55,16 @@ class World : public IRealtime
             m_Objects.clear();
         }
 
-        const Vector2 scrollVel() const { return m_vScrollVel; }
-        Vector2 scrollVel() { return m_vScrollVel; }
-        void scrollVel(Vector2 s) { m_vScrollVel = s; }
+        const Vector2 vel() const { return m_vScrollVel; }
+        Vector2 vel() { return m_vScrollVel; }
+        void vel(Vector2 s) { m_vScrollVel = s; }
 
         bool collision(const Box_t& a, const Box_t& b) const;
-        bool collision(std::shared_ptr<Object>& a, std::shared_ptr<Object>& b) const;
+        bool collision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const;
+
+        bool outsideScreen(const Box_t& a) const;
+        bool outsideScreen(const std::shared_ptr<const Object>& a) const;
+
 };
 
 #endif
