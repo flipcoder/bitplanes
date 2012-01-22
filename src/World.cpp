@@ -71,17 +71,15 @@ bool World :: collision(const std::shared_ptr<const Object>& a, const std::share
 
 bool World :: outsideScreen(const Box_t& a) const
 {
-    return true;
-    //return (a.x+a.w < 0) ||
-    //       (a.y+a.h < 0) ||
-    //       (a.x > System::get().w()) ||
-    //       (a.y > System::get().h());
-
+    return (a.x+a.w < 0) ||
+          (a.y+a.h < 0) ||
+          (a.x > System::get().w()) ||
+          (a.y > System::get().h());
 }
 
 bool World :: outsideScreen(const std::shared_ptr<const Object>& a) const
 {
-    if(!a || a->sprite().image())
+    if(!a || !a->sprite().image())
         return false;
 
     const Image* img = a->sprite().image().get();
