@@ -1,5 +1,6 @@
 #include "System.h"
 #include "GameState.h"
+#include "TitleState.h"
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_font.h>
 
@@ -22,14 +23,14 @@ System :: System()
         throw Failure();
     }
     al_set_window_title(m_pDisplay, "bitplanes");
-    //al_init_font_addon();
     if(!al_init_image_addon())
     {
         setError("Could not initialize image addon");
         throw Failure();
     }
+    al_init_font_addon();
+    al_init_ttf_addon();
     //al_init_acodec_addon();
-    //al_init_font_addon();
     if(!al_install_keyboard())
     {
         setError("Could not initialize keyboard");
@@ -58,7 +59,7 @@ System :: System()
     //al_set_target_backbuffer(m_pDisplay);
     al_clear_to_color(al_map_rgb(0,0,0));
     // push default mode
-    pushState("game");
+    pushState("title");
 }
 
 System :: ~System()
@@ -146,6 +147,8 @@ IState* System :: newState(const std::string id)
     IState* state = nullptr;
     if(id == "game")
         state = new GameState();
+    else if(id == "title")
+        state = new TitleState();
     if(state->hasError()){
         delete state;
         state = NULL;

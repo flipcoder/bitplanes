@@ -15,7 +15,7 @@ class IConfig
         }
         virtual ~IConfig() {}
 
-        void open(const std::string& fn) {
+        bool open(const std::string& fn) {
             if(FileSystem::hasExtension(fn,"ini"))
                 m_Properties.open(fn.c_str());
         }

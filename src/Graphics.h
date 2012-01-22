@@ -1,7 +1,7 @@
 #ifndef _GRAPHICS_H
 #define _GRAPHICS_H
 
-#include "GfxAPI.h"
+//#include "GfxAPI.h"
 #include "Util.h"
 #include "math/common.h"
 
@@ -135,13 +135,17 @@ public:
 	unsigned char getBlueUB() const { return (unsigned char)round_int(255*b); }
 	float* array() const { return (float*)&c[0]; }
 
-	void glColor() const { glColor4fv(array()); }
-	void glColor(float _a) const { glColor4f(r, g, b, _a); }
-	void apply() const { glColor4fv(array()); }
-	void apply(float _a) const { glColor4f(r, g, b, _a); }
-	static void apply(Color c) {
-		glColor4fv(c.array());
-	}
+    ALLEGRO_COLOR allegro() const {
+        return al_map_rgba_f(r,g,b,a);
+    }
+
+	//void glColor() const { glColor4fv(array()); }
+	//void glColor(float _a) const { glColor4f(r, g, b, _a); }
+	//void apply() const { glColor4fv(array()); }
+	//void apply(float _a) const { glColor4f(r, g, b, _a); }
+	//static void apply(Color c) {
+	//    glColor4fv(c.array());
+	//}
 };
 
 #endif

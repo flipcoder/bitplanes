@@ -7,8 +7,15 @@
 #include "FileSystem.h"
 #include "World.h"
 #include "IConfig.h"
+#include "ITaggable.h"
 
-class Object : public std::enable_shared_from_this<Object>, public IFallible, public IRealtime, public IConfig
+class Object :
+    public std::enable_shared_from_this<Object>,
+    public IFallible,
+    public IRealtime,
+    public IRenderable,
+    public IConfig,
+    public ITaggable
 {
     private:
 
@@ -21,6 +28,8 @@ class Object : public std::enable_shared_from_this<Object>, public IFallible, pu
         void nullify() {
             m_bInvalid = false;
         }
+
+        std::string m_sClass;
 
     protected:
         
@@ -78,6 +87,7 @@ class Object : public std::enable_shared_from_this<Object>, public IFallible, pu
 
         const Vector2& pos() const { return m_vPos; }
         Vector2& pos() { return m_vPos; }
+        Vector2 size() const { return sprite().image() ? sprite().image()->size() : Vector2(); }
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }
 };

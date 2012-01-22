@@ -31,6 +31,7 @@ bool Player :: logic(float t)
     {
         std::shared_ptr<Object> bullet(new Particle((std::string)"data/gfx/objects/bullet.png", Vector2(0.0f, -200.0f)));
         bullet->pos() = (pos() + sprite().size()/2.0f) - bullet->sprite().size()/2.0f;
+        bullet->tag("friendly");
         world()->add(bullet);
         m_FireRate.set(Freq::Time(100));
     }

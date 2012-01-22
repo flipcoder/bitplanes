@@ -15,7 +15,7 @@ class Particle : public Object
         {
             nullify();
             m_vVel = vel;
-            sprite().depth(-1.0f);
+            sprite().depth(1.0f);
         }
         virtual ~Particle() {}
 

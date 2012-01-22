@@ -4,6 +4,7 @@
 #include "Util.h"
 #include "IRealtime.h"
 #include "math/vector2.h"
+#include "Script.h"
 
 class Object;
 class World : public IRealtime
@@ -41,6 +42,8 @@ class World : public IRealtime
             m_bLocked = false;
         }
 
+        std::shared_ptr<Script> m_spScript;
+
     public:
         World() {
             nullify();
@@ -50,6 +53,9 @@ class World : public IRealtime
         virtual bool logic(float t);
         virtual void render() const;
 
+        bool openScript(const std::string& fn) {
+            
+        }
         bool add(std::shared_ptr<Object>& obj);
         void clear() {
             m_Objects.clear();

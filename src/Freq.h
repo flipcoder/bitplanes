@@ -150,6 +150,9 @@ public:
 		{
 			m_Length = Time(0);
 		}
+        Timed(const T& val) {
+            clear(val);
+        }
 		Timed(Time t, T start, T end) {
 			m_Length = Time(t);
 			set(t, start, end);

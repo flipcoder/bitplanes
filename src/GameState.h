@@ -16,13 +16,10 @@ class GameState : public IState
         GameState() {
             nullify();
             m_spWorld.reset(new World());
-            m_spWorld->vel(Vector2(0.0f, -100.0f));
+            m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
-            std::shared_ptr<Object> terrain;
-            std::shared_ptr<Object> player;
-            
-            terrain.reset(new Terrain("data/gfx/terrain/forest.png"));
-            player.reset(new Player("data/gfx/objects/plane1.ini"));
+            std::shared_ptr<Object> terrain(new Terrain("data/gfx/terrain/forest.png"));
+            std::shared_ptr<Object> player(new Player("data/gfx/objects/plane1.ini"));
 
             m_spWorld->add(terrain);
             m_spWorld->add(player);
