@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Terrain.h"
 #include "World.h"
+#include "Enemy.h"
 
 class GameState : public IState
 {
@@ -20,9 +21,18 @@ class GameState : public IState
 
             std::shared_ptr<Object> terrain(new Terrain("data/gfx/terrain/forest.png"));
             std::shared_ptr<Object> player(new Player("data/gfx/objects/plane1.ini"));
-
+            
             m_spWorld->add(terrain);
             m_spWorld->add(player);
+
+            for(int i=0; i<20; i++)
+            {
+                Enemy* e = new Enemy("data/gfx/objects/planeE1.png");
+                std::shared_ptr<Object> enemy(e);
+                e->pos().y = i*-100.0f;
+                e->vel(Vector2(i*5.0f + 100.0f, 50.0f));
+                m_spWorld->add(enemy);
+            }
         }
         virtual ~GameState() {}
 

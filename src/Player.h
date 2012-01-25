@@ -30,6 +30,8 @@ class Player : public Object, public IControllable
         }
         virtual ~Player() {}
 
+        const char* type() const { return "player"; }
+
         virtual bool logic(float t);
         virtual void render() const {
             Object::render();

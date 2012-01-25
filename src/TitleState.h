@@ -17,6 +17,7 @@ class TitleState : public IState
 
         Freq::Timed<Vector2> m_TitleDrop;
         Freq::Timed<Vector2> m_TextRise;
+        boost::optional<Freq::Timed<float>> m_TextFade;
 
         void nullify() {}
 
@@ -44,6 +45,8 @@ class TitleState : public IState
                 Font::CENTER
             ));
 
+            //m_TextFade.set(Freq::Time(100),0.0f,1.0f);
+
             m_TextRise = Freq::Timed<Vector2>(
                 Freq::Time::seconds(1.0f),
                 Vector2(System::get().size().x/2.0f, System::get().size().y + m_spFont->size()),
@@ -59,12 +62,27 @@ class TitleState : public IState
         {
             if(Events::get().key(ALLEGRO_KEY_F10))
                 return false;
-            if(Events::get().moused(0))
-                System::get().swapState("game");
 
             m_spLogo->pos() = m_TitleDrop.get();
             m_spText->pos() = m_TextRise.get();
+
+            if(m_TitleDrop.hasElapsed() && !m_TextFade)
+                m_TextFade = Freq::Timed<float>(Freq::Time(100),0.0f,1.0f);
             
+            if(m_TextFade)
+            {
+                if(Events::get().moused(0))
+                    System::get().swapState("game");
+
+                if(m_TextFade->hasElapsed()) {
+                    Color c = m_spText->color();
+                    float f = m_TextFade->get();
+                    c.set(f,f);
+                    m_spText->color(c);
+                    m_TextFade->reverse();
+                }
+            }
+
             m_spWorld->logic(t);
             return true;
         }

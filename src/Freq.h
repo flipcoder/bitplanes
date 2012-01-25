@@ -210,7 +210,7 @@ public:
 			static_cast<Alarm*>(this)->set(Time(0));
 		}
 		void reverse(){
-			swap(m_Start, m_End);
+            std::swap(m_Start, m_End);
 			static_cast<Alarm*>(this)->set(m_Length);
 		}
 	};

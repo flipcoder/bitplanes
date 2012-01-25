@@ -29,11 +29,19 @@ bool Player :: logic(float t)
 
     if(Events::get().mouse(0) && m_FireRate.hasElapsed())
     {
-        std::shared_ptr<Object> bullet(new Particle((std::string)"data/gfx/objects/bullet.png", Vector2(0.0f, -200.0f)));
+        std::shared_ptr<Object> bullet(new Particle((std::string)"data/gfx/objects/bullet.png", Vector2(0.0f, -500.0f)));
         bullet->pos() = pos() + sprite().size()/2.0f - bullet->size()/2.0f;
         bullet->tag("friendly");
         world()->add(bullet);
         m_FireRate.set(Freq::Time(100));
+    }
+    else if(Events::get().mouse(1) && m_FireRate.hasElapsed())
+    {
+        std::shared_ptr<Object> bullet(new Particle((std::string)"data/gfx/objects/bulletH.png", Vector2(0.0f, -500.0f)));
+        bullet->pos() = pos() + sprite().size()/2.0f - bullet->size()/2.0f;
+        bullet->tag("friendly");
+        world()->add(bullet);
+        m_FireRate.set(Freq::Time(1000));
     }
 
     if(m_SmokeTimer.hasElapsed())

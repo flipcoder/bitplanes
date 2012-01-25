@@ -8,6 +8,7 @@
 #include "World.h"
 #include "IConfig.h"
 #include "ITaggable.h"
+#include "IType.h"
 
 class Object :
     public std::enable_shared_from_this<Object>,
@@ -15,7 +16,8 @@ class Object :
     public IRealtime,
     public IRenderable,
     public IConfig,
-    public ITaggable
+    public ITaggable,
+    public IType
 {
     private:
 
@@ -77,6 +79,8 @@ class Object :
         }
         virtual float depth() const { return 0.0f; }
 
+        static const char* type() { return "object"; }
+
         // (to be called by World) assigns a world pointer to this item
         void setWorld(World* world) {
             m_pWorld = world;
@@ -90,6 +94,9 @@ class Object :
         Vector2 size() const { return sprite().image() ? sprite().image()->size() : Vector2(); }
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }
+
+        virtual void collision(const std::shared_ptr<const Object>& obj) {
+        }
 };
 
 #endif

@@ -42,6 +42,9 @@ class Text : public IDepth, public IRenderable
         virtual void render() const;
         virtual ~Text() {
         }
+
+        Color color() const { return m_Color; }
+        void color(Color c) { m_Color = c; }
 };
 
 #endif
