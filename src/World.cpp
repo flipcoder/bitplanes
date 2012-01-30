@@ -43,7 +43,14 @@ bool World :: add(std::shared_ptr<Object>& obj) {
 
 bool World :: collision(const Box_t& a, const Box_t& b) const
 {
-    return false;
+    if( (a.x    > b.x + b.w - 1)||
+        (a.y    > b.y + b.h - 1)||
+        (b.x > a.x    + a.w - 1)||
+        (b.y > a.y    + a.h - 1))
+    {
+        return false;
+    }
+    return true;
 }
 
 bool World :: collision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const

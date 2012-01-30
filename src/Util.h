@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <boost/foreach.hpp>
 #include <boost/algorithm/string.hpp>
+//#include <boost/optional/optional.hpp>
 //#include <boost/serialization/shared_ptr.hpp>
 
 
@@ -105,14 +106,16 @@ inline std::string str(const T& t)
 	return ss.str();
 }
 
-template <class T>
-T from_str(const std::string& s)
-{
-	std::istringstream iss(s);
-	T t;
-	iss >> t;
-	return t;
-}
+// NOTE: just use lexical_cast
+//template <class T>
+//boost::optional<T> from_str(const std::string& s)
+//{
+//    std::istringstream iss(s);
+//    boost::optional<T> t;
+//    if(iss >> *t)
+//        return t;
+//    return boost::optional<T>();
+//}
 
 //template <class T>
 //inline T sgn(const T& t)
