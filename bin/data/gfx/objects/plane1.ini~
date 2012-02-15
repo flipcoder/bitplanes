@@ -1,0 +1,11 @@
+[default]
+type=plane
+
+[skin]
+color0=825519
+
+[images]
+default=plane1.png
+left=plane1L.png
+right=plane1R.png
+

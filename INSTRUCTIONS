@@ -1,0 +1,35 @@
+How to build bitplanes:
+
+---
+
+On Ubuntu:
+./get_libs.sh
+
+^ This will get (most) of the required libs and programs
+If you don't use apt-get on your system you can do something like
+sudo PACKAGE_MANAGER install `cat third_party/lib_names.txt`
+
+You'll also need to obtain and build Allegro5 yourself (not included).
+There's instructions for that on the web.
+
+Now run:
+./build.sh
+
+If the build succeeds, you can run the game by typing:
+./run.sh
+(or navigating to bin/ and running ./bitplanes)
+
+---
+
+Other Platforms:
+Grab the packages listed in third_party/lib_names.txt for your
+platform, as well as Allegro5.
+
+Run:
+cd build
+cmake ..
+
+On windows, there is a cmake GUI utility
+
+---
+
