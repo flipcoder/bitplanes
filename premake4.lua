@@ -4,6 +4,13 @@ solution("bitplanes")
     location("build")
     targetdir("bin")
 
+    configuration "Debug"
+        defines { "DEBUG" }
+        flags { "Symbols" }
+    configuration "Release"
+        defines { "NDEBUG" }
+        flags { "Optimize" }
+
     project("bitplanes")
         kind("WindowedApp")
         language("C++")
