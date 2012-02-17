@@ -1,6 +1,8 @@
-cmake
 build-essential
 make
+cmake
+libgl1-mesa-dev
+libglu1-mesa-dev
 libboost-all-dev
 libpng12-dev
 zlib1g-dev
