@@ -6,7 +6,7 @@
 #define EPSILON 0.00001
 
 #ifndef M_PI
-	#define M_PI 3.1415926535897932385
+    #define M_PI 3.1415926535897932385
 #endif
 
 #define DEG2RAD(X) ((X)*M_PI/180.0)
@@ -35,34 +35,34 @@ inline double tan_deg(double theta){
 }
 
 inline bool floatcmp(float a, float b){
-	return(fabs(a-b) < EPSILON);
+    return(fabs(a-b) < EPSILON);
 }
 
 template <class T>
 inline T absval(T x)
 {
-	return x>0?x:-x;
+    return x>0?x:-x;
 }
 
 template <class T>
 inline T maxval(T a, T b)
 {
-	return a>b?a:b;
+    return a>b?a:b;
 }
 
 // checks for absolute value, returns actual number
 template<class T>
 inline T fartherAbs(T a, T b)
 {
-	if(abs(a) > abs(b))
-		return a;
-	return b;
+    if(abs(a) > abs(b))
+        return a;
+    return b;
 }
 
 template<class T>
 inline T clamp(T val, T low, T high)
 {
-	return val < low ? low : (val > high ? high : val);
+    return val < low ? low : (val > high ? high : val);
 }
 
 #define sq(a) ((a)*(a))

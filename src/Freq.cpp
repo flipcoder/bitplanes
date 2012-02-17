@@ -51,7 +51,7 @@ bool Freq :: tick()
     if ( getElapsedTime() / m_dTimeBetweenTicks > m_ulTicks )
     {
         ++m_ulTicks;
-		return true;
+        return true;
     }
     
     return false;
@@ -59,13 +59,13 @@ bool Freq :: tick()
 
 float Freq :: interp() const
 {
-	float erp = (getElapsedTime() - ((m_ulTicks-1)*(float)m_dTimeBetweenTicks))/(float)m_dTimeBetweenTicks;
-	
-	if(erp<0.0000)
-		return 0.0f;
-	if(erp>1.0000)
-		return 1.0f;
-	return erp;
+    float erp = (getElapsedTime() - ((m_ulTicks-1)*(float)m_dTimeBetweenTicks))/(float)m_dTimeBetweenTicks;
+    
+    if(erp<0.0000)
+        return 0.0f;
+    if(erp>1.0000)
+        return 1.0f;
+    return erp;
 }
 
 //void Freq :: pause()
