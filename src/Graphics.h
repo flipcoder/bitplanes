@@ -135,6 +135,9 @@ public:
     unsigned char getBlueUB() const { return (unsigned char)round_int(255*b); }
     float* array() const { return (float*)&c[0]; }
 
+    void allegro(const ALLEGRO_COLOR& ac) {
+        al_unmap_rgba_f(ac,&r,&g,&b,&a);
+    }
     ALLEGRO_COLOR allegro() const {
         return al_map_rgba_f(r,g,b,a);
     }

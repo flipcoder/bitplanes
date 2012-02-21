@@ -20,6 +20,7 @@ class Script : public IFallible, public IConfig, public IRealtime
             return true;
         }
 
+        // Load in resources used by script
         void precache();
 };
 

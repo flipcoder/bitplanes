@@ -44,6 +44,10 @@ class World : public IRealtime
 
         std::shared_ptr<Script> m_spScript;
 
+        // assumes AABB is overlapping
+        bool pixelCollision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const;
+
+
     public:
         World() {
             nullify();

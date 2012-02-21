@@ -41,6 +41,19 @@ bool World :: add(std::shared_ptr<Object>& obj) {
     return true;
 }
 
+bool World :: pixelCollision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const
+{
+    std::vector<const Image*> img(2);
+    img[0] = a->sprite().image().get();
+    img[1] = b->sprite().image().get();
+
+    // TODO: finish this
+    // calc overlap?
+    // use image->pixel(x,y); to get Color()
+
+    return false;
+}
+
 bool World :: collision(const Box_t& a, const Box_t& b) const
 {
     if( (a.x    > b.x + b.w - 1)||
@@ -73,7 +86,7 @@ bool World :: collision(const std::shared_ptr<const Object>& a, const std::share
     
     // TODO: Pixel-perfect collision here
     
-    return true;
+    return pixelCollision(a,b);
 }
 
 bool World :: outsideScreen(const Box_t& a) const

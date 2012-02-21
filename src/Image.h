@@ -5,6 +5,7 @@
 #include "math/vector2.h"
 #include "IRenderable.h"
 #include "IFallible.h"
+#include "Graphics.h"
 
 // OO wrapper for allegro bitmap
 class Image : public IRenderable, public IFallible
@@ -31,8 +32,10 @@ class Image : public IRenderable, public IFallible
             return Vector2(al_get_bitmap_width(m_pBitmap), al_get_bitmap_height(m_pBitmap));
         }
 
-        ALLEGRO_COLOR pixel(int x, int y) const {
-            return al_get_pixel(const_cast<ALLEGRO_BITMAP*>(m_pBitmap),x,y);
+        Color pixel(int x, int y) const {
+            Color c;
+            c.allegro(al_get_pixel(const_cast<ALLEGRO_BITMAP*>(m_pBitmap),x,y));
+            return c;
         }
 
         virtual ~Image();
