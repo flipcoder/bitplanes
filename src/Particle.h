@@ -9,8 +9,12 @@
 class Particle : public Object
 {
     private:
+
+        bool m_bCollidable;
         Vector2 m_vVel;
-        void nullify() {}
+        void nullify() {
+            m_bCollidable = false;
+        }
 
         boost::optional<std::pair<float,float>> m_Life;
 
@@ -50,6 +54,8 @@ class Particle : public Object
         virtual void render() const {
             Object::render();
         }
+        virtual bool collidable() { return m_bCollidable; }
+        void collidable(bool b) { m_bCollidable = b; }
 };
 
 #endif

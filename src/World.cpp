@@ -3,6 +3,9 @@
 
 bool World :: logic(float t)
 {
+    // TODO: Add collision checking here for all objects that
+    //  obj.collidable()==true
+   
     m_bLocked = true;
     for(std::list<std::shared_ptr<Object>>::iterator itr = m_Objects.begin();
         itr != m_Objects.end();)

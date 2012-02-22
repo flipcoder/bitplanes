@@ -68,6 +68,7 @@ class Object :
 
         Object(const std::string& fn);
         virtual ~Object();
+        virtual void init() {}
         virtual bool logic(float t) {
             m_spSprite->pos() = pos();
             return true;
@@ -84,6 +85,7 @@ class Object :
         // (to be called by World) assigns a world pointer to this item
         void setWorld(World* world) {
             m_pWorld = world;
+            init();
         }
 
         bool invalid() const { return m_bInvalid; }
@@ -95,8 +97,10 @@ class Object :
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }
 
-        virtual void collision(const std::shared_ptr<const Object>& obj) {
-        }
+        virtual bool collidable() { return false; }
+        //virtual bool handlesCollisionEvent() { return false; }
+        virtual void collisionEvent(std::shared_ptr<Object>& obj) {}
+
 };
 
 #endif

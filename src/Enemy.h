@@ -47,6 +47,8 @@ class Enemy : public Object
         // temp velocity methods
         void vel(Vector2 v) { m_vVel = v; }
         const Vector2& vel() const { return m_vVel; }
+
+        virtual bool collidable() { return true; }
 };
 
 #endif

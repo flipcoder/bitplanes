@@ -19,6 +19,7 @@ class Player : public Object, public IControllable
         //        return Vector2();
         //    return (old_pos - pos()) / t;
         //}
+        //void xCollision(std::shared_ptr<Object>& obj);
         
         Freq::Alarm m_FrameResetAlarm;
         Freq::Alarm m_FireRate;
@@ -36,6 +37,9 @@ class Player : public Object, public IControllable
         virtual void render() const {
             Object::render();
         }
+        virtual bool collidable() { return true; }
+        //virtual bool solid() { return true; }
+        virtual void collisionEvent(std::shared_ptr<Object>& object) {}
 };
 
 #endif
