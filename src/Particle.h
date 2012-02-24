@@ -4,6 +4,7 @@
 #include <memory>
 #include "Object.h"
 #include "Freq.h"
+#include "IOwner.h"
 #include <boost/optional/optional.hpp>
 
 class Particle : public Object, public IOwner
@@ -60,8 +61,12 @@ class Particle : public Object, public IOwner
         virtual void render() const {
             Object::render();
         }
-        virtual bool collidable() { return m_bCollidable; }
+
+        virtual bool solid() const { return false; }
+        virtual bool collidable() const { return m_bCollidable; }
         void collidable(bool b) { m_bCollidable = b; }
+
+        virtual void collisionEvent(std::shared_ptr<Object>& object);
 
         const char* type() const { return "particle"; }
 

@@ -46,8 +46,9 @@ class Player : public Object, public IControllable, public IOwner
         virtual void render() const {
             Object::render();
         }
-        virtual bool collidable() { return true; }
-        //virtual bool solid() { return true; }
+
+        virtual bool solid() const { return true; }
+        virtual bool collidable() const { return true; }
         virtual void collisionEvent(std::shared_ptr<Object>& object) {
             Particle* p;
             if(p = dynamic_cast<Particle*>(object.get())) {
@@ -55,7 +56,13 @@ class Player : public Object, public IControllable, public IOwner
                     m_Health -= p->damage();
                     p->invalidate();
                 }
+                return;
             }
+            //Enemy* e;
+            //if(e = dynamic_cast<Enemy*>(object.get())) {
+            //    m_Health -= e->health();
+            //    return;
+            //}
         }
 };
 

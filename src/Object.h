@@ -97,7 +97,8 @@ class Object :
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }
 
-        virtual bool collidable() { return false; }
+        virtual bool solid() const { return false; }
+        virtual bool collidable() const { return false; }
         //virtual bool handlesCollisionEvent() { return false; }
         virtual void collisionEvent(std::shared_ptr<Object>& obj) {}
 

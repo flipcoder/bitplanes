@@ -67,11 +67,12 @@ class Enemy : public Object, public IOwner
         void vel(Vector2 v) { m_vVel = v; }
         const Vector2& vel() const { return m_vVel; }
 
-        virtual bool collidable() { return true; }
+        virtual bool solid() const { return true; }
+        virtual bool collidable() const { return true; }
         virtual void collisionEvent(std::shared_ptr<Object>& object) {
             Particle* p;
             if(p = dynamic_cast<Particle*>(object.get())) {
-                if(p->owner() == IOwner::O_FRIENDLY && !p->invalid()) {
+                if(p->owner() == IOwner::O_FRIENDLY) {
                     m_Health -= p->damage();
                     p->invalidate();
                     m_FlashTimer = Freq::Alarm(Freq::Time(50));
