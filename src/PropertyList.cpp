@@ -104,7 +104,7 @@ void PropertyList :: parseLine(const std::string& s, std::string& group)
         pair<string,string> prop;
 
         // if no characters before or after equal sign, return
-        if(eq_idx + 1 >= _s.length() - 1)
+        if(eq_idx + 1 >= _s.length())
             return;
         if(eq_idx - 1 < 0)
             return;

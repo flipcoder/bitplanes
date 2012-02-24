@@ -1,6 +1,7 @@
 #include "System.h"
 #include "GameState.h"
 #include "TitleState.h"
+#include "Log.h"
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_audio.h>
@@ -8,6 +9,8 @@
 System :: System()
 {
     nullify();
+
+    Log::get(new Log());
 
     if(!al_init())
     {

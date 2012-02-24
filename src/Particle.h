@@ -6,7 +6,7 @@
 #include "Freq.h"
 #include <boost/optional/optional.hpp>
 
-class Particle : public Object
+class Particle : public Object, public IOwner
 {
     private:
 
@@ -17,6 +17,7 @@ class Particle : public Object
         }
 
         boost::optional<std::pair<float,float>> m_Life;
+        int m_Damage;
 
     public:
         Particle(const std::string& fn, Vector2 vel, boost::optional<Freq::Time> life = boost::optional<Freq::Time>()):
@@ -27,6 +28,10 @@ class Particle : public Object
                 m_Life = std::pair<float,float>(life->get(),life->get());
             m_vVel = vel;
             sprite().depth(1.0f);
+
+            m_Damage = properties().getInt("default", "damage", 1);
+            if(m_Damage > 0)
+                m_bCollidable = true;
         }
         virtual ~Particle() {}
 
@@ -57,6 +62,11 @@ class Particle : public Object
         }
         virtual bool collidable() { return m_bCollidable; }
         void collidable(bool b) { m_bCollidable = b; }
+
+        const char* type() const { return "particle"; }
+
+        int damage() const { return m_Damage; }
+        void damage(int v) { m_Damage = v; }
 };
 
 #endif

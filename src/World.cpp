@@ -11,10 +11,24 @@ bool World :: logic(float t)
         itr != m_Objects.end();)
     {
         (*itr)->logic(t);
-        if((*itr)->invalid())
+
+        if((*itr)->invalid()) {
             itr = m_Objects.erase(itr);
-        else
-            itr++;
+            continue;
+        }
+        
+        for(std::list<std::shared_ptr<Object>>::iterator jtr = m_Objects.begin();
+            jtr != m_Objects.end();
+            jtr++)
+        {
+            if(itr == jtr)
+                continue;
+            if((*itr)->collidable() && (*jtr)->collidable())
+                if(collision(*itr, *jtr))
+                    (*itr)->collisionEvent(*jtr);
+        }
+
+        itr++;
     }
     m_bLocked = false;
 
@@ -52,9 +66,9 @@ bool World :: pixelCollision(const std::shared_ptr<const Object>& a, const std::
 
     // TODO: finish this
     // calc overlap?
-    // use image->pixel(x,y); to get Color()
+    // use image->pixel(x,y); to get Color() and use alpha value
 
-    return false;
+    return true;
 }
 
 bool World :: collision(const Box_t& a, const Box_t& b) const

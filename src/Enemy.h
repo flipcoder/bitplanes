@@ -7,13 +7,16 @@
 #include "Object.h"
 #include "Freq.h"
 #include "Events.h"
+#include "Particle.h"
+#include "Log.h"
 
-class Enemy : public Object
+class Enemy : public Object, public IOwner
 {
     private:
         Vector2 m_vVel;
         void nullify() {
             m_Health = m_MaxHealth = properties().getInt("default","health",1);
+            Log::get().write(str("health is ") + str(m_Health));
         }
 
         Freq::Alarm m_FlashTimer;
@@ -26,6 +29,7 @@ class Enemy : public Object
         {
             nullify();
             sprite().depth(-50.0f);
+            owner(IOwner::O_ENEMY);
         }
         virtual ~Enemy() {}
 
@@ -59,6 +63,15 @@ class Enemy : public Object
         const Vector2& vel() const { return m_vVel; }
 
         virtual bool collidable() { return true; }
+        virtual void collisionEvent(std::shared_ptr<Object>& object) {
+            Particle* p;
+            if(p = dynamic_cast<Particle*>(object.get())) {
+                if(p->owner() == IOwner::O_FRIENDLY && !p->invalid()) {
+                    m_Health -= p->damage();
+                    p->invalidate();
+                }
+            }
+        }
 };
 
 #endif

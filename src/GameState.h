@@ -27,7 +27,7 @@ class GameState : public IState
 
             for(int i=0; i<20; i++)
             {
-                Enemy* e = new Enemy("data/gfx/objects/planeE1.png");
+                Enemy* e = new Enemy("data/gfx/objects/planeE1.ini");
                 std::shared_ptr<Object> enemy(e);
                 e->pos().y = i*-100.0f;
                 e->vel(Vector2(i*5.0f + 100.0f, 50.0f));
