@@ -3,6 +3,7 @@
 #include "TitleState.h"
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_font.h>
+#include <allegro5/allegro_audio.h>
 
 System :: System()
 {
@@ -30,7 +31,8 @@ System :: System()
     }
     al_init_font_addon();
     al_init_ttf_addon();
-    //al_init_acodec_addon();
+    al_install_audio();
+    al_init_acodec_addon();
     if(!al_install_keyboard())
     {
         setError("Could not initialize keyboard");

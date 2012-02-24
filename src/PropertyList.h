@@ -52,6 +52,20 @@ class PropertyList
         bool getStringValue(const char* _group, const char* _prop, std::string& value);
         bool getIntValue(const char* _group, const char* _prop, int& value);
         bool getFloatValue(const char* _group, const char* _prop, float& value);
+
+        std::string getString(const char* _group, const char* _prop, std::string def = "") {
+            std::string v;
+            return getStringValue(_group,_prop,v) ? v : def;
+        }
+
+        int getInt(const char* _group, const char* _prop, int def = 0) {
+            int v;
+            return getIntValue(_group,_prop,v) ? v : def;
+        }
+        float getFloat(const char* _group, const char* _prop, float def = 0.0f) {
+            float v;
+            return getFloatValue(_group,_prop,v) ? v : def;
+        }
     
         void setStringValue(const char* _group, const char* _prop, const std::string& value);
         void setIntValue(const char* _group, const char* _prop, const int value);

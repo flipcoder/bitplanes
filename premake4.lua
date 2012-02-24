@@ -20,6 +20,8 @@ solution("bitplanes")
             "allegro_acodec",
             "allegro_ttf",
             "allegro_font",
+            "allegro_audio",
+            "allegro_acodec",
             "boost_system",
             "boost_filesystem"
         }

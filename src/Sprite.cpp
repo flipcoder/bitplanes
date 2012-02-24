@@ -14,16 +14,24 @@ void Sprite :: render() const
     if(!m_spImage)
         return;
 
+    
     // TODO: Probably move this queue crap out of system and into a Renderer class
     if(System::get().queued()) {
         std::shared_ptr<const IDepth> spthis = shared_from_this();
         System::get().depthEnqueue(spthis);
     } else {
 
+        if(m_Blend)
+            al_set_blender(
+                std::get<0>(*m_Blend),
+                std::get<1>(*m_Blend),
+                std::get<2>(*m_Blend)
+            );
+
         if(m_Tint) {
             // tinted blit
             al_draw_tinted_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), m_Tint->allegro(), pos().x, pos().y, 0);
-        }
+        }   
         else if(m_bsFlags[F_TILE])
         {
             // fullscreen tile blit
@@ -61,6 +69,11 @@ void Sprite :: render() const
                     0);
             }
         }
+
+        if(m_Blend)
+            al_set_blender(ALLEGRO_ADD, ALLEGRO_ONE, ALLEGRO_INVERSE_ALPHA);
+
     }
+
 }
 

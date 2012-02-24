@@ -2,16 +2,23 @@
 #define _ENEMY_H
 
 #include <memory>
+#include <boost/optional/optional.hpp>
 #include "math/vector2.h"
 #include "Object.h"
 #include "Freq.h"
-#include <boost/optional/optional.hpp>
+#include "Events.h"
 
 class Enemy : public Object
 {
     private:
         Vector2 m_vVel;
-        void nullify() {}
+        void nullify() {
+            m_Health = m_MaxHealth = properties().getInt("default","health",1);
+        }
+
+        Freq::Alarm m_FlashTimer;
+        int m_Health;
+        int m_MaxHealth;
 
     public:
         Enemy(const std::string& fn):
@@ -36,6 +43,9 @@ class Enemy : public Object
             if(pos().y < 0.0f && m_vVel.y < 0.0f)
                 invalidate();
             if(pos().y > System::get().h())
+                invalidate();
+
+            if(m_Health <= 0)
                 invalidate();
 
             return true;

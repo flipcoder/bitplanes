@@ -5,6 +5,7 @@
 #include <memory>
 #include <new>
 #include <bitset>
+#include <tuple>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_image.h>
@@ -38,6 +39,8 @@ class Sprite : public IDepth, public IFallible
         std::bitset<MAX_FLAGS> m_bsFlags;
         std::shared_ptr<const Image> m_spImage;
         boost::optional<Color> m_Tint;
+
+        boost::optional<std::tuple<int,int,int>> m_Blend;
 
     public:
 
@@ -121,9 +124,17 @@ class Sprite : public IDepth, public IFallible
             m_Tint = c;
         }
         boost::optional<Color> tint() const { return m_Tint; }
-        void clearTint() {
+        void untint() {
             m_Tint = boost::optional<Color>();
         }
+
+        void blend(int op, int src, int dest) {
+            m_Blend = std::tuple<int,int,int>(op,src,dest);
+        }
+        void unblend() {
+            m_Blend = boost::optional<std::tuple<int,int,int>>();
+        }
+        boost::optional<std::tuple<int,int,int>> blend() const { return m_Blend; };
 };
 
 #endif

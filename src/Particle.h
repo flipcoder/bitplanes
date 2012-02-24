@@ -24,7 +24,7 @@ class Particle : public Object
         {
             nullify();
             if(life)
-                m_Life = std::pair<float,float>(0.0f,life->get());
+                m_Life = std::pair<float,float>(life->get(),life->get());
             m_vVel = vel;
             sprite().depth(1.0f);
         }
@@ -33,11 +33,13 @@ class Particle : public Object
         virtual bool logic(float t) {
             pos() += (m_vVel - world()->vel()) * t;
             if(m_Life) {
-                m_Life->first += Freq::Time::seconds(t).get();
-                if(m_Life->first > m_Life->second) {
+                m_Life->first -= Freq::Time::seconds(t).get();
+                //if(m_Life->first > m_Life->second) {
+                if(m_Life->first <= 0.0f) {
                     invalidate();
                     return true;
                 }
+
                 //if(!sprite().tint())
                 //    sprite().tint(Color());
                 //Color c = *sprite().tint();
@@ -47,7 +49,6 @@ class Particle : public Object
             Object::logic(t);
             if(world()->outsideScreen(shared_from_this()))
                 invalidate();
-            
 
             return true;
         }

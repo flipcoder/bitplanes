@@ -24,10 +24,12 @@ class Player : public Object, public IControllable
         Freq::Alarm m_FrameResetAlarm;
         Freq::Alarm m_FireRate;
         Freq::Alarm m_SmokeTimer;
+        Freq::Alarm m_BlinkTimer;
 
     public:
         Player(const std::string& fn):Object(fn) {
             nullify();
+            //sprite().tint(Color(0.0f,0.0f,0.0f,1.0f));
         }
         virtual ~Player() {}
 
