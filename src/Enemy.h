@@ -19,7 +19,7 @@ class Enemy : public Object, public IOwner
             Log::get().write(str("health is ") + str(m_Health));
         }
 
-        Freq::Alarm m_FlashTimer;
+        boost::optional<Freq::Alarm> m_FlashTimer;
         int m_Health;
         int m_MaxHealth;
 
@@ -49,9 +49,14 @@ class Enemy : public Object, public IOwner
             if(pos().y > System::get().h())
                 invalidate();
 
-            if(m_Health <= 0)
-                invalidate();
+            if(m_FlashTimer && m_FlashTimer->hasElapsed()) {
+                sprite().untint();
+                m_FlashTimer = boost::optional<Freq::Alarm>();
 
+                if(m_Health <= 0)
+                    invalidate();
+            }
+            
             return true;
         }
         virtual void render() const {
@@ -69,6 +74,8 @@ class Enemy : public Object, public IOwner
                 if(p->owner() == IOwner::O_FRIENDLY && !p->invalid()) {
                     m_Health -= p->damage();
                     p->invalidate();
+                    m_FlashTimer = Freq::Alarm(Freq::Time(50));
+                    sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
                 }
             }
         }
