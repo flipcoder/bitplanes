@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{A031CE77-1CD3-F148-FE35-BFBC25843602}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\math">
+			<UniqueIdentifier>{31D24159-5393-D40D-0A32-AEDC5DAD618F}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\FileSystem.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Sprite.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IType.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Script.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Image.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Events.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IDepth.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\System.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\TitleState.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ITaggable.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IState.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IOwner.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\World.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Log.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IRealtime.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Util.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Object.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Player.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Freq.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ResourceMap.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IRenderable.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ObjectFactory.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Terrain.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IStaticInstance.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IStateManager.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\PropertyList.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Graphics.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Font.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IControllable.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IPosition.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IConfig.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Console.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Text.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Audio.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\DepthQueue.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Particle.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\GameState.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Weapon.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\Enemy.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\IFallible.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\vector2.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\common.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+		<ClInclude Include="src\math\angle.h">
+			<Filter>src\math</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="src\Events.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Particle.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ObjectFactory.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Sprite.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Text.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\System.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\FileSystem.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Log.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\PropertyList.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Image.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Player.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Script.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Object.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\World.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\Freq.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+	</ItemGroup>
+</Project>

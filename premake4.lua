@@ -1,7 +1,6 @@
 solution("bitplanes")
     configurations {"Debug", "Release"}
 
-    location("build")
     targetdir("bin")
 
     configuration "Debug"

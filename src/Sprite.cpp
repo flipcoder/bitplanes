@@ -13,7 +13,6 @@ void Sprite :: render() const
 {
     if(!m_spImage)
         return;
-
     
     // TODO: Probably move this queue crap out of system and into a Renderer class
     if(System::get().queued()) {
