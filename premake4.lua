@@ -11,6 +11,7 @@ solution("bitplanes")
         flags { "Optimize" }
 
     project("bitplanes")
+        uuid("72c2ca20-6128-11e1-b86c-0800200c9a66")
         kind("WindowedApp")
         language("C++")
         links {

@@ -1,7 +1,7 @@
 How to build bitplanes:
 
 For Ubuntu, run:
-    ./get_libs.sh
+    chmod +x get_libs.sh && ./get_libs.sh
 
 ^ This will get (most) of the required libs and programs
 If you don't use apt-get on your system you can do something like
@@ -11,15 +11,10 @@ You'll also need to obtain and build Allegro5 yourself (not included).
 Make sure to run "sudo ldconfig" after installing Allegro
 There's instructions for that on the web.
 
-Now download premake4 for your platform from http://industriousone.com/premake/download
+Now run:
+    make
 
-Now run (for Linux):
-    ./build.sh
-
-OR: run premake4 with the correct parameters for your operating system,
-    See: http://industriousone.com/premake-quick-start
-    after that, run the makefile that will be generated in the build/ folder
-    By running "make" inside the build folder
+The included Windows MSVC2010 project files are a work-in-progress so may not work correctly.
 
 If the build succeeds, everything needed will appear in the bin folder :)
 
