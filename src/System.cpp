@@ -69,6 +69,7 @@ System :: System()
 
 System :: ~System()
 {
+    destroyStateManager();
     al_set_target_bitmap(nullptr);
     al_destroy_display(m_pDisplay);
 }

@@ -86,7 +86,8 @@ class IStateManager
         IStateManager() {
             nullify();
         }
-        virtual ~IStateManager() {
+        virtual ~IStateManager() { destroyStateManager(); }
+        void destroyStateManager(){
             m_bFast = true; // no timed transitions
             stackClear();
         }
