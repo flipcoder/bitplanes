@@ -2,6 +2,7 @@
 #define _FALLIBLE_H
 
 #include "Util.h"
+#include <iostream>
 
 class IFallible
 {

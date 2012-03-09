@@ -1,8 +1,9 @@
 #include "Freq.h"
 
-#include <sys/time.h>
+
+#include <ctime>
 #include <cstdio>
-#include <unistd.h>
+
 
 #include <allegro5/allegro5.h> // for al_get_time()
 

@@ -17,7 +17,8 @@ class IConfig
 
         bool open(const std::string& fn) {
             if(FileSystem::hasExtension(fn,"ini"))
-                m_Properties.open(fn.c_str());
+                return m_Properties.open(fn.c_str());
+			return false;
         }
 
         const PropertyList& properties() const { return m_Properties; }

@@ -46,6 +46,7 @@ class Object :
         }
         bool setImage(const std::string& s) {
             m_spSprite->setImage(image(s));
+			return true;
         }
         World* world() { return m_pWorld; }
         const World* world() const { return m_pWorld; }

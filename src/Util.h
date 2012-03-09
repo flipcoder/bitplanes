@@ -14,7 +14,7 @@
 //#include <boost/serialization/shared_ptr.hpp>
 
 
-typedef signed char byte;
+//typedef signed char byte;
 typedef unsigned char ubyte;
 typedef unsigned int uint;
 typedef unsigned short ushort;
