@@ -21,7 +21,7 @@ bool World :: logic(float t)
             jtr != m_Objects.end();
             jtr++)
         {
-            if(itr == jtr)
+            if(*itr == *jtr)
                 continue;
             if((*itr)->collidable() && (*jtr)->collidable())
                 if(collision(*itr, *jtr))

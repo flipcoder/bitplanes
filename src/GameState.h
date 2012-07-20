@@ -16,6 +16,7 @@ class GameState : public IState
     public:
         GameState() {
             nullify();
+            scoped_dtor<GameState> dtor(this);
             m_spWorld.reset(new World());
             m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
@@ -33,6 +34,7 @@ class GameState : public IState
                 e->vel(Vector2(i*5.0f + 100.0f, 50.0f));
                 m_spWorld->add(enemy);
             }
+            dtor.resolve();
         }
         virtual ~GameState() {}
 

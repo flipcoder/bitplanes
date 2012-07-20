@@ -54,13 +54,18 @@ class Sprite : public IDepth, public IFallible
         //}
         Sprite() {
             nullify();
+            //scoped_dtor dtor(this);
             
-            //al_convert_mask_to_alpha(m_pBitmap, al_map_rgb(255,0,255));
+            // adding anything here? put back the dtor callbacks
+
+            //dtor.resolve();
         }
         Sprite(const std::string& fn);
         Sprite(const std::shared_ptr<const Image>& image) {
             nullify();
+            scoped_dtor<Sprite> dtor(this);
             setImage(image);
+            dtor.resolve();
         }
         void destroy() {
             nullify();

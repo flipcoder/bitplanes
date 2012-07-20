@@ -4,6 +4,7 @@ Object :: Object(const std::string& fn):
     IConfig(fn)
 {
     nullify();
+    scoped_dtor<Object> dtor(this);
 
     if(FileSystem::hasExtension(fn,"ini")) // load as properties
     {
@@ -32,6 +33,8 @@ Object :: Object(const std::string& fn):
     {
         m_spSprite.reset(new Sprite(fn));
     }
+
+    dtor.resolve();
 }
 
 Object :: ~Object()

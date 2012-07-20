@@ -5,10 +5,12 @@
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_audio.h>
+#include "Util.h"
 
 System :: System()
 {
     nullify();
+    scoped_dtor<System> dtor(this);
 
     Log::get(new Log());
 
@@ -65,6 +67,8 @@ System :: System()
     al_clear_to_color(al_map_rgb(0,0,0));
     // push default mode
     pushState("title");
+
+    dtor.resolve();
 }
 
 System :: ~System()

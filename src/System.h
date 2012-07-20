@@ -15,7 +15,7 @@
 #include "Image.h"
 #include "DepthQueue.h"
 #include "Image.h"
-#include "ResourceMap.h"
+#include "ResourceCache.h"
 
 class System : public IStaticInstance<System>, public IFallible, public IStateManager<std::string, IState>
 {
@@ -28,7 +28,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         ALLEGRO_DISPLAY* m_pDisplay;
         unsigned int m_Scale;
         DepthQueue m_DepthQueue;
-        ResourceMap<Image> m_ImageResources;
+        ResourceCache<Image> m_ImageResources;
 
         //std::list<Alarm*> m_AlarmList;
 
@@ -68,8 +68,8 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         bool queued() const { return m_bQueued; }
         void queue(bool b = true) { m_bQueued = b; }
 
-        ResourceMap<Image>& imageResources() { return m_ImageResources; }
-        const ResourceMap<Image>& imageResources() const { return m_ImageResources; }
+        ResourceCache<Image>& imageResources() { return m_ImageResources; }
+        const ResourceCache<Image>& imageResources() const { return m_ImageResources; }
 
         float scale() const { return 1.0f*m_Scale; }
 };

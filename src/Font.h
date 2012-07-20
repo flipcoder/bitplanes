@@ -28,12 +28,14 @@ class Font : public IFallible
     public:
         Font(const std::string& fn, int size){
             nullify();
+            scoped_dtor<Font> dtor(this);
+
             m_Size = size;
             m_pFont = al_load_ttf_font(fn.c_str(), size, 0);
-            if(!m_pFont){
-                setError("Failed to load font");
-                throw Failure();
-            }
+            if(!m_pFont)
+                throw Failure("Failed to load font");
+
+            dtor.resolve();
         }
         virtual ~Font() {
             al_destroy_font(m_pFont);

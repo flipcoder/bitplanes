@@ -5,7 +5,9 @@
 Sprite :: Sprite(const std::string& fn)
 {
     nullify();
+    scoped_dtor<Sprite> dtor(this);
     setImage(System::get().imageResources().ensure_shared(fn));
+    dtor.resolve();
 }
 
 
@@ -16,8 +18,8 @@ void Sprite :: render() const
     
     // TODO: Probably move this queue crap out of system and into a Renderer class
     if(System::get().queued()) {
-        std::shared_ptr<const IDepth> spthis = shared_from_this();
-        System::get().depthEnqueue(spthis);
+        //std::shared_ptr<const IDepth> spthis = shared_from_this();
+        System::get().depthEnqueue(shared_from_this());
     } else {
 
         if(m_Blend)

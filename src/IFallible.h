@@ -10,7 +10,8 @@ class IFallible
 
         class Failure : public std::runtime_error {
             public:
-                Failure(): std::runtime_error("failure") {}
+                Failure(): std::runtime_error("Runtime Error") {}
+                Failure(const char* err): std::runtime_error(err) {}
         };
 
         virtual void setError(const std::string& err){

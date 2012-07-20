@@ -9,6 +9,7 @@
 #include "Events.h"
 #include "Particle.h"
 #include "Log.h"
+#include "Util.h"
 
 class Enemy : public Object, public IOwner
 {
@@ -16,7 +17,7 @@ class Enemy : public Object, public IOwner
         Vector2 m_vVel;
         void nullify() {
             m_Health = m_MaxHealth = properties().getInt("default","health",1);
-            Log::get().write(str("health is ") + str(m_Health));
+            //Log::get().write(str("health is ") + str(m_Health));
         }
 
         Freq::Alarm m_SmokeTimer;
@@ -30,10 +31,14 @@ class Enemy : public Object, public IOwner
             Object(fn)
         {
             nullify();
+            //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
             sprite().depth(-50.0f);
             owner(IOwner::O_ENEMY);
+            //dtor.resolve();
         }
-        virtual ~Enemy() {}
+        virtual ~Enemy() {
+            // TODO: If you add anything here, make sure you put back in scoped_dtors
+        }
 
         virtual bool logic(float t) {
             pos() += (m_vVel - world()->vel()) * t;

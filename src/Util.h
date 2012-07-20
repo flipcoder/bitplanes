@@ -230,5 +230,33 @@ T safe_ptr(T ptr)
     return ptr;
 }
 
+template <class T>
+class scoped_dtor {
+    private:
+        T* m_object;
+    public:
+        scoped_dtor(T* o):
+            m_object(o)
+        {}
+
+        ~scoped_dtor(){
+            call();
+        }
+
+        void call() {
+            if(m_object)
+                m_object->~T();
+        }
+
+        void resolve() {
+            m_object = NULL;
+        }
+
+        void now() {
+            call();
+            resolve();
+        }
+};
+
 #endif
 

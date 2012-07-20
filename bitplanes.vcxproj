@@ -102,82 +102,82 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
-		<ClInclude Include="src\IStateManager.h" />
-		<ClInclude Include="src\Util.h" />
-		<ClInclude Include="src\Events.h" />
-		<ClInclude Include="src\Player.h" />
+		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\FileSystem.h" />
+		<ClInclude Include="src\DepthQueue.h" />
+		<ClInclude Include="src\Freq.h" />
 		<ClInclude Include="src\Object.h" />
-		<ClInclude Include="src\IOwner.h" />
+		<ClInclude Include="src\Events.h" />
+		<ClInclude Include="src\IState.h" />
+		<ClInclude Include="src\Font.h" />
+		<ClInclude Include="src\Script.h" />
+		<ClInclude Include="src\Util.h" />
 		<ClInclude Include="src\Audio.h" />
-		<ClInclude Include="src\IType.h" />
-		<ClInclude Include="src\IFallible.h" />
-		<ClInclude Include="src\System.h" />
-		<ClInclude Include="src\Weapon.h" />
-		<ClInclude Include="src\PropertyList.h" />
-		<ClInclude Include="src\IDepth.h" />
 		<ClInclude Include="src\IControllable.h" />
 		<ClInclude Include="src\IRealtime.h" />
-		<ClInclude Include="src\Terrain.h" />
-		<ClInclude Include="src\IConfig.h" />
 		<ClInclude Include="src\Sprite.h" />
-		<ClInclude Include="src\ResourceMap.h" />
-		<ClInclude Include="src\Particle.h" />
-		<ClInclude Include="src\Graphics.h" />
-		<ClInclude Include="src\DepthQueue.h" />
-		<ClInclude Include="src\IRenderable.h" />
-		<ClInclude Include="src\ITaggable.h" />
-		<ClInclude Include="src\TitleState.h" />
 		<ClInclude Include="src\Image.h" />
-		<ClInclude Include="src\Script.h" />
-		<ClInclude Include="src\IPosition.h" />
-		<ClInclude Include="src\Font.h" />
-		<ClInclude Include="src\Freq.h" />
-		<ClInclude Include="src\Enemy.h" />
-		<ClInclude Include="src\ObjectFactory.h" />
+		<ClInclude Include="src\IStateManager.h" />
+		<ClInclude Include="src\Player.h" />
 		<ClInclude Include="src\Log.h" />
-		<ClInclude Include="src\GameState.h" />
-		<ClInclude Include="src\IState.h" />
-		<ClInclude Include="src\Console.h" />
-		<ClInclude Include="src\World.h" />
+		<ClInclude Include="src\PropertyList.h" />
+		<ClInclude Include="src\IType.h" />
 		<ClInclude Include="src\IStaticInstance.h" />
+		<ClInclude Include="src\IRenderable.h" />
+		<ClInclude Include="src\System.h" />
+		<ClInclude Include="src\IConfig.h" />
 		<ClInclude Include="src\Text.h" />
+		<ClInclude Include="src\Graphics.h" />
+		<ClInclude Include="src\GameState.h" />
+		<ClInclude Include="src\Particle.h" />
+		<ClInclude Include="src\ResourceMap.h" />
+		<ClInclude Include="src\World.h" />
+		<ClInclude Include="src\IOwner.h" />
+		<ClInclude Include="src\Weapon.h" />
+		<ClInclude Include="src\ObjectFactory.h" />
+		<ClInclude Include="src\TitleState.h" />
+		<ClInclude Include="src\Terrain.h" />
+		<ClInclude Include="src\ITaggable.h" />
+		<ClInclude Include="src\IPosition.h" />
+		<ClInclude Include="src\Enemy.h" />
+		<ClInclude Include="src\IDepth.h" />
+		<ClInclude Include="src\IFallible.h" />
 		<ClInclude Include="src\math\vector2.h" />
-		<ClInclude Include="src\math\angle.h" />
 		<ClInclude Include="src\math\common.h" />
+		<ClInclude Include="src\math\angle.h" />
 	</ItemGroup>
 	<ItemGroup>
-		<ClCompile Include="src\Freq.cpp">
-		</ClCompile>
-		<ClCompile Include="src\ObjectFactory.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Image.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Main.cpp">
-		</ClCompile>
-		<ClCompile Include="src\System.cpp">
-		</ClCompile>
 		<ClCompile Include="src\Sprite.cpp">
 		</ClCompile>
-		<ClCompile Include="src\Script.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Player.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Text.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Events.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Log.cpp">
+		<ClCompile Include="src\Freq.cpp">
 		</ClCompile>
 		<ClCompile Include="src\PropertyList.cpp">
 		</ClCompile>
-		<ClCompile Include="src\Particle.cpp">
-		</ClCompile>
 		<ClCompile Include="src\Object.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Player.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Script.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Log.cpp">
+		</ClCompile>
+		<ClCompile Include="src\ObjectFactory.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Events.cpp">
+		</ClCompile>
+		<ClCompile Include="src\World.cpp">
 		</ClCompile>
 		<ClCompile Include="src\FileSystem.cpp">
 		</ClCompile>
-		<ClCompile Include="src\World.cpp">
+		<ClCompile Include="src\Particle.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Image.cpp">
+		</ClCompile>
+		<ClCompile Include="src\System.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Main.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Text.cpp">
 		</ClCompile>
 	</ItemGroup>
 	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

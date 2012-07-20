@@ -1,10 +1,6 @@
 #include "Freq.h"
-
-
 #include <ctime>
 #include <cstdio>
-
-
 #include <allegro5/allegro5.h> // for al_get_time()
 
 Freq :: Freq()
