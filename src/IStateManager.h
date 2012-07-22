@@ -85,6 +85,7 @@ class IStateManager
     public:
         IStateManager() {
             nullify();
+            // If you add anything here, use scoped_dtors
         }
         virtual ~IStateManager() { destroyStateManager(); }
         void destroyStateManager(){

@@ -4,7 +4,7 @@
 Script :: Script(const std::string& fn):
     IConfig(fn)
 {
-    scoped_dtor<Script> dtor(this);
+    //scoped_dtor<Script> dtor(this);
     std::string script_fn;
     
     // attempt to get script filename from ini file
@@ -26,7 +26,7 @@ Script :: Script(const std::string& fn):
         setError("Unable to open script \"" + script_fn + "\"");
         throw Failure();
     }
-    dtor.resolve();
+    //dtor.resolve();
 }
 
 void Script :: precache()
