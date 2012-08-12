@@ -7,8 +7,9 @@
 #include "Sprite.h"
 #include "math/vector2.h"
 #include "Graphics.h"
+#include "IDepthSortable.h"
 
-class Text : public IDepth, public IRenderable
+class Text : public IDepthSortable, public IRenderable
 {
     private:
         void nullify() {

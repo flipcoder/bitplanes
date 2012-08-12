@@ -64,7 +64,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
         float w() const { return m_spBuffer ? m_spBuffer->size().x : 0.0f; }
         float h() const { return m_spBuffer ? m_spBuffer->size().y : 0.0f; }
 
-        void depthEnqueue(const std::shared_ptr<const IDepth>& s);
+        void depthEnqueue(const std::shared_ptr<const IDepthSortable>& s);
         bool queued() const { return m_bQueued; }
         void queue(bool b = true) { m_bQueued = b; }
 

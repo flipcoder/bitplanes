@@ -3,12 +3,11 @@
 
 #include <allegro5/allegro5.h>
 #include "math/vector2.h"
-#include "IRenderable.h"
 #include "IFallible.h"
 #include "Graphics.h"
 
 // OO wrapper for allegro bitmap
-class Image : public IRenderable, public IFallible
+class Image : public IFallible
 {
     private:
 
@@ -22,6 +21,8 @@ class Image : public IRenderable, public IFallible
         
         Image(const std::string& fn);
         Image(int w, int h);
+        virtual ~Image();
+
         void render(const Vector2& pos) const;
         //void render(const Vector2& pos, const Vector2& size);
         ALLEGRO_BITMAP* bitmap() { return m_pBitmap; }
@@ -37,8 +38,6 @@ class Image : public IRenderable, public IFallible
             c.allegro(al_get_pixel(const_cast<ALLEGRO_BITMAP*>(m_pBitmap),x,y));
             return c;
         }
-
-        virtual ~Image();
 };
 
 #endif

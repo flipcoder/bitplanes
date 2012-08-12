@@ -1,7 +1,7 @@
-#ifndef _IOWNER_H
-#define _IOWNER_H
+#ifndef _IOWNABLE_H
+#define _IOWNABLE_H
 
-class IOwner
+class IOwnable
 {
     public:
         
@@ -11,10 +11,10 @@ class IOwner
             O_ENEMY
         };
 
-        IOwner() {
+        IOwnable() {
             m_Owner = O_NONE;
         }
-        virtual ~IOwner() {}
+        virtual ~IOwnable() {}
 
         void owner(eOwner owner) {
             m_Owner = owner;

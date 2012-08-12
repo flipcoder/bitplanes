@@ -33,7 +33,7 @@ class Events : public IStaticInstance<Events>, public IRealtime
         Events(ALLEGRO_DISPLAY* display);
         virtual ~Events();
 
-        virtual bool logic(unsigned int advance);
+        virtual bool logic(float advance);
         bool key(unsigned int idx) const {
             return m_bKey[idx];
         }

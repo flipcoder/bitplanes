@@ -15,10 +15,10 @@
 #include "IFallible.h"
 #include "math/vector2.h"
 #include "Image.h"
-#include "IDepth.h"
+#include "IDepthSortable.h"
 #include "Graphics.h"
 
-class Sprite : public IDepth, public IFallible
+class Sprite : public IDepthSortable, public IFallible
 {
     public:
         enum eFlags {

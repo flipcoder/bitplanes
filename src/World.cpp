@@ -6,7 +6,8 @@ bool World :: logic(float t)
     // TODO: Add collision checking here for all objects that
     //  obj.collidable()==true
    
-    m_bLocked = true;
+    // locking below is not for thread-safety, just to let objects know world logic is in a loop (see World.add())
+    m_bLocked = true; 
     for(std::list<std::shared_ptr<Object>>::iterator itr = m_Objects.begin();
         itr != m_Objects.end();)
     {
@@ -49,6 +50,7 @@ bool World :: add(std::shared_ptr<Object>& obj) {
     //if(m_SpawnList.find(obj) != m_SpawnList.end())
     //    return false;
     
+    // locking takes place in World::logic(), so we don't modify the list while iterating and miss object logic calls
     if(m_bLocked)
         m_SpawnList.push_back(obj);
     else

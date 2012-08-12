@@ -1,5 +1,5 @@
-#ifndef _FALLIBLE_H
-#define _FALLIBLE_H
+#ifndef _IFALLIBLE_H
+#define _IFALLIBLE_H
 
 #include "Util.h"
 #include <iostream>

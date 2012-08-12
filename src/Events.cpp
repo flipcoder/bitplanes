@@ -13,7 +13,7 @@ Events :: Events(ALLEGRO_DISPLAY* display)
     }
 }
 
-bool Events :: logic(unsigned int advance)
+bool Events :: logic(float advance)
 {
     ALLEGRO_EVENT event;
     while(al_get_next_event(m_pQueue, &event))

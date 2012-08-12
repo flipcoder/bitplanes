@@ -1,19 +1,19 @@
-#ifndef _ICONFIG_H
-#define _ICONFIG_H
+#ifndef _ICONFIGURABLE_H
+#define _ICONFIGURABLE_H
 
 #include "PropertyList.h"
 #include "FileSystem.h"
 
-class IConfig
+class IConfigurable
 {
     private:
         PropertyList m_Properties;
 
     public:
-        IConfig(const std::string& fn) {
+        IConfigurable(const std::string& fn) {
             open(fn);
         }
-        virtual ~IConfig() {}
+        virtual ~IConfigurable() {}
 
         bool open(const std::string& fn) {
             if(FileSystem::hasExtension(fn,"ini"))

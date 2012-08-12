@@ -1,10 +1,10 @@
-#ifndef _IDEPTH_H
-#define _IDEPTH_H
+#ifndef _IDEPTHSORTABLE_H
+#define _IDEPTHSORTABLE_H
 
 #include <memory>
 #include "IRenderable.h"
 
-class IDepth : public IRenderable, public std::enable_shared_from_this<IDepth>
+class IDepthSortable: public IRenderable, public std::enable_shared_from_this<IDepthSortable>
 {
     private:
         float m_fDepth;
@@ -13,10 +13,10 @@ class IDepth : public IRenderable, public std::enable_shared_from_this<IDepth>
         }
     public:
 
-        IDepth() {
+        IDepthSortable() {
             nullify();
         }
-        virtual ~IDepth() {}
+        virtual ~IDepthSortable() {}
         //virtual void enqueue() const {}
         virtual float depth() const {return m_fDepth;}
         void depth(float f) { m_fDepth = f; }

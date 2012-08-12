@@ -4,10 +4,10 @@
 #include <string>
 #include <fstream>
 #include "IFallible.h"
-#include "IConfig.h"
+#include "IConfigurable.h"
 #include "IRealtime.h"
 
-class Script : public IFallible, public IConfig, public IRealtime
+class Script : public IFallible, public IConfigurable, public IRealtime
 {
     private:
         std::ifstream m_Script;

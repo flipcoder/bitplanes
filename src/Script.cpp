@@ -2,7 +2,7 @@
 #include "FileSystem.h"
 
 Script :: Script(const std::string& fn):
-    IConfig(fn)
+    IConfigurable(fn)
 {
     //scoped_dtor<Script> dtor(this);
     std::string script_fn;

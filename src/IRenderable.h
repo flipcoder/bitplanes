@@ -4,7 +4,7 @@
 class IRenderable{
     public:
         virtual ~IRenderable() {};
-        virtual void render() const {}
+        virtual void render() const = 0;
 };
 
 #endif

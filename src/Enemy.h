@@ -11,7 +11,7 @@
 #include "Log.h"
 #include "Util.h"
 
-class Enemy : public Object, public IOwner
+class Enemy : public Object, public IOwnable
 {
     private:
         Vector2 m_vVel;
@@ -33,7 +33,7 @@ class Enemy : public Object, public IOwner
             nullify();
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
             sprite().depth(-50.0f);
-            owner(IOwner::O_ENEMY);
+            owner(IOwnable::O_ENEMY);
             //dtor.resolve();
         }
         virtual ~Enemy() {
@@ -93,7 +93,7 @@ class Enemy : public Object, public IOwner
         virtual void collisionEvent(std::shared_ptr<Object>& object) {
             Particle* p;
             if(p = dynamic_cast<Particle*>(object.get())) {
-                if(p->owner() == IOwner::O_FRIENDLY) {
+                if(p->owner() == IOwnable::O_FRIENDLY) {
                     m_Health -= p->damage();
                     p->invalidate();
                     m_FlashTimer = Freq::Alarm(Freq::Time(50));

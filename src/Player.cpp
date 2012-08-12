@@ -32,7 +32,7 @@ bool Player :: logic(float t)
         std::shared_ptr<Object> bullet(new Particle((std::string)"data/gfx/objects/bullet.ini", Vector2(0.0f, -500.0f)));
         bullet->pos() = pos() + sprite().size()/2.0f - bullet->size()/2.0f;
         ((Particle*)bullet.get())->collidable(true);
-        ((Particle*)bullet.get())->owner(IOwner::O_FRIENDLY);
+        ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
         m_FireRate.set(Freq::Time(100));
     }
@@ -41,7 +41,7 @@ bool Player :: logic(float t)
         std::shared_ptr<Object> bullet(new Particle((std::string)"data/gfx/objects/rocket.ini", Vector2(0.0f, -500.0f)));
         bullet->pos() = pos() + sprite().size()/2.0f - bullet->size()/2.0f;
         ((Particle*)bullet.get())->collidable(true);
-        ((Particle*)bullet.get())->owner(IOwner::O_FRIENDLY);
+        ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
         m_FireRate.set(Freq::Time(1000));
     }

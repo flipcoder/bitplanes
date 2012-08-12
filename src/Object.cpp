@@ -1,7 +1,7 @@
 #include "Object.h"
 
 Object :: Object(const std::string& fn):
-    IConfig(fn)
+    IConfigurable(fn)
 {
     nullify();
     scoped_dtor<Object> dtor(this);
@@ -13,7 +13,7 @@ Object :: Object(const std::string& fn):
         PropertyList::Group* imagelist = properties().getGroup("images");
         for(auto img = imagelist->cbegin();
             img != imagelist->cend();
-            img++)
+            ++img)
         {
             m_Images[img->first] = System::get().imageResources().ensure_shared((std::string)"data/gfx/objects/"+img->second);
         }

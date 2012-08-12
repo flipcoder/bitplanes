@@ -6,7 +6,7 @@
 #include "Sprite.h"
 #include "FileSystem.h"
 #include "World.h"
-#include "IConfig.h"
+#include "IConfigurable.h"
 #include "ITaggable.h"
 #include "IType.h"
 
@@ -15,7 +15,7 @@ class Object :
     public IFallible,
     public IRealtime,
     public IRenderable,
-    public IConfig,
+    public IConfigurable,
     public ITaggable,
     public IType
 {

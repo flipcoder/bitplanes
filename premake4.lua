@@ -23,7 +23,8 @@ solution("bitplanes")
             "allegro_audio",
             "allegro_acodec",
             "boost_system",
-            "boost_filesystem"
+            "boost_filesystem",
+            "luabind"
         }
         files {
             "src/**.h",

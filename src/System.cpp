@@ -15,47 +15,29 @@ System :: System()
     Log::get(new Log());
 
     if(!al_init())
-    {
-        setError("Could not initialize Allegro");
-        throw Failure();
-    }
+        throw Failure("Could not initialize Allegro");
     //al_set_color_depth(32);
     //if(al_set_gfx_mode(GFX_AUTODETECT_WINDOWED, 320*m_Scale, 240*m_Scale, 0, 0) != 0)
     al_set_new_display_flags(ALLEGRO_WINDOWED);
     //al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_REQUIRE);
     if(!(m_pDisplay = al_create_display(320*m_Scale, 480*m_Scale)))
-    {
-        setError("Could not initialize graphics mode");
-        throw Failure();
-    }
+        throw Failure("Could not initialize graphics mode");
     al_set_window_title(m_pDisplay, "bitplanes");
     if(!al_init_image_addon())
-    {
-        setError("Could not initialize image addon");
-        throw Failure();
-    }
+        throw Failure("Could not initialize image addon");
     al_init_font_addon();
     al_init_ttf_addon();
     al_install_audio();
     al_init_acodec_addon();
     if(!al_install_keyboard())
-    {
-        setError("Could not initialize keyboard");
-        throw Failure();
-    }
+        throw Failure("Could not initialize keyboard");
     if(!al_install_mouse())
-    {
-        setError("Could not initialize keyboard");
-        throw Failure();
-    }
+        throw Failure("Could not initialize keyboard");
     al_hide_mouse_cursor(m_pDisplay);
 
     m_spBuffer.reset(new Image(320, 480));
     if(!m_spBuffer)
-    {
-       setError("Unable to create buffer");
-       throw Failure();
-    }
+       throw Failure("Unable to create buffer");
     
     Events::get(new Events(m_pDisplay));
     Freq::get(new Freq());
@@ -166,7 +148,7 @@ IState* System :: newState(const std::string id)
     return state;
 }
 
-void System :: depthEnqueue(const std::shared_ptr<const IDepth>& s)
+void System :: depthEnqueue(const std::shared_ptr<const IDepthSortable>& s)
 {
     assert(m_bQueued);
     m_DepthQueue.enqueue(s);

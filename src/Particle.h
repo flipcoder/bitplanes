@@ -4,10 +4,10 @@
 #include <memory>
 #include "Object.h"
 #include "Freq.h"
-#include "IOwner.h"
+#include "IOwnable.h"
 #include <boost/optional/optional.hpp>
 
-class Particle : public Object, public IOwner
+class Particle : public Object, public IOwnable
 {
     private:
 
