@@ -64,6 +64,7 @@ ifeq ($(config),release)
 endif
 
 OBJECTS := \
+	$(OBJDIR)/Filesystem.o \
 	$(OBJDIR)/World.o \
 	$(OBJDIR)/Main.o \
 	$(OBJDIR)/Particle.o \
@@ -72,7 +73,6 @@ OBJECTS := \
 	$(OBJDIR)/Freq.o \
 	$(OBJDIR)/Text.o \
 	$(OBJDIR)/PropertyList.o \
-	$(OBJDIR)/FileSystem.o \
 	$(OBJDIR)/ObjectFactory.o \
 	$(OBJDIR)/Script.o \
 	$(OBJDIR)/System.o \
@@ -140,6 +140,9 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
+$(OBJDIR)/Filesystem.o: src/Filesystem.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/World.o: src/World.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
@@ -162,9 +165,6 @@ $(OBJDIR)/Text.o: src/Text.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/PropertyList.o: src/PropertyList.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/FileSystem.o: src/FileSystem.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/ObjectFactory.o: src/ObjectFactory.cpp

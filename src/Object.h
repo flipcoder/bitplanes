@@ -4,7 +4,7 @@
 #include <vector>
 #include <memory>
 #include "Sprite.h"
-#include "FileSystem.h"
+#include "Filesystem.h"
 #include "World.h"
 #include "IConfigurable.h"
 #include "ITaggable.h"
@@ -28,6 +28,7 @@ class Object :
         bool m_bInvalid;
 
         void nullify() {
+            m_pWorld = nullptr;
             m_bInvalid = false;
         }
 
@@ -75,7 +76,7 @@ class Object :
             return true;
         }
         virtual void render() const {
-            if(!m_spSprite)
+            if(!m_spSprite || invalid())
                 return;
             m_spSprite->render();
         }

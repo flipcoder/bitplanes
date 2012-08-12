@@ -6,7 +6,7 @@ Object :: Object(const std::string& fn):
     nullify();
     scoped_dtor<Object> dtor(this);
 
-    if(FileSystem::hasExtension(fn,"ini")) // load as properties
+    if(Filesystem::hasExtension(fn,"ini")) // load as properties
     {
         m_spSprite.reset(new Sprite());
 
@@ -15,7 +15,7 @@ Object :: Object(const std::string& fn):
             img != imagelist->cend();
             ++img)
         {
-            m_Images[img->first] = System::get().imageResources().ensure_shared((std::string)"data/gfx/objects/"+img->second);
+            m_Images[img->first] = System::get().imageResources().cache((std::string)"data/gfx/objects/"+img->second);
         }
         //if(properties().getStringValue("images","default",image_path)) {
         //    m_vImages.push_back(System::get().imageResources().ensure_shared(

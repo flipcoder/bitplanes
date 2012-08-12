@@ -9,7 +9,7 @@
 #include "Graphics.h"
 #include "IDepthSortable.h"
 
-class Text : public IDepthSortable, public IRenderable
+class Text : public IDepthSortable, virtual public IRenderable
 {
     private:
         void nullify() {

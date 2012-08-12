@@ -12,7 +12,7 @@ int main(int argc, const char** argv)
         std::cout << e.what() << std::endl;
         return 1;
     }
-    if(System::get().hasError()) {
+    if(System::ptr() && System::get().hasError()) {
         std::cout << System::get().getError() << std::endl;
         return 1;
     }

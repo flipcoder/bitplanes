@@ -4,7 +4,6 @@
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
-#include <allegro5/allegro_acodec.h>
 #include "IFallible.h"
 #include "IStaticInstance.h"
 #include "IStateManager.h"
@@ -36,7 +35,7 @@ class System : public IStaticInstance<System>, public IFallible, public IStateMa
             m_bQuit = false;
             m_bQueued = false;
             m_uiLastAdv = 0;
-            m_Scale = 2;
+            m_Scale = 1;
             m_pDisplay = nullptr;
         }
 

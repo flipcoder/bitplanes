@@ -1,5 +1,6 @@
 #include "Script.h"
-#include "FileSystem.h"
+#include "Filesystem.h"
+#include "Log.h"
 
 Script :: Script(const std::string& fn):
     IConfigurable(fn)
@@ -8,12 +9,12 @@ Script :: Script(const std::string& fn):
     std::string script_fn;
     
     // attempt to get script filename from ini file
-    if(FileSystem::hasExtension(fn,"ini"))
+    if(Filesystem::hasExtension(fn,"ini"))
     {
         properties().getStringValue("default", "script", script_fn);
         if(!script_fn.empty())
         {
-            setError("Could not locate script property in file \"" + fn + "\"");
+            Log::get().error("Could not locate script property in file \"" + fn + "\"");
             throw Failure();
         }
     }
@@ -23,7 +24,7 @@ Script :: Script(const std::string& fn):
     m_Script.open(script_fn);
     if(m_Script.bad())
     {
-        setError("Unable to open script \"" + script_fn + "\"");
+        Log::get().error((std::string)"Unable to open script \"" + script_fn + "\"");
         throw Failure();
     }
     //dtor.resolve();

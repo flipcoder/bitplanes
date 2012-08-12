@@ -5,7 +5,10 @@
 #include <allegro5/allegro_color.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include "Util.h"
+#include "Audio.h"
+#include "Filesystem.h"
 
 System :: System()
 {
@@ -27,12 +30,13 @@ System :: System()
         throw Failure("Could not initialize image addon");
     al_init_font_addon();
     al_init_ttf_addon();
-    al_install_audio();
-    al_init_acodec_addon();
+    
+    Audio::get(new Audio());
+
     if(!al_install_keyboard())
         throw Failure("Could not initialize keyboard");
     if(!al_install_mouse())
-        throw Failure("Could not initialize keyboard");
+        throw Failure("Could not initialize mouse");
     al_hide_mouse_cursor(m_pDisplay);
 
     m_spBuffer.reset(new Image(320, 480));

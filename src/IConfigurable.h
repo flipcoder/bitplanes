@@ -2,7 +2,7 @@
 #define _ICONFIGURABLE_H
 
 #include "PropertyList.h"
-#include "FileSystem.h"
+#include "Filesystem.h"
 
 class IConfigurable
 {
@@ -16,7 +16,7 @@ class IConfigurable
         virtual ~IConfigurable() {}
 
         bool open(const std::string& fn) {
-            if(FileSystem::hasExtension(fn,"ini"))
+            if(Filesystem::hasExtension(fn,"ini"))
                 return m_Properties.open(fn.c_str());
             return false;
         }

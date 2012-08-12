@@ -1,4 +1,4 @@
-#include "FileSystem.h"
+#include "Filesystem.h"
 #include <string>
 #include "Util.h"
 #include <boost/algorithm/string.hpp>
@@ -6,8 +6,7 @@
 #include <boost/filesystem/path.hpp>
 using namespace std;
 
-namespace FileSystem
-{
+namespace Filesystem {
 
 // takes an absolute or relative path and returns the file name (including ext)
 std::string getFileName(const std::string& path)
@@ -63,5 +62,4 @@ bool pathCompare(const std::string& a, const std::string& b)
     //return a==b;
 }
 
-};//namespace FS
-
+};

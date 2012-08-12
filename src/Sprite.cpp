@@ -6,7 +6,7 @@ Sprite :: Sprite(const std::string& fn)
 {
     nullify();
     scoped_dtor<Sprite> dtor(this);
-    setImage(System::get().imageResources().ensure_shared(fn));
+    setImage(System::get().imageResources().cache(fn));
     dtor.resolve();
 }
 
@@ -48,7 +48,7 @@ void Sprite :: render() const
                     j += size().y)
                 {
                     //al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), i, j, 0);
-                    image()->render(Vector2(i,j));
+                    image()->renderAt(Vector2(i,j));
                 }
             //al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), pos().x, pos().y, 0);
         }
@@ -56,7 +56,7 @@ void Sprite :: render() const
         {
             // normal blit
             if(m_vScale == Vector2(1.0f, 1.0f))
-                al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), m_vPos.x, m_vPos.y, 0);
+                image()->renderAt(m_vPos);
             else
             {
                 // scaled blit
