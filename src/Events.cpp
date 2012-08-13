@@ -5,6 +5,7 @@ Events :: Events(ALLEGRO_DISPLAY* display)
 {
     nullify();
     m_pQueue = al_create_event_queue();
+    // past this point, nothing should throw (use scoped_dtor if this isn't the case)
     if(m_pQueue)
     {
         al_register_event_source(m_pQueue, al_get_keyboard_event_source());

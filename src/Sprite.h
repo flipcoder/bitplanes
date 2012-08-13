@@ -101,9 +101,10 @@ class Sprite : public IDepthSortable, public IFallible
         //float h() { return m_pBitmap ? al_get_bitmap_height(m_pBitmap) : 0; }
         std::bitset<MAX_FLAGS>& flags() { return m_bsFlags; }
         const std::bitset<MAX_FLAGS>& flags() const { return m_bsFlags; }
-        Vector2& pos() {
-            return m_vPos;
+        void pos(const Vector2& pos) {
+            m_vPos = pos;
         }
+
         const Vector2& pos() const {
             return m_vPos;
         }

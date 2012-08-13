@@ -41,15 +41,15 @@ class Enemy : public Object, public IOwnable
         }
 
         virtual bool logic(float t) {
-            pos() += (m_vVel - world()->vel()) * t;
+            move((m_vVel - world()->vel()) * t);
             Object::logic(t);
             //if(world()->outsideScreen(shared_from_this())) {
             if(pos().x < -size().x/2.0f) {
                 m_vVel.x = std::fabs(m_vVel.x);
-                pos().x = -size().x/2.0f;
+                pos(Vector2(-size().x/2.0f, pos().y));
             }else if (pos().x > System::get().w()-size().x/2.0f) {
                 m_vVel.x = -std::fabs(m_vVel.x);
-                pos().x = System::get().w()-size().x/2.0f;
+                pos(Vector2(System::get().w()-size().x/2.0f, pos().y));
             }
             if(pos().y < 0.0f && m_vVel.y < 0.0f)
                 invalidate();
@@ -68,16 +68,17 @@ class Enemy : public Object, public IOwnable
             {
                 std::shared_ptr<Object> smoke(new Particle(
                     (std::string)"data/gfx/objects/trailSmoke.png",
-                    Vector2(100.0f * (rand() % 1000) * 0.001f * (rand() % 2 ? 1.0f : -1.0f), 0.0f),
-                    Freq::Time(100))
-                );
-                smoke->pos() = pos() + size()/2.0f - smoke->size()/2.0f;
-                smoke->pos().y = pos().y;
+                    //Vector2(100.0f),
+                    Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f),
+                    Freq::Time(100)
+                ));
+                smoke->pos(pos() + size()/2.0f - smoke->size()/2.0f);
+                smoke->pos(Vector2(smoke->pos().x, pos().y));
                 smoke->sprite().depth(10.0f);
                 world()->add(smoke);
                 m_SmokeTimer.set(Freq::Time(20));
             }
-            
+
             return true;
         }
         virtual void render() const {

@@ -63,8 +63,8 @@ class TitleState : public IState
             if(Events::get().key(ALLEGRO_KEY_F10))
                 return false;
 
-            m_spLogo->pos() = m_TitleDrop.get();
-            m_spText->pos() = m_TextRise.get();
+            m_spLogo->pos(m_TitleDrop.get());
+            m_spText->pos(m_TextRise.get());
 
             if(m_TitleDrop.hasElapsed() && !m_TextFade)
                 m_TextFade = Freq::Timed<float>(Freq::Time(100),0.0f,1.0f);

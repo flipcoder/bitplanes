@@ -72,7 +72,7 @@ class Object :
         virtual ~Object();
         virtual void init() {}
         virtual bool logic(float t) {
-            m_spSprite->pos() = pos();
+            m_spSprite->pos(m_vPos);
             return true;
         }
         virtual void render() const {
@@ -94,7 +94,16 @@ class Object :
         void invalidate(bool b = true) { m_bInvalid = b; }
 
         const Vector2& pos() const { return m_vPos; }
-        Vector2& pos() { return m_vPos; }
+        void pos(const Vector2& pos) {
+            m_vPos = pos;
+            if(m_spSprite)
+                m_spSprite->pos(m_vPos);
+        }
+        void move(const Vector2& rel) {
+            m_vPos += rel;
+            if(m_spSprite)
+                m_spSprite->pos(m_vPos);
+        }
         Vector2 size() const { return sprite().image() ? sprite().image()->size() : Vector2(); }
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }

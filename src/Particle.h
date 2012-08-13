@@ -37,7 +37,7 @@ class Particle : public Object, public IOwnable
         virtual ~Particle() {}
 
         virtual bool logic(float t) {
-            pos() += (m_vVel - world()->vel()) * t;
+            move((m_vVel - world()->vel()) * t);
             if(m_Life) {
                 m_Life->first -= Freq::Time::seconds(t).get();
                 //if(m_Life->first > m_Life->second) {

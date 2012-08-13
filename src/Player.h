@@ -54,7 +54,7 @@ class Player : public Object, public IControllable, public IOwnable
             if(p = dynamic_cast<Particle*>(object.get())) {
                 if(p->owner() == IOwnable::O_ENEMY) {
                     m_Health -= p->damage();
-                    p->invalidate();
+                    //p->invalidate();
                 }
                 return;
             }

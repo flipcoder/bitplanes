@@ -37,7 +37,7 @@ class Text : public IDepthSortable, virtual public IRenderable
         bool visible() const { return m_bVisible; }
         void visible(bool b = true) { m_bVisible = b; }
 
-        Vector2& pos() { return m_vPos; }
+        void pos(const Vector2& v) { m_vPos = v; }
         const Vector2& pos() const { return m_vPos; }
 
         virtual void render() const;

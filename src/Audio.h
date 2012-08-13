@@ -12,13 +12,12 @@ class IAudible
         virtual ~IAudible() {}
 };
 
-class Audio : public IConfigurable, public IStaticInstance<Audio>
+class Audio : public IStaticInstance<Audio>
 {
     private:
         
     public:
-        Audio():
-            IConfigurable("audio.ini")
+        Audio()
         {
             al_install_audio();
             al_init_acodec_addon();

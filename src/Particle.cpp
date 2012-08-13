@@ -17,7 +17,7 @@ void Particle :: collisionEvent(std::shared_ptr<Object>& object) {
                     )
                 );
 
-                impact->pos() = pos() + size()/2.0f - impact->size()/2.0f;
+                impact->pos(pos() + size()/2.0f - impact->size()/2.0f);
                 //impact->sprite().depth(100.0f);
                 world()->add(impact);
                 invalidate();
