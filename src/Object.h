@@ -90,7 +90,7 @@ class Object :
             init();
         }
 
-        bool invalid() const { return m_bInvalid; }\
+        bool invalid() const { return m_bInvalid; }
         void invalidate(bool b = true) { m_bInvalid = b; }
 
         const Vector2& pos() const { return m_vPos; }
