@@ -6,34 +6,50 @@ bool World :: logic(float t)
     // TODO: Add collision checking here for all objects that
     //  obj.collidable()==true
    
-    // locking below is not for thread-safety, just to let objects know world logic is in a loop (see World.add())
+    // locking below is not for thread-safety
+    // it is just to make sure objects added while inside the loop are not called yet
     m_bLocked = true; 
-    for(std::list<std::shared_ptr<Object>>::iterator itr = m_Objects.begin();
+    for(auto itr = m_Objects.begin();
         itr != m_Objects.end();)
     {
         (*itr)->logic(t);
-
-        if((*itr)->invalid()) {
+        if((*itr)->invalid())
+        {
             itr = m_Objects.erase(itr);
             continue;
         }
-        
-        for(std::list<std::shared_ptr<Object>>::iterator jtr = m_Objects.begin();
-            jtr != m_Objects.end();
-            jtr++)
-        {
-            if(*itr == *jtr)
-                continue;
-            if((*itr)->collidable() && (*jtr)->collidable())
-                if(collision(*itr, *jtr))
-                    (*itr)->collisionEvent(*jtr);
-        }
+        ++itr;
+    }
 
-        itr++;
+    for(auto itr = m_Objects.begin();
+        itr != m_Objects.end();
+        ++itr)
+    {
+        // this prevents rechecks
+        auto next_itr = itr;
+        ++next_itr;
+
+        if(next_itr != m_Objects.end())
+            for(auto jtr = next_itr;
+                jtr != m_Objects.end();
+                ++jtr)
+            {
+                //if(*itr == *jtr) // this shouldn't happen anymore
+                //    continue;
+                if((*itr)->collidable() && (*jtr)->collidable())
+                    if(collision(*itr, *jtr))
+                    {
+                        // since we're not rechecking, we'll call both objects' collisionEvents
+                        // TODO: (when needed) add a flag to let collisionEvents
+                        // know which object was called first
+                        (*itr)->collisionEvent(*jtr);
+                        (*jtr)->collisionEvent(*itr);
+                    }
+            }
     }
     m_bLocked = false;
 
-    // move spawners to object list
+    // move spawners (objects added during loop above) to object list
     m_Objects.splice(m_Objects.end(), m_SpawnList);
     return true;
 }
