@@ -2,15 +2,21 @@
 #include "Util.h"
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
-#include "ICloneable.h"
+#include "Script.h"
+#include "IFallible.h"
+//#include "ICloneable.h"
 
-class IScriptable : public ICloneable
+class IScriptable\*: public ICloneable*\
 {
     private:
+
+        Script* m_script; //weak
         
     public:
 
-        IScriptable();
+        IScriptable(Script* script = nullptr);
         virtual ~IScriptable();
+
+        bool connect(Script* script);
 };
 

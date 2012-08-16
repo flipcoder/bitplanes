@@ -51,7 +51,7 @@ std::string getFileNameNoExt(std::string path)
 
 bool hasExtension(const std::string& path, const std::string& ext)
 {
-    return stringEndsWith<std::string>(boost::to_upper_copy(path), boost::to_upper_copy(ext));
+    return stringEndsWith<std::string>(boost::to_lower_copy(path), boost::to_lower_copy(ext));
 }
 
 bool pathCompare(const std::string& a, const std::string& b)

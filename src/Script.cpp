@@ -34,6 +34,8 @@ Script :: Script(const std::string& fn):
     //}
     
     //dtor.resolve();
+
+    
 }
 
 bool Script :: logic(float t)
