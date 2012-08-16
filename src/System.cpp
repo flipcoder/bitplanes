@@ -79,6 +79,7 @@ bool System :: logic()
     }while(true);
 
     m_uiLastAdv = now;
+    Freq::get().logic(adv);
 
     float t = adv * 0.001f;
 

@@ -1,11 +1,14 @@
+#ifndef _ISCRIPTABLE_H
+#define _ISCRIPTABLE_H
+
 #include <iostream>
 #include "Util.h"
 #include <lua.hpp>
 #include <luabind/luabind.hpp>
-#include "Script.h"
 #include "IFallible.h"
 //#include "ICloneable.h"
 
+class Script;
 class IScriptable/*: public ICloneable, public IFallible*/
 {
     private:
@@ -20,3 +23,4 @@ class IScriptable/*: public ICloneable, public IFallible*/
         bool connect(Script* script);
 };
 
+#endif
