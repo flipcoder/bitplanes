@@ -6,7 +6,7 @@
 #include "IFallible.h"
 //#include "ICloneable.h"
 
-class IScriptable\*: public ICloneable*\
+class IScriptable/*: public ICloneable, public IFallible*/
 {
     private:
 
@@ -15,7 +15,7 @@ class IScriptable\*: public ICloneable*\
     public:
 
         IScriptable(Script* script = nullptr);
-        virtual ~IScriptable();
+        virtual ~IScriptable() {}
 
         bool connect(Script* script);
 };

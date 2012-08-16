@@ -16,7 +16,7 @@ class Enemy : public Object, public IOwnable
     private:
         Vector2 m_vVel;
         void nullify() {
-            m_Health = m_MaxHealth = 0;
+            m_Health = m_MaxHealth = properties().getInt("default","health",1);
             //Log::get().write(str("health is ") + str(m_Health));
         }
 
@@ -32,7 +32,6 @@ class Enemy : public Object, public IOwnable
         {
             nullify();
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
-            m_Health = m_MaxHealth = properties().getInt("default","health",1);
             sprite().depth(-50.0f);
             owner(IOwnable::O_ENEMY);
             //dtor.resolve();
@@ -82,9 +81,9 @@ class Enemy : public Object, public IOwnable
 
             return true;
         }
-        //virtual void render() const {
-        //    Object::render();
-        //}
+        virtual void render() const {
+            Object::render();
+        }
 
         // temp velocity methods
         void vel(Vector2 v) { m_vVel = v; }
@@ -98,7 +97,7 @@ class Enemy : public Object, public IOwnable
                 if(p->owner() == IOwnable::O_FRIENDLY) {
                     m_Health -= p->damage();
                     p->invalidate();
-                    m_FlashTimer = Freq::Alarm(Freq::Time(200));
+                    m_FlashTimer = Freq::Alarm(Freq::Time(50));
                     sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
                 }
             }

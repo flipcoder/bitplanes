@@ -4,16 +4,17 @@
 #include "Util.h"
 #include <iostream>
 
+class Failure : public std::runtime_error {
+    public:
+        Failure(): std::runtime_error("Runtime Error") {}
+        Failure(const char* err): std::runtime_error(err) {}
+};
+
 class IFallible
 {
     protected:
 
-        class Failure : public std::runtime_error {
-            public:
-                Failure(): std::runtime_error("Runtime Error") {}
-                Failure(const char* err): std::runtime_error(err) {}
-        };
-
+        
         virtual void setError(const std::string& err){
             m_sError = err;
             std::cout << "Error: " << err << std::endl;

@@ -18,31 +18,19 @@ Script :: Script(const std::string& fn):
             throw Failure();
         }
     }
-    else if (Filesystem::hasExtension(fn, "lua"))
-        script_fn = fn; // use passed in filename as script filename
     else
+        script_fn = fn; // use passed in filename as script filename
+
+    m_Script.open(script_fn);
+    if(m_Script.bad())
     {
-        Log::get().error((std::string)"Unable to locate script \"" + script_fn + "\"");
+        Log::get().error((std::string)"Unable to open script \"" + script_fn + "\"");
         throw Failure();
     }
-
-    //m_Script.open(script_fn);
-    //if(m_Script.bad())
-    //{
-    //    Log::get().error((std::string)"Unable to open script \"" + script_fn + "\"");
-    //    throw Failure();
-    //}
-    
     //dtor.resolve();
 
     
 }
-
-bool Script :: logic(float t)
-{
-    
-}
-        
 
 void Script :: precache()
 {
