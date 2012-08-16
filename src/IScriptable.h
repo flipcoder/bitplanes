@@ -1,9 +1,10 @@
 #include <iostream>
 #include "Util.h"
 #include <lua.hpp>
-#include <luabind>
+#include <luabind/luabind.hpp>
+#include "ICloneable.h"
 
-class IScriptable
+class IScriptable : public ICloneable
 {
     private:
         

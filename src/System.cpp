@@ -77,11 +77,12 @@ bool System :: logic()
             break;
         al_rest(0.001f);
     }while(true);
-
     m_uiLastAdv = now;
 
     float t = adv * 0.001f;
-
+    //
+    // update timer / global time accumulator
+    Freq::get().logic(adv); 
     if(!Events::get().logic(t))
         return false;
     IState* state = currentState();

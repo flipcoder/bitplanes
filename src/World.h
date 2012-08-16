@@ -7,7 +7,8 @@
 #include "Script.h"
 
 class Object;
-class World : public IRealtime
+class World :
+    public IRealtime
 {
     private:
 

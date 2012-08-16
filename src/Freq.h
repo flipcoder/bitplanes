@@ -4,10 +4,44 @@
 #include <iostream>
 #include "IStaticInstance.h"
 #include "math/common.h"
+//#include "IRealtime.h"
 
-class Freq : public IStaticInstance<Freq>
+class Freq : public IStaticInstance<Freq>/*,public IRealtime*/
 {
 public:
+
+    class Accumulator/*: public IRealtime */{
+        private:
+            unsigned long m_ulAccumulatedTime;
+            float m_fSpeed;
+        public:
+            Accumulator():
+                m_ulAccumulatedTime(0L),
+                m_fSpeed(1.0f)
+            {}
+            virtual ~Accumulator() {}
+            virtual unsigned long getElapsedTime() const {
+                return m_ulAccumulatedTime;
+            }
+            /*virtual */void logic(unsigned int a) {
+                m_ulAccumulatedTime += (a*m_fSpeed);
+            }
+            void speed(float s) {
+                m_fSpeed = s;
+            }
+            float speed() const {
+                return m_fSpeed;
+            }
+            unsigned long mark() const {
+                return m_ulAccumulatedTime;
+            }
+            void pause() {
+                m_fSpeed = 0.0f;
+            }
+            void resume(float speed = 1.0f) {
+                m_fSpeed = speed;
+            }
+    };
 
     class Time
     {
@@ -21,9 +55,9 @@ public:
         Time(const Time& t) {
             value = t.get();
         }
-        //static Time seconds(unsigned int s) { return Time(s * 1000);}
+        static Time seconds(unsigned int s) { return Time(s * 1000);}
         static Time seconds(float s) { return Time((unsigned int)(s * 1000.0f)); }
-        //static Time minutes(unsigned int m) { return Time(m * 60000);}
+        static Time minutes(unsigned int m) { return Time(m * 60000);}
         static Time minutes(float m) { return Time((unsigned int)(m * 60000.0f));}
         static Time milleseconds(unsigned int ms) { return Time(ms); }
 
@@ -35,7 +69,8 @@ public:
     {
     protected:
     
-        Freq* m_pTimer;
+        //Freq* m_pTimer;
+        Accumulator* m_pTimer;
         unsigned long m_ulAlarmTime;
         unsigned long m_ulStartTime;
 
@@ -46,36 +81,44 @@ public:
         Alarm():
             m_ulAlarmTime(0L),
             m_ulStartTime(0L),
-            m_pTimer(Freq::ptr())
+            m_pTimer(Freq::get().accumulator())
         {
         }
-        Alarm(Freq* timer):
+
+        explicit Alarm(Accumulator* timer):
             m_ulAlarmTime(0L),
             m_ulStartTime(0L),
             m_pTimer(timer)
         {
         }
-        Alarm(Time t):
-            m_pTimer(Freq::ptr())
+
+        explicit Alarm(Time t):
+            m_pTimer(Freq::get().accumulator())
         {
             set(t);
         }
+
         virtual ~Alarm() {}
         
         bool hasTimer() const { return (m_pTimer!=NULL); }
         
-        void assignToTimer(Freq* timerRef)
+        void assignToTimer(Accumulator* timerRef)
         {
             m_pTimer = timerRef;
         }
         
         void set(Time t)
         {
-            if(m_pTimer)
-            {
-                m_ulStartTime = m_pTimer->getElapsedTime();
-                m_ulAlarmTime = m_ulStartTime+((unsigned long)t.get());
-            }
+            if(!m_pTimer)
+                return;
+            m_ulStartTime = m_pTimer->getElapsedTime();
+            m_ulAlarmTime = m_ulStartTime+((unsigned long)t.get());
+        }
+
+        void delay(Time t) {
+            if(!m_pTimer)
+                return;
+            m_ulAlarmTime += ((unsigned long)t.get());
         }
 
         void setMinutes(unsigned int m)
@@ -155,14 +198,11 @@ public:
         {
             m_Length = Time(0);
         }
-        Timed(const T& val) {
-            clear(val);
-        }
         Timed(Time t, T start, T end) {
             m_Length = Time(t);
             set(t, start, end);
         }
-        explicit Timed(Freq* timer) {
+        explicit Timed(Accumulator* timer) {
             m_Length = Time(0);
             assignToTimer(timer);
         }
@@ -202,6 +242,10 @@ public:
             static_cast<Alarm*>(this)->set(Time(m_Length));
         }
         void shift(T val){
+            //m_Start = m_End = (m_End + val);
+            //m_Length = Time(0);
+            //static_cast<Alarm*>(this)->set(Time(m_Length));
+
             m_Start += val;
             m_End += val;
         }
@@ -215,26 +259,25 @@ public:
         }
     };
 
-    unsigned long getTicks() const;
-
 private:
 
     unsigned long m_ulStartTime;
     unsigned long m_ulTicks;
+    //double m_dTimeBetweenTicks;
     
-    double m_dTimeBetweenTicks;
-    
-    int m_iLogicTickSpeed;
-    
-    bool m_bPaused;
+    Accumulator m_globalAccumulator;
     
 public:
 
-    Freq();
+    Freq():
+        m_ulStartTime(getTicks()),
+        m_ulTicks(0L)
+    {}
     
-    void set(int logicTickSpeed);
+    unsigned long getTicks() const;
     
     unsigned long getElapsedTime() const;
+    unsigned long getAccumulatedTime() const;
     double getElapsedSeconds() const;
     
     unsigned long getElapsedTicks() const;
@@ -243,10 +286,16 @@ public:
     //void pause();
     //void unpause();
     
-    bool tick();
+    //bool tick();
+
+    /* virtual */void logic(unsigned int a) {
+        m_globalAccumulator.logic(a);
+    }
+
+    Accumulator* accumulator() { return &m_globalAccumulator; }
 
     // varies from 0 to 1 based on interval between frames
-    float interp() const;
+    //float interp() const;
 };
 
 #endif
