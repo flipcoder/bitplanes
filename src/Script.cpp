@@ -32,7 +32,7 @@ Script :: Script(const std::string& fn):
     //}
     //dtor.resolve();
 
-    setup_bindings();
+    setupBindings();
 }
 
 void Script :: precache()
