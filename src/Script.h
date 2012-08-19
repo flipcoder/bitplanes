@@ -14,9 +14,13 @@
 class Script : public IFallible, public IConfigurable, public IRealtime
 {
     private:
+
         std::ifstream m_Script;
         std::vector<std::weak_ptr<IScriptable>> m_Hooks;
+        void setupBindings();
+
     public:
+
         Script(const std::string& fn);
         virtual ~Script() {}
 

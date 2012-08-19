@@ -24,3 +24,4 @@ class IScriptable/*: public ICloneable, public IFallible*/
 };
 
 #endif
+

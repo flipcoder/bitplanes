@@ -5,6 +5,7 @@
 #include "IRealtime.h"
 #include "math/vector2.h"
 #include "Script.h"
+#include "Freq.h"
 
 class Object;
 class World : public IRealtime
@@ -43,6 +44,7 @@ class World : public IRealtime
         }
 
         std::shared_ptr<Script> m_spScript;
+        Freq::Accumulator m_WorldTime;
 
         // assumes AABB is overlapping
         bool pixelCollision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const;
