@@ -38,30 +38,25 @@ class World : public IRealtime
         // if world locked, new objects will go to spawn list instead of object list (nothing to do with threads)
         bool m_bLocked;
         Vector2 m_vScrollVel;
-
-        void nullify() {
-            m_bLocked = false;
-        }
-
         std::shared_ptr<Script> m_spScript;
         Freq::Accumulator m_WorldTime;
 
         // assumes AABB is overlapping
         bool pixelCollision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const;
 
+        void nullify() {
+            m_bLocked = false;
+        }
 
     public:
-        World() {
-            nullify();
-        }
+        World();
+        World(const std::string& fn);
+
         virtual ~World() {clear();}
 
         virtual bool logic(float t);
         virtual void render() const;
 
-        bool openScript(const std::string& fn) {
-            
-        }
         bool add(std::shared_ptr<Object>& obj);
         void clear() {
             m_Objects.clear();

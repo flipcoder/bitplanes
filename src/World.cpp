@@ -1,5 +1,19 @@
 #include "World.h"
 #include "Object.h"
+#include "ScriptInterface.h"
+
+World :: World()
+{
+    nullify();
+}
+
+World :: World(const std::string& fn)
+{
+    nullify();
+    m_spScript.reset(new Script(fn));
+    m_spScript->enable(new ScriptInterface(m_spScript.get()));
+}
+
 
 bool World :: logic(float t)
 {
