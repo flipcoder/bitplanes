@@ -15,11 +15,11 @@ Object :: Object(const std::string& fn):
             img != imagelist->cend();
             ++img)
         {
-            m_Images[img->first] = System::get().imageResources().cache((std::string)"data/gfx/objects/"+img->second);
+            m_Images[img->first] = System::get().imageResources().cache((std::string)"data/objects/"+img->second);
         }
         //if(properties().getStringValue("images","default",image_path)) {
         //    m_vImages.push_back(System::get().imageResources().ensure_shared(
-        //        (std::string)"data/gfx/objects/"+image_path));
+        //        (std::string)"data/objects/"+image_path));
         //}
         //else
         //{

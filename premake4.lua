@@ -30,6 +30,15 @@ solution("bitplanes")
             "src/**.h",
             "src/**.cpp"
         }
+
+        configuration { "linux" }
+            includedirs {
+                "/usr/include/lua5.1",
+            }
+        configuration {}
+
+
         configuration { "gmake" }
             buildoptions { "-std=c++0x" }
-
+        configuration {}
+        

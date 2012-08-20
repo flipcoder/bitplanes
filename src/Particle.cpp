@@ -11,7 +11,7 @@ void Particle :: collisionEvent(std::shared_ptr<Object>& object) {
 
                 std::shared_ptr<Object> impact(
                     new Particle(
-                        str("data/gfx/objects/explosionSmall.png"),
+                        str("data/objects/explosionSmall.png"),
                         Vector2(),
                         Freq::Time(250)
                     )

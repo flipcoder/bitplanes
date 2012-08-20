@@ -8,6 +8,7 @@
 #include "IStaticInstance.h"
 #include "IStateManager.h"
 #include "IState.h"
+#include "IContext.h"
 #include "Freq.h"
 #include "Sprite.h"
 #include "Events.h"
@@ -16,7 +17,11 @@
 #include "Image.h"
 #include "ResourceCache.h"
 
-class System : public IStaticInstance<System>, public IFallible, public IStateManager<std::string, IState>
+class System :
+    public IStaticInstance<System>,
+    public IFallible,
+    public IStateManager<std::string, IState>,
+    public IContext
 {
     private:
 

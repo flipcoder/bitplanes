@@ -67,7 +67,7 @@ class Enemy : public Object, public IOwnable
             if(m_SmokeTimer.hasElapsed())
             {
                 std::shared_ptr<Object> smoke(new Particle(
-                    (std::string)"data/gfx/objects/trailSmoke.png",
+                    (std::string)"data/objects/trailSmoke.png",
                     //Vector2(100.0f),
                     Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f),
                     Freq::Time(100)

@@ -28,8 +28,8 @@ class TitleState : public IState
             m_spWorld.reset(new World());
             m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
-            std::shared_ptr<Object> terrain(new Terrain("data/gfx/terrain/forest.png"));
-            m_spLogo.reset(new Object("data/gfx/interface/logo.png"));
+            std::shared_ptr<Object> terrain(new Terrain("data/terrain/forest.png"));
+            m_spLogo.reset(new Object("data/interface/logo.png"));
 
             m_TitleDrop = Freq::Timed<Vector2>(
                 Freq::Time::seconds(1.0f),
