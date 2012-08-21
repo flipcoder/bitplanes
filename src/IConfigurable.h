@@ -8,10 +8,11 @@ class IConfigurable
 {
     private:
         PropertyList m_Properties;
+        bool m_bConfig;
 
     public:
         IConfigurable(const std::string& fn) {
-            open(fn);
+            m_bConfig = open(fn);
         }
         virtual ~IConfigurable() {}
 
@@ -21,6 +22,7 @@ class IConfigurable
             return false;
         }
 
+        bool config() const { return m_bConfig; }
         const PropertyList& properties() const { return m_Properties; }
         PropertyList& properties() { return m_Properties; }
 };

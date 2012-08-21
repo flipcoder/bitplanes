@@ -11,12 +11,13 @@ Object :: Object(const std::string& fn):
         m_spSprite.reset(new Sprite());
 
         PropertyList::Group* imagelist = properties().getGroup("images");
-        for(auto img = imagelist->cbegin();
-            img != imagelist->cend();
-            ++img)
-        {
-            m_Images[img->first] = System::get().imageResources().cache((std::string)"data/objects/"+img->second);
-        }
+        if(imagelist)
+            for(auto img = imagelist->cbegin();
+                img != imagelist->cend();
+                ++img)
+            {
+                m_Images[img->first] = System::get().imageResources().cache((std::string)"data/objects/"+img->second);
+            }
         //if(properties().getStringValue("images","default",image_path)) {
         //    m_vImages.push_back(System::get().imageResources().ensure_shared(
         //        (std::string)"data/objects/"+image_path));

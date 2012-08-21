@@ -29,8 +29,9 @@ bool Player :: logic(float t)
 
     if(Events::get().mouse(0) && m_FireRate.hasElapsed())
     {
-        std::shared_ptr<Object> bullet(new Particle((std::string)"data/objects/bullet.ini", Vector2(0.0f, -500.0f)));
+        std::shared_ptr<Object> bullet(new Particle((std::string)"data/objects/bullet.ini"));
         bullet->pos(pos() + sprite().size()/2.0f - bullet->size()/2.0f);
+        bullet->vel(Vector2(0.0, -500.0f));
         ((Particle*)bullet.get())->collidable(true);
         ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
@@ -38,8 +39,9 @@ bool Player :: logic(float t)
     }
     else if(Events::get().mouse(1) && m_FireRate.hasElapsed())
     {
-        std::shared_ptr<Object> bullet(new Particle((std::string)"data/objects/rocket.ini", Vector2(0.0f, -500.0f)));
+        std::shared_ptr<Object> bullet(new Particle((std::string)"data/objects/rocket.ini"));
         bullet->pos(pos() + sprite().size()/2.0f - bullet->size()/2.0f);
+        bullet->vel(Vector2(0.0, -500.0f));
         ((Particle*)bullet.get())->collidable(true);
         ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
@@ -50,11 +52,11 @@ bool Player :: logic(float t)
     {
         std::shared_ptr<Object> smoke(new Particle(
             (std::string)"data/objects/trailSmoke.png",
-            Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f),
             Freq::Time(100)
         ));
         smoke->pos(pos() + size()/2.0f - smoke->size()/2.0f);
         smoke->pos(Vector2(smoke->pos().x, pos().y + size().y));
+        smoke->vel(Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f));
         smoke->sprite().depth(10.0f);
         world()->add(smoke);
         m_SmokeTimer.set(Freq::Time(20));

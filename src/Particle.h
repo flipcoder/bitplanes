@@ -6,38 +6,36 @@
 #include "Freq.h"
 #include "IOwnable.h"
 #include <boost/optional/optional.hpp>
+#include "IDamaging.h"
 
-class Particle : public Object, public IOwnable
+class Particle : public Object, public IOwnable, public IDamaging, public IScriptable
 {
     private:
 
         bool m_bCollidable;
-        Vector2 m_vVel;
         void nullify() {
             m_bCollidable = false;
         }
 
         boost::optional<std::pair<float,float>> m_Life;
-        int m_Damage;
 
     public:
-        Particle(const std::string& fn, Vector2 vel, boost::optional<Freq::Time> life = boost::optional<Freq::Time>()):
+        Particle(const std::string& fn, boost::optional<Freq::Time> life = boost::optional<Freq::Time>()):
             Object(fn)
         {
             nullify();
             if(life)
                 m_Life = std::pair<float,float>(life->get(),life->get());
-            m_vVel = vel;
             sprite().depth(1.0f);
 
-            m_Damage = properties().getInt("default", "damage", 1);
-            if(m_Damage > 0)
+            damage(properties().getInt("default", "damage", 1));
+            if(damage() > 0)
                 m_bCollidable = true;
         }
         virtual ~Particle() {}
 
         virtual bool logic(float t) {
-            move((m_vVel - world()->vel()) * t);
+            //move((m_vVel - world()->vel()) * t);
             if(m_Life) {
                 m_Life->first -= Freq::Time::seconds(t).get();
                 //if(m_Life->first > m_Life->second) {
@@ -69,9 +67,6 @@ class Particle : public Object, public IOwnable
         virtual void collisionEvent(std::shared_ptr<Object>& object);
 
         const char* type() const { return "particle"; }
-
-        int damage() const { return m_Damage; }
-        void damage(int v) { m_Damage = v; }
 };
 
 #endif

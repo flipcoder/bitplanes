@@ -10,28 +10,28 @@
 #include "Particle.h"
 #include "Log.h"
 #include "Util.h"
+#include "IDamaging.h"
+#include "IDestroyable.h"
+#include "IScriptable.h"
 
-class Enemy : public Object, public IOwnable
+class Enemy : public Object, public IOwnable, public IDamaging, public IDestroyable, public IScriptable
 {
     private:
         Vector2 m_vVel;
         void nullify() {
-            m_Health = m_MaxHealth = 0;
         }
 
         Freq::Alarm m_SmokeTimer;
         boost::optional<Freq::Alarm> m_FlashTimer;
 
-        int m_Health;
-        int m_MaxHealth;
-
     public:
         Enemy(const std::string& fn):
-            Object(fn)
+            Object(fn),
+            IDestroyable(properties().getInt("default","health",1)),
+            IDamaging(properties().getInt("default","damage",1))
         {
             nullify();
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
-            m_Health = m_MaxHealth = properties().getInt("default","health",1);
             sprite().depth(-50.0f);
             owner(IOwnable::O_ENEMY);
             //dtor.resolve();
@@ -41,7 +41,7 @@ class Enemy : public Object, public IOwnable
         }
 
         virtual bool logic(float t) {
-            move((m_vVel - world()->vel()) * t);
+            //move((m_vVel - world()->vel()) * t);
             Object::logic(t);
             //if(world()->outsideScreen(shared_from_this())) {
             if(pos().x < -size().x/2.0f) {
@@ -60,7 +60,7 @@ class Enemy : public Object, public IOwnable
                 sprite().untint();
                 m_FlashTimer = boost::optional<Freq::Alarm>();
 
-                if(m_Health <= 0)
+                if(dead())
                     invalidate();
             }
 
@@ -68,12 +68,11 @@ class Enemy : public Object, public IOwnable
             {
                 std::shared_ptr<Object> smoke(new Particle(
                     (std::string)"data/objects/trailSmoke.png",
-                    //Vector2(100.0f),
-                    Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f),
                     Freq::Time(100)
                 ));
                 smoke->pos(pos() + size()/2.0f - smoke->size()/2.0f);
                 smoke->pos(Vector2(smoke->pos().x, pos().y));
+                smoke->vel(Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f));
                 smoke->sprite().depth(10.0f);
                 world()->add(smoke);
                 m_SmokeTimer.set(Freq::Time(20));
@@ -95,7 +94,7 @@ class Enemy : public Object, public IOwnable
             Particle* p;
             if(p = dynamic_cast<Particle*>(object.get())) {
                 if(p->owner() == IOwnable::O_FRIENDLY) {
-                    m_Health -= p->damage();
+                    hurt(p->damage());
                     p->invalidate();
                     m_FlashTimer = Freq::Alarm(Freq::Time(50));
                     sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));

@@ -7,8 +7,10 @@
 #include "Events.h"
 #include "IOwnable.h"
 #include "Particle.h"
+#include "IDestroyable.h"
+#include "IDamaging.h"
 
-class Player : public Object, public IControllable, public IOwnable
+class Player : public Object, public IControllable, public IOwnable, public IDestroyable, public IDamaging
 {
     private:
 
@@ -27,16 +29,15 @@ class Player : public Object, public IControllable, public IOwnable
         Freq::Alarm m_FireRate;
         Freq::Alarm m_SmokeTimer;
         Freq::Alarm m_BlinkTimer;
-
-        int m_MaxHealth;
-        int m_Health;
-
+        
     public:
-        Player(const std::string& fn):Object(fn) {
+        Player(const std::string& fn):
+            Object(fn),
+            IDestroyable(properties().getInt("default","health",1))
+        {
             nullify();
             owner(IOwnable::O_FRIENDLY);
             //sprite().tint(Color(0.0f,0.0f,0.0f,1.0f));
-            m_Health = m_MaxHealth = properties().getInt("default","health",1);
         }
         virtual ~Player() {}
 
@@ -53,7 +54,7 @@ class Player : public Object, public IControllable, public IOwnable
             Particle* p;
             if(p = dynamic_cast<Particle*>(object.get())) {
                 if(p->owner() == IOwnable::O_ENEMY) {
-                    m_Health -= p->damage();
+                    hurt(p->damage());
                     p->invalidate();
                 }
                 return;

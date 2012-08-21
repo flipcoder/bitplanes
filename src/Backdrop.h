@@ -1,7 +1,11 @@
-#ifndef _TERRAIN_H
-#define _TERRAIN_H
+#ifndef _BACKDROP_H
+#define _BACKDROP_H
+#include "Object.h"
+#include "IScriptable.h"
 
-class Terrain : public Object
+class Backdrop :
+    public Object,
+    public IScriptable
 {
     private:
         //Vector2 m_vVel;
@@ -12,10 +16,10 @@ class Terrain : public Object
         }
 
     public:
-        Terrain(const std::string& fn): Object(fn) {
+        Backdrop(const std::string& fn): Object(fn) {
             nullify();
         }
-        virtual ~Terrain() {}
+        virtual ~Backdrop() {}
         virtual bool logic(float t) {
             move(-world()->vel() * t);
             Object::logic(t);

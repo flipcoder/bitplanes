@@ -6,7 +6,7 @@
 #include "math/vector2.h"
 #include "Script.h"
 #include "Freq.h"
-
+#include "ObjectFactory.h"
 class Object;
 class World : public IRealtime
 {
@@ -34,6 +34,7 @@ class World : public IRealtime
 
         std::list<std::shared_ptr<Object>> m_Objects;
         std::list<std::shared_ptr<Object>> m_SpawnList;
+        std::unique_ptr<ObjectFactory> m_spFactory;
 
         // if world locked, new objects will go to spawn list instead of object list (nothing to do with threads)
         bool m_bLocked;

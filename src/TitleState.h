@@ -2,7 +2,7 @@
 #define _TITLE_STATE_H
 
 #include "Player.h"
-#include "Terrain.h"
+#include "Backdrop.h"
 #include "World.h"
 #include "Text.h"
 
@@ -28,7 +28,7 @@ class TitleState : public IState
             m_spWorld.reset(new World());
             m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
-            std::shared_ptr<Object> terrain(new Terrain("data/terrain/forest.png"));
+            std::shared_ptr<Object> backdrop(new Backdrop("data/backdrops/forest.png"));
             m_spLogo.reset(new Object("data/interface/logo.png"));
 
             m_TitleDrop = Freq::Timed<Vector2>(
@@ -53,7 +53,7 @@ class TitleState : public IState
                 Vector2(System::get().size().x/2.0f, System::get().size().y / 2.0f)
             );
 
-            m_spWorld->add(terrain);
+            m_spWorld->add(backdrop);
             m_spWorld->add(m_spLogo);
         }
         virtual ~TitleState() {}

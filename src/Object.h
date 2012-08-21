@@ -24,6 +24,7 @@ class Object :
         std::shared_ptr<Sprite> m_spSprite;
         std::map<std::string, std::shared_ptr<Image>> m_Images;
         Vector2 m_vPos;
+        Vector2 m_vVel;
         World* m_pWorld; // weak
         bool m_bInvalid;
 
@@ -32,12 +33,9 @@ class Object :
             m_bInvalid = false;
         }
 
-        std::string m_sClass;
-
     protected:
         
-        //const Vector2& vel() const { return m_vVel; }
-        //Vector2& vel() { return m_vVel; }
+        
         //const std::vector<std::shared_ptr<Image>>& images() const { return m_Images; }
         std::map<std::string,std::shared_ptr<Image>>& images() { return m_Images; }
         std::shared_ptr<Image> image(const std::string& s) {
@@ -72,6 +70,7 @@ class Object :
         virtual ~Object();
         virtual void init() {}
         virtual bool logic(float t) {
+            m_vPos += ((m_vVel - world()->vel()) * t);
             m_spSprite->pos(m_vPos);
             return true;
         }
@@ -113,6 +112,9 @@ class Object :
         //virtual bool handlesCollisionEvent() { return false; }
         virtual void collisionEvent(std::shared_ptr<Object>& obj) {}
 
+        const Vector2& vel() const { return m_vVel; }
+        Vector2& vel() { return m_vVel; }
+        void vel(const Vector2& v) { m_vVel = v; }
 };
 
 #endif

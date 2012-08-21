@@ -2,7 +2,7 @@
 #define _GAME_STATE_H
 
 #include "Player.h"
-#include "Terrain.h"
+#include "Backdrop.h"
 #include "World.h"
 #include "Enemy.h"
 
@@ -20,20 +20,20 @@ class GameState : public IState
             m_spWorld.reset(new World("data/maps/forest.lua"));
             m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
-            std::shared_ptr<Object> terrain(new Terrain("data/terrain/forest.png"));
+            //std::shared_ptr<Object> terrain(new Backdrop("data/terrain/forest.png"));
             std::shared_ptr<Object> player(new Player("data/objects/plane1.ini"));
             
-            m_spWorld->add(terrain);
+            //m_spWorld->add(terrain);
             m_spWorld->add(player);
 
-            for(int i=0; i<20; i++)
-            {
-                Enemy* e = new Enemy("data/objects/planeE1.ini");
-                std::shared_ptr<Object> enemy(e);
-                e->pos(Vector2(e->pos().x, i*-100.0f));
-                e->vel(Vector2(i*5.0f + 100.0f, 50.0f));
-                m_spWorld->add(enemy);
-            }
+            //for(int i=0; i<20; i++)
+            //{
+            //    Enemy* e = new Enemy("data/objects/planeE1.ini");
+            //    std::shared_ptr<Object> enemy(e);
+            //    e->pos(Vector2(e->pos().x, i*-100.0f));
+            //    e->vel(Vector2(i*5.0f + 100.0f, 50.0f));
+            //    m_spWorld->add(enemy);
+            //}
             //dtor.resolve();
         }
         //virtual ~GameState() {}
@@ -49,7 +49,7 @@ class GameState : public IState
         virtual void render() const
         {
             m_spWorld->render();
-            //m_spTerrain->render();
+            //m_spBackdrop->render();
             //m_spPlayer->render();
         }
 };

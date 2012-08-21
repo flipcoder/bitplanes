@@ -32,9 +32,9 @@ Script :: Script(const std::string& fn):
     //}
 
     setupBindings();
-    dtor.resolve();
-
     m_TickFreq = 60;
+
+    dtor.resolve();
 }
 
 void Script :: nullify()
@@ -42,6 +42,7 @@ void Script :: nullify()
     m_pState = NULL;
     m_bDone = false;
     m_TickFreq = 0;
+    m_SleepFrames = 0;
 }
 
 void Script :: precache()
@@ -80,7 +81,15 @@ bool Script :: logic(float t)
     if(m_TickTime.mark() < round_int(1000.0f / m_TickFreq))
         return true;
     m_TickTime.reset();
-    
+
+    // need to sleep?
+    if(m_SleepFrames > 0)
+    {
+        // sleep this frame
+        m_SleepFrames -= 1;
+        return true;
+    }
+
     int status = lua_resume(m_pThread, 0);
     if(status != LUA_YIELD)
     {
@@ -96,7 +105,36 @@ bool Script :: logic(float t)
             m_bDone = true;
         }
     }
-
     
+    // figure out how many frames to sleep before resuming script
+    if(lua_isnumber(m_pThread, 1))
+    {
+        m_SleepFrames = round_int(lua_tonumber(m_pThread, 1) - 1.0);
+        if(m_SleepFrames < 0)
+            m_SleepFrames = 0;
+    }
+}
+
+int Script :: call(lua_State* state, std::string func_name)
+{
+    return m_Callbacks[func_name](state);
+}
+
+void Script :: setCallback(const char* name, std::function<int(lua_State*)> func)
+{
+    m_Callbacks[name] = func;
+    lua_pushlightuserdata(m_pState, (void*)this);
+    lua_pushstring(m_pState, name);
+    lua_pushcclosure(m_pState, &Script::callback, 2);
+    lua_setglobal(m_pState, name);
+}
+
+int Script :: callback(lua_State* state)
+{
+    //lua_pushlightuserdata(state, (void*)&s_unique);
+    //lua_gettable(state, LUA_REGISTRYINDEX);
+    Script* script = (Script*)lua_touserdata(state, lua_upvalueindex(1));
+    assert(script);
+    return script->call(state, lua_tostring(state, lua_upvalueindex(2)));
 }
 

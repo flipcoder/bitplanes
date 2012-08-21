@@ -2,11 +2,19 @@
 #define _OBJECTFACTORY_H
 
 #include <memory>
-#include "Object.h"
+class Object;
+class World;
 
-namespace ObjectFactory
+class ObjectFactory
 {
-    std::shared_ptr<Object> create(const std::string& name);
+    private:
+        World* m_pWorld;
+    public:
+        ObjectFactory(World* world):
+            m_pWorld(world)
+        {}
+        virtual ~ObjectFactory() {}
+        std::shared_ptr<Object> create(const std::string& name);
 };
 
 #endif

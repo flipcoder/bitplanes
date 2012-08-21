@@ -12,6 +12,7 @@
 #include <lua.hpp>
 #include <vector>
 #include <memory>
+#include <map>
 #include "Freq.h"
 
 class Script : public IFallible, public IConfigurable, public IRealtime
@@ -20,10 +21,12 @@ class Script : public IFallible, public IConfigurable, public IRealtime
 
         std::ifstream m_Script;
         std::vector<std::unique_ptr<IScriptInterface>> m_Interfaces;
+        std::map<std::string, std::function<int(lua_State*)>> m_Callbacks;
         lua_State* m_pState;
         lua_State* m_pThread;
         std::string m_Filename;
         unsigned int m_TickFreq;
+        int m_SleepFrames;
 
         void nullify();
         void setupBindings();
@@ -52,6 +55,11 @@ class Script : public IFallible, public IConfigurable, public IRealtime
         lua_State* thread() { return m_pThread; }
 
         bool done() const { return m_bDone; }
+
+        void setCallback(const char* name, std::function<int(lua_State*)> func);
+        static int callback(lua_State* state);
+        int call(lua_State* state, std::string func_name);
+
 };
 
 #endif
