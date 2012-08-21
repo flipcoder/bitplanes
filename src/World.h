@@ -38,7 +38,7 @@ class World : public IRealtime
         // if world locked, new objects will go to spawn list instead of object list (nothing to do with threads)
         bool m_bLocked;
         Vector2 m_vScrollVel;
-        std::shared_ptr<Script> m_spScript;
+        std::unique_ptr<Script> m_spScript;
         Freq::Accumulator m_WorldTime;
 
         // assumes AABB is overlapping
@@ -50,7 +50,7 @@ class World : public IRealtime
 
     public:
         World();
-        World(const std::string& fn);
+        explicit World(const std::string& fn);
 
         virtual ~World() {clear();}
 
@@ -71,7 +71,10 @@ class World : public IRealtime
 
         bool outsideScreen(const Box_t& a) const;
         bool outsideScreen(const std::shared_ptr<const Object>& a) const;
-
+        
+        bool done() const {
+            return m_spScript ? m_spScript->done() : false;
+        }
 };
 
 #endif

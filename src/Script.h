@@ -12,6 +12,7 @@
 #include <lua.hpp>
 #include <vector>
 #include <memory>
+#include "Freq.h"
 
 class Script : public IFallible, public IConfigurable, public IRealtime
 {
@@ -20,10 +21,15 @@ class Script : public IFallible, public IConfigurable, public IRealtime
         std::ifstream m_Script;
         std::vector<std::unique_ptr<IScriptInterface>> m_Interfaces;
         lua_State* m_pState;
+        lua_State* m_pThread;
         std::string m_Filename;
 
         void nullify();
         void setupBindings();
+        
+        Freq::Accumulator m_TickTime;
+
+        bool m_bDone;
 
     public:
 
@@ -33,17 +39,18 @@ class Script : public IFallible, public IConfigurable, public IRealtime
                 lua_close(m_pState);
         }
 
-        virtual bool logic(float t) {
-            return true;
-        }
+        virtual bool logic(float t);
 
         bool enable(IScriptInterface* interface);
-        bool run();
+        bool reset();
 
         // Load in resources used by script
         void precache();
 
         lua_State* state() { return m_pState; }
+        lua_State* thread() { return m_pThread; }
+
+        bool done() const { return m_bDone; }
 };
 
 #endif

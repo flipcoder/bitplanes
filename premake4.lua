@@ -24,8 +24,8 @@ solution("bitplanes")
             "allegro_acodec",
             "boost_system",
             "boost_filesystem",
-            "lua",
-            "luabind"
+            "lua"
+            --"luabind"
         }
         files {
             "src/**.h",

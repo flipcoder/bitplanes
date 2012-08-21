@@ -41,6 +41,10 @@ public:
             void resume(float speed = 1.0f) {
                 m_fSpeed = speed;
             }
+            void reset() {
+                m_ulAccumulatedTime = 0L;
+                m_fSpeed = 1.0f;
+            }
     };
 
     class Time

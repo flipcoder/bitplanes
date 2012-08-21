@@ -12,11 +12,18 @@ World :: World(const std::string& fn)
     nullify();
     m_spScript.reset(new Script(fn));
     m_spScript->enable(new ScriptInterface(m_spScript.get()));
+
+    // temp test
+    m_spScript->reset();
 }
 
 
 bool World :: logic(float t)
 {
+    m_WorldTime.logic(t);
+    if(m_spScript)
+        m_spScript->logic(t);
+
     // TODO: Add collision checking here for all objects that
     //  obj.collidable()==true
    

@@ -29,7 +29,7 @@ ifeq ($(config),debug)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += 
-  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua -lluabind
+  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -51,7 +51,7 @@ ifeq ($(config),release)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -s
-  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua -lluabind
+  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -74,6 +74,7 @@ OBJECTS := \
 	$(OBJDIR)/Text.o \
 	$(OBJDIR)/PropertyList.o \
 	$(OBJDIR)/ObjectFactory.o \
+	$(OBJDIR)/Animation.o \
 	$(OBJDIR)/IScriptable.o \
 	$(OBJDIR)/Script.o \
 	$(OBJDIR)/System.o \
@@ -170,6 +171,9 @@ $(OBJDIR)/PropertyList.o: src/PropertyList.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/ObjectFactory.o: src/ObjectFactory.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Animation.o: src/Animation.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/IScriptable.o: src/IScriptable.cpp

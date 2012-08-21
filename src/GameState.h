@@ -17,7 +17,7 @@ class GameState : public IState
         GameState() {
             nullify();
             //scoped_dtor<GameState> dtor(this);
-            m_spWorld.reset(new World());
+            m_spWorld.reset(new World("data/maps/forest.lua"));
             m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
             std::shared_ptr<Object> terrain(new Terrain("data/terrain/forest.png"));
