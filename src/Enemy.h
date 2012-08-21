@@ -31,7 +31,7 @@ class Enemy : public Object, public IOwnable
         {
             nullify();
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
-            properties().getInt("default","health",1);
+            m_Health = m_MaxHealth = properties().getInt("default","health",1);
             sprite().depth(-50.0f);
             owner(IOwnable::O_ENEMY);
             //dtor.resolve();

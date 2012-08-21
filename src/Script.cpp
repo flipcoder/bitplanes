@@ -33,12 +33,15 @@ Script :: Script(const std::string& fn):
 
     setupBindings();
     dtor.resolve();
+
+    m_TickFreq = 60;
 }
 
 void Script :: nullify()
 {
     m_pState = NULL;
     m_bDone = false;
+    m_TickFreq = 0;
 }
 
 void Script :: precache()
@@ -68,18 +71,13 @@ void Script :: setupBindings()
     luaopen_string(m_pState);
     luaopen_math(m_pState);
     //luaopen_libs(m_pState);
-
-    //module(m_pState)
-    //[
-        
-    //];
 }
 
 bool Script :: logic(float t)
 {
     // accumualate time
     m_TickTime.logic(round_int(t*1000.0f));
-    if(m_TickTime.mark() < 1000)
+    if(m_TickTime.mark() < round_int(1000.0f / m_TickFreq))
         return true;
     m_TickTime.reset();
     
@@ -98,5 +96,7 @@ bool Script :: logic(float t)
             m_bDone = true;
         }
     }
+
+    
 }
 

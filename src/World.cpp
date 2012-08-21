@@ -12,8 +12,6 @@ World :: World(const std::string& fn)
     nullify();
     m_spScript.reset(new Script(fn));
     m_spScript->enable(new ScriptInterface(m_spScript.get()));
-
-    // temp test
     m_spScript->reset();
 }
 

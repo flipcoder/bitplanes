@@ -23,6 +23,7 @@ class Script : public IFallible, public IConfigurable, public IRealtime
         lua_State* m_pState;
         lua_State* m_pThread;
         std::string m_Filename;
+        unsigned int m_TickFreq;
 
         void nullify();
         void setupBindings();
