@@ -1,6 +1,7 @@
 #ifndef _ICONFIGURABLE_H
 #define _ICONFIGURABLE_H
 
+#include <boost/filesystem/path.hpp>
 #include "PropertyList.h"
 #include "Filesystem.h"
 #include "System.h"
@@ -10,18 +11,20 @@ class IConfigurable
     private:
         PropertyList m_Properties;
         bool m_bConfig;
+        boost::filesystem::path m_path;
 
     public:
-        IConfigurable(const std::string& fn) {
-            m_bConfig = open(fn);
+        IConfigurable(const std::string& fn, const std::string& path = "") {
+            m_bConfig = open(fn, path);
         }
         virtual ~IConfigurable() {}
 
-        bool open(const std::string& fn) {
+        bool open(const std::string& fn, const std::string& path = "") {
             if(Filesystem::hasExtension(fn,"ini")) {
-                // assume all inis without fullpaths are inside an imageResources path
-                boost::filesystem::path path = System::get().imageResources().resolvePath(fn);
-                return m_Properties.open(path.string().c_str());
+                // TODO: use something broader than imageResources()
+                //  this needs to work for audio paths also (see new path param)
+                m_path = System::get().imageResources().resolvePath(fn);
+                return m_Properties.open(m_path.string().c_str());
             }
             return false;
         }
@@ -29,6 +32,8 @@ class IConfigurable
         bool config() const { return m_bConfig; }
         const PropertyList& properties() const { return m_Properties; }
         PropertyList& properties() { return m_Properties; }
+        
+        boost::filesystem::path path() const { return m_path; }
 };
 
 #endif

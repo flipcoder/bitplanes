@@ -22,12 +22,15 @@ class ScriptInterface : public IScriptInterface
         ObjectFactory* m_pFactory; // weak
 
         std::map<unsigned int, std::weak_ptr<IScriptable>> m_Hooks;
-        std::string test;
     public:
         ScriptInterface(Script* script, ObjectFactory* factory);
         virtual ~ScriptInterface();
         
         // callbacks
+        
+        // TODO: add type-specific spawn()s
+        //  .ini names are getting too similar
+        //  ex: enemy("planeE1")
         int cbSpawnHook(lua_State* state);
         //void cbHook();
         int cbUnhook(lua_State* state);

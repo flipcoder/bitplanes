@@ -1,4 +1,4 @@
-spawn("road")
+spawn("forest")
 i = 0
 while i < 200 do
     local enemy = spawn_hook("planeE1")
