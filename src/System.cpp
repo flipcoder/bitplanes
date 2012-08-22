@@ -54,6 +54,10 @@ System :: System()
     // push default mode
     pushState("title");
 
+    //m_ImageResources.addExtension("png");
+    m_ImageResources.addPath("data/objects/");
+    m_ImageResources.addPath("data/backdrops/");
+
     dtor.resolve();
 }
 

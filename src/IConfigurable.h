@@ -3,6 +3,7 @@
 
 #include "PropertyList.h"
 #include "Filesystem.h"
+#include "System.h"
 
 class IConfigurable
 {
@@ -17,8 +18,11 @@ class IConfigurable
         virtual ~IConfigurable() {}
 
         bool open(const std::string& fn) {
-            if(Filesystem::hasExtension(fn,"ini"))
-                return m_Properties.open(fn.c_str());
+            if(Filesystem::hasExtension(fn,"ini")) {
+                // assume all inis without fullpaths are inside an imageResources path
+                boost::filesystem::path path = System::get().imageResources().resolvePath(fn);
+                return m_Properties.open(path.string().c_str());
+            }
             return false;
         }
 

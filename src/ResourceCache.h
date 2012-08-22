@@ -111,7 +111,7 @@ public:
         // if a path is given, treat it as the actual path, instead of searching
         if(name.find('/') == std::string::npos &&
             name.find('\\') == std::string::npos &&
-            name.find(":") == std::string::npos // ignore path resolution for interfile numbered meshes
+            name.find(":") == std::string::npos // ignore path resolution for interfile resources
             )
         {
             boost::filesystem::path path = resolvePath(name);

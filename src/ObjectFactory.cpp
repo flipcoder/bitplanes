@@ -9,11 +9,16 @@ std::shared_ptr<Object> ObjectFactory :: create(const std::string& name)
     std::unique_ptr<Object> prototype;
     
     PropertyList properties;
-    if(!properties.open(name.c_str()))
+    boost::filesystem::path path = System::get().imageResources().resolvePath(name);
+    if(!properties.open(path.string().c_str())) {
+        assert(false);
         return std::shared_ptr<Object>();
+    }
     std::string type = properties.getString("default", "type", "");
-    if(type.empty())
+    if(type.empty()) {
+        assert(false);
         return std::shared_ptr<Object>();
+    }
 
     try{
         std::shared_ptr<Object> object;
@@ -30,6 +35,7 @@ std::shared_ptr<Object> ObjectFactory :: create(const std::string& name)
         m_pWorld->add(object);
         return object;
     } catch(const Failure& f){
+        assert(false);
     }
 
     // check the type of the object

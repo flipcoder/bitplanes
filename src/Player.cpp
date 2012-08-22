@@ -4,7 +4,7 @@
 
 bool Player :: logic(float t)
 {
-    const float min_turn_vel = 500.0f;
+    const float min_turn_vel = 50.0f;
     const unsigned int turn_frame_time = 100;
 
     Vector2 old_pos = pos();
@@ -29,7 +29,7 @@ bool Player :: logic(float t)
 
     if(Events::get().mouse(0) && m_FireRate.hasElapsed())
     {
-        std::shared_ptr<Object> bullet(new Particle((std::string)"data/objects/bullet.ini"));
+        std::shared_ptr<Object> bullet(new Particle((std::string)"bullet.ini"));
         bullet->pos(pos() + sprite().size()/2.0f - bullet->size()/2.0f);
         bullet->vel(Vector2(0.0, -500.0f));
         ((Particle*)bullet.get())->collidable(true);
@@ -39,7 +39,7 @@ bool Player :: logic(float t)
     }
     else if(Events::get().mouse(1) && m_FireRate.hasElapsed())
     {
-        std::shared_ptr<Object> bullet(new Particle((std::string)"data/objects/rocket.ini"));
+        std::shared_ptr<Object> bullet(new Particle((std::string)"rocket.ini"));
         bullet->pos(pos() + sprite().size()/2.0f - bullet->size()/2.0f);
         bullet->vel(Vector2(0.0, -500.0f));
         ((Particle*)bullet.get())->collidable(true);
@@ -51,7 +51,7 @@ bool Player :: logic(float t)
     if(m_SmokeTimer.hasElapsed())
     {
         std::shared_ptr<Object> smoke(new Particle(
-            (std::string)"data/objects/trailSmoke.png",
+            (std::string)"trailSmoke.png",
             Freq::Time(100)
         ));
         smoke->pos(pos() + size()/2.0f - smoke->size()/2.0f);

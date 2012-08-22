@@ -27,8 +27,9 @@ int ScriptInterface :: cbSpawnHook(lua_State* state)
 {
     std::string name = luaL_checkstring(state, 1);
     std::shared_ptr<Object> object;
-    if(!(object = m_pFactory->create("data/objects/" + name + ".ini")))
-        object = m_pFactory->create("data/backdrops/" + name + ".ini");
+    //if(!(object = m_pFactory->create("data/objects/" + name + ".ini")))
+    //    object = m_pFactory->create("data/backdrops/" + name + ".ini");
+    object = m_pFactory->create(name + ".ini");
     int i = -1;
     assert(object);
     if(object)
@@ -56,8 +57,7 @@ int ScriptInterface :: cbSpawn(lua_State* state)
 {
     std::string name = luaL_checkstring(state, 1);
     // TODO: keep scripts from accessing filesystem outside of data folder
-    if(!m_pFactory->create("data/objects/" + name + ".ini"))
-        m_pFactory->create("data/backdrops/" + name + ".ini");
+    m_pFactory->create(name + ".ini");
     return 0;
 }
 

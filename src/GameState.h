@@ -21,7 +21,7 @@ class GameState : public IState
             m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
             //std::shared_ptr<Object> terrain(new Backdrop("data/terrain/forest.png"));
-            std::shared_ptr<Object> player(new Player("data/objects/plane1.ini"));
+            std::shared_ptr<Object> player(new Player("plane1.ini"));
             
             //m_spWorld->add(terrain);
             m_spWorld->add(player);

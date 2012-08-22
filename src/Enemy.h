@@ -67,7 +67,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             if(m_SmokeTimer.hasElapsed())
             {
                 std::shared_ptr<Object> smoke(new Particle(
-                    (std::string)"data/objects/trailSmoke.png",
+                    (std::string)"trailSmoke.png",
                     Freq::Time(100)
                 ));
                 smoke->pos(pos() + size()/2.0f - smoke->size()/2.0f);
