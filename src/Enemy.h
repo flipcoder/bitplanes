@@ -31,7 +31,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
         {
             nullify();
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
-            sprite().depth(-50.0f);
+            sprite().depth(properties().getFloat("default", "depth", -50.0f));
             owner(IOwnable::O_ENEMY);
 
             /// start centered, above screen by default
