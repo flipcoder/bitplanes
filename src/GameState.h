@@ -44,6 +44,10 @@ class GameState : public IState
                 return false;
             
             m_spWorld->logic(t);
+            
+            //if(m_spWorld->done())
+            //    return false;
+
             return true;
         }
         virtual void render() const

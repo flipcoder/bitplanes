@@ -1,6 +1,7 @@
 
 #include "PropertyList.h"
 #include <fstream>
+#include <cassert>
 //#include <iostream>
 #include <sstream>
 using namespace std;
@@ -158,8 +159,10 @@ float PropertyList :: stringToFloat(const std::string& s) const
 {
     std::istringstream iss(s);
     float f;
-    if((iss >> f).fail())
+    if((iss >> f).fail()) {
+        assert(false);
         return 0.0f;
+    }
     return f;
 }
 

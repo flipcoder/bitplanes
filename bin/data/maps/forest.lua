@@ -1,8 +1,10 @@
-spawn("forest")
-while true do
+spawn("road")
+i = 0
+while i < 200 do
     local enemy = spawn_hook("planeE1")
-    pos(enemy, 300.0, -200.0)
-    vel(enemy, 0.0, 100.0)
+    i = i + 20
+    local x, y = pos()
+    pos(enemy, i, y)
     unhook(enemy)
     coroutine.yield(30)
 end

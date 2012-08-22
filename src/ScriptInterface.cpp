@@ -16,6 +16,7 @@ ScriptInterface :: ScriptInterface(Script* script, ObjectFactory* factory)
     m_pScript->setCallback("unhook", std::bind(&ScriptInterface::cbUnhook, this, std::placeholders::_1));
     m_pScript->setCallback("pos", std::bind(&ScriptInterface::cbPosition, this, std::placeholders::_1));
     m_pScript->setCallback("vel", std::bind(&ScriptInterface::cbVelocity, this, std::placeholders::_1));
+    m_pScript->setCallback("depth", std::bind(&ScriptInterface::cbDepth, this, std::placeholders::_1));
 }
 
 ScriptInterface :: ~ScriptInterface()
@@ -72,7 +73,7 @@ int ScriptInterface :: cbPosition(lua_State* state)
 {
     std::shared_ptr<IScriptable> scriptable(m_Hooks[round_int(lua_tonumber(state,1))]);
     Object* o = dynamic_cast<Object*>(scriptable.get());
-    if(lua_gettop(state) == 3)
+    if(lua_gettop(state) == 1)
     {
         lua_pushnumber(state, o->pos().x);
         lua_pushnumber(state, o->pos().y);
@@ -85,9 +86,8 @@ int ScriptInterface :: cbPosition(lua_State* state)
 int ScriptInterface :: cbVelocity(lua_State* state)
 {
     std::shared_ptr<IScriptable> scriptable(m_Hooks[round_int(lua_tonumber(state, 1))]);
-
     Object* o = dynamic_cast<Object*>(scriptable.get());
-    if(lua_gettop(state) == 3)
+    if(lua_gettop(state) == 1)
     {
         lua_pushnumber(state, o->vel().x);
         lua_pushnumber(state, o->vel().y);
@@ -96,4 +96,18 @@ int ScriptInterface :: cbVelocity(lua_State* state)
     o->vel(Vector2((float)lua_tonumber(state, 2), (float)lua_tonumber(state, 3)));
     return 0;
 }
+
+int ScriptInterface :: cbDepth(lua_State* state)
+{
+    std::shared_ptr<IScriptable> scriptable(m_Hooks[round_int(lua_tonumber(state, 1))]);
+    IDepthSortable* o = dynamic_cast<IDepthSortable*>(scriptable.get());
+    if(lua_gettop(state) == 1)
+    {
+        lua_pushnumber(state, o->depth());
+        return 1;
+    }
+    o->depth((float)lua_tonumber(state, 2));
+    return 0;
+}
+
 

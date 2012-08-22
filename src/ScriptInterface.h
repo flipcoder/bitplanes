@@ -34,6 +34,7 @@ class ScriptInterface : public IScriptInterface
         int cbSpawn(lua_State* state);
         int cbPosition(lua_State* state);
         int cbVelocity(lua_State* state);
+        int cbDepth(lua_State* state);
 
         std::shared_ptr<IScriptable> hook(unsigned int id) { 
             std::map<unsigned int, std::weak_ptr<IScriptable>>::iterator itr = m_Hooks.find(id);

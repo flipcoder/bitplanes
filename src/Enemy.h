@@ -17,7 +17,6 @@
 class Enemy : public Object, public IOwnable, public IDamaging, public IDestroyable, public IScriptable
 {
     private:
-        Vector2 m_vVel;
         void nullify() {
         }
 
@@ -34,6 +33,15 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
             sprite().depth(-50.0f);
             owner(IOwnable::O_ENEMY);
+
+            /// start centered, above screen by default
+            pos(Vector2(System::get().w()/2.0f - size().x/2.0f, -size().y));
+
+            // set default speed from config file
+            float speed;
+            if(properties().getFloatValue("default", "speed", speed)) {
+                vel(Vector2(vel().x, speed));
+            }
             //dtor.resolve();
         }
         virtual ~Enemy() {
@@ -45,13 +53,14 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             Object::logic(t);
             //if(world()->outsideScreen(shared_from_this())) {
             if(pos().x < -size().x/2.0f) {
-                m_vVel.x = std::fabs(m_vVel.x);
+                vel(Vector2(std::fabs(vel().x), vel().y));
                 pos(Vector2(-size().x/2.0f, pos().y));
             }else if (pos().x > System::get().w()-size().x/2.0f) {
-                m_vVel.x = -std::fabs(m_vVel.x);
+                vel(Vector2(-std::fabs(vel().x), vel().y));
                 pos(Vector2(System::get().w()-size().x/2.0f, pos().y));
             }
-            if(pos().y < 0.0f && m_vVel.y < 0.0f)
+
+            if(pos().y < 0.0f && vel().y < 0.0f)
                 invalidate();
             if(pos().y > System::get().h())
                 invalidate();
@@ -83,11 +92,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
         //virtual void render() const {
         //    Object::render();
         //}
-
-        // temp velocity methods
-        void vel(Vector2 v) { m_vVel = v; }
-        const Vector2& vel() const { return m_vVel; }
-
+        
         virtual bool solid() const { return true; }
         virtual bool collidable() const { return true; }
         virtual void collisionEvent(std::shared_ptr<Object>& object) {
