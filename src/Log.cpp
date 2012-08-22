@@ -11,7 +11,7 @@ const std::string LOG_FILE = "log.txt";
 Log::Log()
 {
     m_cbLog.set_capacity(LOG_LENGTH);
-    m_bStdOut = false;
+    m_bStdOut = true;
     m_LogFile.open(LOG_FILE, ios_base::trunc);
 }
 

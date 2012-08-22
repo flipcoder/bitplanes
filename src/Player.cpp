@@ -1,11 +1,18 @@
 #include "Player.h"
 #include "Freq.h"
 #include "Particle.h"
+#include "Log.h"
 
 bool Player :: logic(float t)
 {
     const float min_turn_vel = 50.0f;
     const unsigned int turn_frame_time = 100;
+    
+    if(dead())
+    {
+        invalidate();
+        return true;
+    }
 
     Vector2 old_pos = pos();
     pos((Events::get().mousePos() / System::get().scale()) - sprite().size()/2.0f);
@@ -64,5 +71,20 @@ bool Player :: logic(float t)
 
     Object::logic(t);
     return true;
+}
+
+void Player :: collisionEvent(std::shared_ptr<Object>& object)
+{
+    //Particle* p;
+    //if(p = dynamic_cast<Particle*>(object.get()))
+    //    if(p->owner() == IOwnable::O_ENEMY)
+    //        hurt(p->damage());
+
+    IDamaging* d;
+    if(d = dynamic_cast<IDamaging*>(object.get())) {
+        IOwnable* o = dynamic_cast<IOwnable*>(object.get());
+        if(owner() && o->owner() && owner() != o->owner())
+            hurt(d->damage());
+    }
 }
 

@@ -21,14 +21,14 @@ class Particle : public Object, public IOwnable, public IDamaging, public IScrip
 
     public:
         Particle(const std::string& fn, boost::optional<Freq::Time> life = boost::optional<Freq::Time>()):
-            Object(fn)
+            Object(fn),
+            IDamaging(properties().getInt("default", "damage", 0))
         {
             nullify();
             if(life)
                 m_Life = std::pair<float,float>(life->get(),life->get());
             sprite().depth(1.0f);
 
-            damage(properties().getInt("default", "damage", 1));
             if(damage() > 0)
                 m_bCollidable = true;
         }

@@ -118,6 +118,7 @@
 		<ClInclude Include="src\Events.h" />
 		<ClInclude Include="src\World.h" />
 		<ClInclude Include="src\IConfigurable.h" />
+		<ClInclude Include="src\Item.h" />
 		<ClInclude Include="src\ObjectFactory.h" />
 		<ClInclude Include="src\IDamaging.h" />
 		<ClInclude Include="src\IOwnable.h" />

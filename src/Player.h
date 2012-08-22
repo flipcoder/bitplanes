@@ -33,7 +33,8 @@ class Player : public Object, public IControllable, public IOwnable, public IDes
     public:
         Player(const std::string& fn):
             Object(fn),
-            IDestroyable(properties().getInt("default","health",1))
+            IDestroyable(properties().getInt("default","health",1)),
+            IDamaging(properties().getInt("default","damage",1))
         {
             nullify();
             owner(IOwnable::O_FRIENDLY);
@@ -50,21 +51,8 @@ class Player : public Object, public IControllable, public IOwnable, public IDes
 
         virtual bool solid() const { return true; }
         virtual bool collidable() const { return true; }
-        virtual void collisionEvent(std::shared_ptr<Object>& object) {
-            Particle* p;
-            if(p = dynamic_cast<Particle*>(object.get())) {
-                if(p->owner() == IOwnable::O_ENEMY) {
-                    hurt(p->damage());
-                    p->invalidate();
-                }
-                return;
-            }
-            //Enemy* e;
-            //if(e = dynamic_cast<Enemy*>(object.get())) {
-            //    m_Health -= e->health();
-            //    return;
-            //}
-        }
+
+        virtual void collisionEvent(std::shared_ptr<Object>& object);
 };
 
 #endif

@@ -51,6 +51,10 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
         virtual bool logic(float t) {
             //move((m_vVel - world()->vel()) * t);
             Object::logic(t);
+            
+            if(dead())
+                invalidate();
+
             //if(world()->outsideScreen(shared_from_this())) {
             if(pos().x < -size().x/2.0f) {
                 vel(Vector2(std::fabs(vel().x), vel().y));
@@ -96,11 +100,20 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
         virtual bool solid() const { return true; }
         virtual bool collidable() const { return true; }
         virtual void collisionEvent(std::shared_ptr<Object>& object) {
-            Particle* p;
-            if(p = dynamic_cast<Particle*>(object.get())) {
-                if(p->owner() == IOwnable::O_FRIENDLY) {
-                    hurt(p->damage());
-                    p->invalidate();
+            //Particle* p;
+            //if(p = dynamic_cast<Particle*>(object.get())) {
+            //    if(p->owner() == IOwnable::O_FRIENDLY) {
+            //        hurt(p->damage());
+            //        p->invalidate();
+            //        m_FlashTimer = Freq::Alarm(Freq::Time(50));
+            //        sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
+            //    }
+            //}
+            IDamaging* d;
+            if(d = dynamic_cast<IDamaging*>(object.get())) {
+                IOwnable* o = dynamic_cast<IOwnable*>(object.get());
+                if(o->owner() == IOwnable::O_FRIENDLY) {
+                    hurt(d->damage());
                     m_FlashTimer = Freq::Alarm(Freq::Time(50));
                     sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
                 }
