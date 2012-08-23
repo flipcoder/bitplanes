@@ -40,7 +40,7 @@ class System :
             m_bQuit = false;
             m_bQueued = false;
             m_uiLastAdv = 0;
-            m_Scale = 1;
+            m_Scale = 2;
             m_pDisplay = nullptr;
         }
 

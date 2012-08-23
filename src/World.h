@@ -58,7 +58,7 @@ class World : public IRealtime
         virtual bool logic(float t);
         virtual void render() const;
 
-        bool add(std::shared_ptr<Object>& obj);
+        bool add(std::shared_ptr<Object> obj);
         void clear() {
             m_Objects.clear();
         }

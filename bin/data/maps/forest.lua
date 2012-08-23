@@ -1,4 +1,4 @@
-spawn("forest")
+spawn("road")
 i = 0
 
 while i < 320 do

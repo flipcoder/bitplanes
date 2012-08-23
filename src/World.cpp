@@ -79,7 +79,7 @@ void World :: render() const
         obj->render();
 }
 
-bool World :: add(std::shared_ptr<Object>& obj) {
+bool World :: add(std::shared_ptr<Object> obj) {
     //if(m_Objects.find(obj) != m_Objects.end())
     //    return false;
     //if(m_SpawnList.find(obj) != m_SpawnList.end())
