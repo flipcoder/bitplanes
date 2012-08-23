@@ -93,6 +93,10 @@ class Object :
         void invalidate(bool b = true) { m_bInvalid = b; }
 
         const Vector2& pos() const { return m_vPos; }
+
+        void pos(float x, float y) {
+            m_vPos = Vector2(x,y);
+        }
         void pos(const Vector2& pos) {
             m_vPos = pos;
             if(m_spSprite)

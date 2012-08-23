@@ -16,6 +16,16 @@ bool Player :: logic(float t)
 
     Vector2 old_pos = pos();
     pos((Events::get().mousePos() / System::get().scale()) - sprite().size()/2.0f);
+    
+    // bounds just in case (tiled window managers can screw this up)
+    if(pos().x < -sprite().size().x/1.0f)
+        pos(-sprite().size().x/2.0f, pos().y);
+    if(pos().y < -sprite().size().y/2.0f)
+        pos(pos().x, -sprite().size().y/2.0f);
+    if(pos().x > System::get().w() - sprite().size().x/2.0f)
+        pos(System::get().w() - sprite().size().x/2.0f, pos().y);
+    if(pos().y > System::get().h() - sprite().size().y/2.0f)
+        pos(pos().x, System::get().h() - sprite().size().y/2.0f);
 
     float xvel = (pos().x - old_pos.x) / t; // t will never be 0
     if(xvel > min_turn_vel)
