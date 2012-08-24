@@ -34,14 +34,14 @@ class Particle : public Object, public IOwnable, public IDamaging, public IScrip
         }
         virtual ~Particle() {}
 
-        virtual bool logic(float t) {
+        virtual void logic(float t) {
             //move((m_vVel - world()->vel()) * t);
             if(m_Life) {
                 m_Life->first -= Freq::Time::seconds(t).get();
                 //if(m_Life->first > m_Life->second) {
                 if(m_Life->first <= 0.0f) {
                     invalidate();
-                    return true;
+                    return;
                 }
 
                 //if(!sprite().tint())
@@ -53,8 +53,6 @@ class Particle : public Object, public IOwnable, public IDamaging, public IScrip
             Object::logic(t);
             if(world()->outsideScreen(shared_from_this()))
                 invalidate();
-
-            return true;
         }
         virtual void render() const {
             Object::render();

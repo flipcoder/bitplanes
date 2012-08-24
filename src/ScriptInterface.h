@@ -12,6 +12,7 @@
 
 class ObjectFactory;
 class Script;
+class World;
 
 class ScriptInterface : public IScriptInterface
 {
@@ -20,10 +21,11 @@ class ScriptInterface : public IScriptInterface
         lua_State* m_pState; // weak
         lua_State* m_pThread; // weak
         ObjectFactory* m_pFactory; // weak
+        World* m_pWorld; //weak
 
         std::map<unsigned int, std::weak_ptr<IScriptable>> m_Hooks;
     public:
-        ScriptInterface(Script* script, ObjectFactory* factory);
+        ScriptInterface(Script* script, World* world, ObjectFactory* factory);
         virtual ~ScriptInterface();
         
         // callbacks
@@ -37,7 +39,8 @@ class ScriptInterface : public IScriptInterface
         int cbSpawn(lua_State* state);
         int cbPosition(lua_State* state);
         int cbVelocity(lua_State* state);
-        int cbDepth(lua_State* state);
+        //int cbDepth(lua_State* state);
+        int cbClear(lua_State* state);
 
         std::shared_ptr<IScriptable> hook(unsigned int id) { 
             std::map<unsigned int, std::weak_ptr<IScriptable>>::iterator itr = m_Hooks.find(id);

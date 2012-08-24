@@ -25,19 +25,19 @@ class GameState : public IState
         }
         //virtual ~GameState() {}
 
-        virtual bool logic(float t)
+        virtual void logic(float t)
         {
-            if(Events::get().key(ALLEGRO_KEY_F10))
-                return false;
+            if(Events::get().key(ALLEGRO_KEY_F10)) {
+                System::get().quit();
+                return;
+            }
             
             m_spWorld->logic(t);
             
             if(m_spWorld->done())
-                return false;
+                System::get().swapState("title");
             if(m_spPlayer->invalid())
-                System::get().swapState("game"); // restart
-
-            return true;
+                System::get().swapState("title");
         }
         virtual void render() const
         {

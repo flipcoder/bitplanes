@@ -1,14 +1,16 @@
 #include "ScriptInterface.h"
 #include "Script.h"
 #include "Object.h"
+#include "World.h"
 
-ScriptInterface :: ScriptInterface(Script* script, ObjectFactory* factory)
+ScriptInterface :: ScriptInterface(Script* script, World* world, ObjectFactory* factory)
 {
     assert(script);
 
     m_pScript = script;
     m_pState = script->state();
     m_pThread = script->thread();
+    m_pWorld = world;
     m_pFactory = factory;
 
     m_pScript->setCallback("spawn", std::bind(&ScriptInterface::cbSpawn, this, std::placeholders::_1));
@@ -16,7 +18,7 @@ ScriptInterface :: ScriptInterface(Script* script, ObjectFactory* factory)
     m_pScript->setCallback("unhook", std::bind(&ScriptInterface::cbUnhook, this, std::placeholders::_1));
     m_pScript->setCallback("pos", std::bind(&ScriptInterface::cbPosition, this, std::placeholders::_1));
     m_pScript->setCallback("vel", std::bind(&ScriptInterface::cbVelocity, this, std::placeholders::_1));
-    m_pScript->setCallback("depth", std::bind(&ScriptInterface::cbDepth, this, std::placeholders::_1));
+    m_pScript->setCallback("clear", std::bind(&ScriptInterface::cbClear, this, std::placeholders::_1));
 }
 
 ScriptInterface :: ~ScriptInterface()
@@ -97,17 +99,25 @@ int ScriptInterface :: cbVelocity(lua_State* state)
     return 0;
 }
 
-int ScriptInterface :: cbDepth(lua_State* state)
+int ScriptInterface :: cbClear(lua_State* state)
 {
-    std::shared_ptr<IScriptable> scriptable(m_Hooks[round_int(lua_tonumber(state, 1))]);
-    IDepthSortable* o = dynamic_cast<IDepthSortable*>(scriptable.get());
-    if(lua_gettop(state) == 1)
-    {
-        lua_pushnumber(state, o->depth());
-        return 1;
-    }
-    o->depth((float)lua_tonumber(state, 2));
-    return 0;
+    lua_pushboolean(state, m_pWorld->hasEnemies() ? 0 : 1);
+    return 1;
 }
+
+
+// this action doesn't work, objects aren't depthsortable, only sprites are
+//int ScriptInterface :: cbDepth(lua_State* state)
+//{
+//    std::shared_ptr<IScriptable> scriptable(m_Hooks[round_int(lua_tonumber(state, 1))]);
+//    IDepthSortable* o = dynamic_cast<IDepthSortable*>(scriptable.get());
+//    if(lua_gettop(state) == 1)
+//    {
+//        lua_pushnumber(state, o->depth());
+//        return 1;
+//    }
+//    o->depth((float)lua_tonumber(state, 2));
+//    return 0;
+//}
 
 

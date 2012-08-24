@@ -3,7 +3,7 @@
 #include "Particle.h"
 #include "Log.h"
 
-bool Player :: logic(float t)
+void Player :: logic(float t)
 {
     const float min_turn_vel = 50.0f;
     const unsigned int turn_frame_time = 100;
@@ -11,7 +11,7 @@ bool Player :: logic(float t)
     if(dead())
     {
         invalidate();
-        return true;
+        return;
     }
 
     Vector2 old_pos = pos();
@@ -79,8 +79,17 @@ bool Player :: logic(float t)
         m_SmokeTimer.set(Freq::Time(20));
     }
 
+    if(!m_BlinkTimer.hasElapsed() && m_BlinkTimer.remainingTime()/50 % 2)
+        sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
+    else
+        sprite().untint();
+
     Object::logic(t);
-    return true;
+}
+
+void Player :: render() const
+{
+    Object::render();
 }
 
 void Player :: collisionEvent(std::shared_ptr<Object>& object)
@@ -90,11 +99,17 @@ void Player :: collisionEvent(std::shared_ptr<Object>& object)
     //    if(p->owner() == IOwnable::O_ENEMY)
     //        hurt(p->damage());
 
+    if(!object->collidable())
+        return;
+
     IDamaging* d;
-    if(d = dynamic_cast<IDamaging*>(object.get())) {
-        IOwnable* o = dynamic_cast<IOwnable*>(object.get());
-        if(owner() && o->owner() && owner() != o->owner())
-            hurt(d->damage());
-    }
+    if(m_BlinkTimer.hasElapsed())
+        if(d = dynamic_cast<IDamaging*>(object.get())) {
+            IOwnable* o = dynamic_cast<IOwnable*>(object.get());
+            if(owner() && o->owner() && owner() != o->owner()) {
+                m_BlinkTimer.set(Freq::Time(800));
+                hurt(d->damage());
+            } 
+        }
 }
 

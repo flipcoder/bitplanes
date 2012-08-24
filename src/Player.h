@@ -44,13 +44,11 @@ class Player : public Object, public IControllable, public IOwnable, public IDes
 
         const char* type() const { return "player"; }
 
-        virtual bool logic(float t);
-        virtual void render() const {
-            Object::render();
-        }
-
+        virtual void logic(float t);
+        virtual void render() const;
+        
         virtual bool solid() const { return true; }
-        virtual bool collidable() const { return true; }
+        virtual bool collidable() const { return m_BlinkTimer.hasElapsed(); }
 
         virtual void collisionEvent(std::shared_ptr<Object>& object);
 };

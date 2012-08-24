@@ -9,6 +9,7 @@
 #include "IConfigurable.h"
 #include "ITaggable.h"
 #include "IType.h"
+#include "IMovable.h"
 
 class Object :
     public std::enable_shared_from_this<Object>,
@@ -17,14 +18,13 @@ class Object :
     public IRenderable,
     public IConfigurable,
     public ITaggable,
-    public IType
+    public IType,
+    virtual public IMovable
 {
     private:
 
         std::shared_ptr<Sprite> m_spSprite;
         std::map<std::string, std::shared_ptr<Image>> m_Images;
-        Vector2 m_vPos;
-        Vector2 m_vVel;
         World* m_pWorld; // weak
         bool m_bInvalid;
 
@@ -69,10 +69,8 @@ class Object :
         Object(const std::string& fn);
         virtual ~Object();
         virtual void init() {}
-        virtual bool logic(float t) {
-            m_vPos += ((m_vVel - world()->vel()) * t);
-            m_spSprite->pos(m_vPos);
-            return true;
+        virtual void logic(float t) {
+            move((vel() - world()->vel()) * t);
         }
         virtual void render() const {
             if(!m_spSprite || invalid())
@@ -92,21 +90,6 @@ class Object :
         bool invalid() const { return m_bInvalid; }
         void invalidate(bool b = true) { m_bInvalid = b; }
 
-        const Vector2& pos() const { return m_vPos; }
-
-        void pos(float x, float y) {
-            m_vPos = Vector2(x,y);
-        }
-        void pos(const Vector2& pos) {
-            m_vPos = pos;
-            if(m_spSprite)
-                m_spSprite->pos(m_vPos);
-        }
-        void move(const Vector2& rel) {
-            m_vPos += rel;
-            if(m_spSprite)
-                m_spSprite->pos(m_vPos);
-        }
         Vector2 size() const { return sprite().image() ? sprite().image()->size() : Vector2(); }
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }
@@ -115,10 +98,10 @@ class Object :
         virtual bool collidable() const { return false; }
         //virtual bool handlesCollisionEvent() { return false; }
         virtual void collisionEvent(std::shared_ptr<Object>& obj) {}
-
-        const Vector2& vel() const { return m_vVel; }
-        Vector2& vel() { return m_vVel; }
-        void vel(const Vector2& v) { m_vVel = v; }
+        
+        void updateSprite() {
+            m_spSprite->pos(pos());
+        }
 };
 
 #endif

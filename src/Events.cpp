@@ -14,7 +14,7 @@ Events :: Events(ALLEGRO_DISPLAY* display)
     }
 }
 
-bool Events :: logic(float advance)
+void Events :: logic(float t)
 {
     ALLEGRO_EVENT event;
     while(al_get_next_event(m_pQueue, &event))
@@ -22,7 +22,8 @@ bool Events :: logic(float advance)
         switch(event.type)
         {
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                return false;
+                System::get().quit();
+                return;
 
             case ALLEGRO_EVENT_KEY_DOWN:
                 m_bKey[event.keyboard.keycode] = true;
@@ -46,7 +47,6 @@ bool Events :: logic(float advance)
                 break;
         }
     }
-    return true;
 }
 
 Events :: ~Events()

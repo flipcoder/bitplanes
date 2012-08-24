@@ -43,7 +43,7 @@ class Script : public IFallible, public IConfigurable, public IRealtime
                 lua_close(m_pState);
         }
 
-        virtual bool logic(float t);
+        virtual void logic(float t);
 
         bool enable(IScriptInterface* interface);
         bool reset();

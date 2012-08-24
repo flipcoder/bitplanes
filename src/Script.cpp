@@ -74,12 +74,12 @@ void Script :: setupBindings()
     //luaopen_libs(m_pState);
 }
 
-bool Script :: logic(float t)
+void Script :: logic(float t)
 {
     // accumualate time
     m_TickTime.logic(round_int(t*1000.0f));
     if(m_TickTime.mark() < round_int(1000.0f / m_TickFreq))
-        return true;
+        return;
     m_TickTime.reset();
 
     // need to sleep?
@@ -87,7 +87,7 @@ bool Script :: logic(float t)
     {
         // sleep this frame
         m_SleepFrames -= 1;
-        return true;
+        return;
     }
 
     int status = lua_resume(m_pThread, 0);
@@ -97,7 +97,7 @@ bool Script :: logic(float t)
         if(status == LUA_ERRRUN && lua_isstring(m_pThread, -1))
         {
             Log::get().error(str(lua_tostring(m_pThread, -1)));
-            return false; // bail
+            return; // bail
         }
         else
         {

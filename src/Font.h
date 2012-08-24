@@ -38,7 +38,8 @@ class Font : public IFallible
             dtor.resolve();
         }
         virtual ~Font() {
-            al_destroy_font(m_pFont);
+            if(m_pFont)
+                al_destroy_font(m_pFont);
         }
 
         int size() const { return m_Size; }

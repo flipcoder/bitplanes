@@ -10,8 +10,13 @@
 #include "IFallible.h"
 #include "IConfigurable.h"
 #include "ResourceCache.h"
+#include "IMovable.h"
 
-class Audio : public IStaticInstance<Audio>
+// Basic 2D positional audio system (no rotational, scaling, etc.)
+
+class Audio:
+    public IRealtime,
+    public IStaticInstance<Audio>
 {
     private:
 
@@ -88,14 +93,18 @@ class Audio : public IStaticInstance<Audio>
                 }
         };
         
-        class Sound : public IConfigurable
+        class Sound :
+            public IConfigurable,
+            virtual public IMovable
         {
             private:
                 std::shared_ptr<Sample> m_spSample; // should be stored in cache
                 ALLEGRO_SAMPLE_INSTANCE* m_pSound;
                 void nullify() {
                     m_pSound = nullptr;
+                    m_bPosition = false;
                 }
+                bool m_bPosition;
             public:
                 Sound(const std::string& fn):
                     IConfigurable(fn, "data/audio/")
@@ -104,6 +113,7 @@ class Audio : public IStaticInstance<Audio>
                     m_spSample = Audio::get().samples().cache(fn); // might throw
                     if(!(m_pSound = al_create_sample_instance(m_spSample->sample())))
                         throw Failure();
+                    // add scoped_dtor<> if you add any code below here
                 }
                 ~Sound() {
                     if(m_pSound)
@@ -121,7 +131,7 @@ class Audio : public IStaticInstance<Audio>
                 }
                 void stop() {
                     al_set_sample_instance_playing(m_pSound, false);
-                    al_set_sample_instance_position(m_pSound, 0);
+                    al_set_sample_instance_position(m_pSound, 0); // rewind to start
                 }
                 void resume() {
                     al_set_sample_instance_playing(m_pSound, true);
@@ -130,19 +140,38 @@ class Audio : public IStaticInstance<Audio>
                 void pause() {
                     al_set_sample_instance_playing(m_pSound, false);
                 }
-                float pan() const {
-                    return al_get_sample_instance_pan(m_pSound);
+                void ambient() {
+                    pos(Vector2());
+                    m_bPosition = false;
                 }
-                void pan(float val) {
-                    al_set_sample_instance_pan(m_pSound, val);
+                //float pan() const {
+                //    return al_get_sample_instance_pan(m_pSound);
+                //}
+                //void pan(float val) {
+                //    al_set_sample_instance_pan(m_pSound, val);
+                //}
+        };
+
+        class Listener:
+            public IRealtime,
+            virtual public IMovable
+        {
+            public:
+                Listener() {}
+                virtual ~Listener() {}
+
+                virtual void logic(float t) {
                 }
         };
+
 
     private:
         
         ResourceCache<Sample> m_Samples;
+        std::vector<std::shared_ptr<Listener>> m_Listeners;
 
     public:
+
         Audio()
         {
             al_install_audio();
@@ -155,15 +184,11 @@ class Audio : public IStaticInstance<Audio>
                 al_uninstall_audio();
         }
 
-        ResourceCache<Sample>& samples() { return m_Samples; }
-};
+        virtual void logic(float t) {
+            // TODO: update all listeners
+        }
 
-class IAudible
-{
-    protected:
-        std::vector<std::shared_ptr<Audio::Sound>> m_Sounds;
-    public:
-        virtual ~IAudible() {}
+        ResourceCache<Sample>& samples() { return m_Samples; }
 };
 
 #endif

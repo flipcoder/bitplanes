@@ -20,10 +20,9 @@ class Backdrop :
             nullify();
         }
         virtual ~Backdrop() {}
-        virtual bool logic(float t) {
+        virtual void logic(float t) {
             move(-world()->vel() * t);
             Object::logic(t);
-            return true;
         }
         virtual void render() const {
             Object::render();

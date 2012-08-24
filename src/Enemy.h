@@ -48,7 +48,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             // TODO: If you add anything here, make sure you put back in scoped_dtors
         }
 
-        virtual bool logic(float t) {
+        virtual void logic(float t) {
             //move((m_vVel - world()->vel()) * t);
             Object::logic(t);
             
@@ -90,8 +90,6 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                 world()->add(smoke);
                 m_SmokeTimer.set(Freq::Time(20));
             }
-
-            return true;
         }
         //virtual void render() const {
         //    Object::render();
@@ -109,6 +107,9 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             //        sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
             //    }
             //}
+            if(!object->collidable())
+                return;
+
             IDamaging* d;
             if(d = dynamic_cast<IDamaging*>(object.get())) {
                 IOwnable* o = dynamic_cast<IOwnable*>(object.get());

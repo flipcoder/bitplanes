@@ -55,13 +55,16 @@ class World : public IRealtime
 
         virtual ~World() {clear();}
 
-        virtual bool logic(float t);
+        virtual void logic(float t);
         virtual void render() const;
 
         bool add(std::shared_ptr<Object> obj);
         void clear() {
             m_Objects.clear();
         }
+        
+        // current screen contain any enemiess
+        bool hasEnemies() const;
 
         const Vector2 vel() const { return m_vScrollVel; }
         Vector2 vel() { return m_vScrollVel; }

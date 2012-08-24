@@ -58,10 +58,12 @@ class TitleState : public IState
         }
         virtual ~TitleState() {}
 
-        virtual bool logic(float t)
+        virtual void logic(float t)
         {
-            if(Events::get().key(ALLEGRO_KEY_F10))
-                return false;
+            if(Events::get().key(ALLEGRO_KEY_F10)) {
+                System::get().quit();
+                return;
+            }
 
             m_spLogo->pos(m_TitleDrop.get());
             m_spText->pos(m_TextRise.get());
@@ -84,7 +86,6 @@ class TitleState : public IState
             }
 
             m_spWorld->logic(t);
-            return true;
         }
         virtual void render() const
         {

@@ -1,6 +1,7 @@
 #include "World.h"
 #include "Object.h"
 #include "ScriptInterface.h"
+#include "IOwnable.h"
 
 World :: World()
 {
@@ -12,11 +13,11 @@ World :: World(const std::string& fn)
     nullify();
     m_spScript.reset(new Script(fn));
     m_spFactory.reset(new ObjectFactory(this));
-    m_spScript->enable(new ScriptInterface(m_spScript.get(), m_spFactory.get()));
+    m_spScript->enable(new ScriptInterface(m_spScript.get(), this,  m_spFactory.get()));
     m_spScript->reset();
 }
 
-bool World :: logic(float t)
+void World :: logic(float t)
 {
     m_WorldTime.logic(t*1000.0f);
     if(m_spScript)
@@ -70,7 +71,6 @@ bool World :: logic(float t)
 
     // move spawners (objects added during loop above) to object list
     m_Objects.splice(m_Objects.end(), m_SpawnList);
-    return true;
 }
 
 void World :: render() const
@@ -138,8 +138,6 @@ bool World :: collision(const std::shared_ptr<const Object>& a, const std::share
     if(!collision(box_a,box_b))
         return false;
     
-    // TODO: Pixel-perfect collision here
-    
     return pixelCollision(a,b);
 }
 
@@ -166,5 +164,30 @@ bool World :: outsideScreen(const std::shared_ptr<const Object>& a) const
     );
 
     return outsideScreen(box_a);
+}
+
+// current screen contain any enemies?
+bool World :: hasEnemies() const
+{
+    foreach(auto& obj, m_SpawnList)
+    {
+        IOwnable* ownable;
+        if(ownable = dynamic_cast<IOwnable*>(obj.get()))
+        {
+            if(ownable->owner() && ownable->owner() == IOwnable::O_ENEMY)
+                return true; // area contains enemey
+        }
+    }
+    foreach(auto& obj, m_Objects)
+    {
+        IOwnable* ownable;
+        if(ownable = dynamic_cast<IOwnable*>(obj.get()))
+        {
+            if(ownable->owner() && ownable->owner() == IOwnable::O_ENEMY)
+                return true; // area contains enemey
+        }
+    }
+
+    return false;
 }
 

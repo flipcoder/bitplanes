@@ -70,7 +70,6 @@ System :: ~System()
 
 bool System :: logic()
 {
-    bool ret = true;
     unsigned long now, adv;
     do{
         now = Freq::get().getElapsedTime();
@@ -87,18 +86,12 @@ bool System :: logic()
 
     float t = adv * 0.001f;
 
-    if(!Events::get().logic(t))
-        return false;
+    Events::get().logic(t);
     IState* state = currentState();
     if(state)
-    {
-        if(!state->logic(t))
-            ret = false;
-    }
-    else
-        return false;
+        state->logic(t);
 
-    return ret;
+    return true;
 }
 
 void System :: render()
@@ -138,6 +131,9 @@ bool System :: run()
         if(!logic())
             break;
         render();
+
+        if(quitFlag())
+            destroyStateManager();
     }
 
     return true;

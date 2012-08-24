@@ -41,3 +41,5 @@ while frames < 200 do
     coroutine.yield(5)
 end
 
+repeat coroutine.yield() until clear()
+
