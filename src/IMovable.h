@@ -11,6 +11,11 @@ class IMovable
         IMovable() {}
         virtual ~IMovable() {}
         
+        float x() const { return m_vPos.x; }
+        float y() const { return m_vPos.y; }
+        float dx() const { return m_vVel.x; }
+        float dy() const { return m_vVel.y; }
+
         const Vector2& pos() const { return m_vPos; }
         void pos(float x, float y) {
             m_vPos = Vector2(x,y);
@@ -34,9 +39,7 @@ class IMovable
         }
 
         void callbackOnMove(std::function<void()> cb) {
-            try{
-                m_cbOnMove = cb;
-            }catch(std::bad_function_call&){}
+            m_cbOnMove = cb;
         }
 
     private:

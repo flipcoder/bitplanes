@@ -31,14 +31,14 @@ void Sprite :: render() const
 
         if(m_Tint) {
             // tinted blit
-            al_draw_tinted_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), m_Tint->allegro(), pos().x, pos().y, 0);
+            al_draw_tinted_bitmap(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap()), m_Tint->allegro(), x(), y(), 0);
         }   
         else if(m_bsFlags[F_TILE])
         {
             // fullscreen tile blit
             Vector2 offset(
-               fmodf(pos().x, size().x),
-               fmodf(pos().y, size().y)
+               fmodf(x(), size().x),
+               fmodf(y(), size().y)
             );
             for(float i = offset.x - size().x;
                 i < System::get().w();
@@ -56,7 +56,7 @@ void Sprite :: render() const
         {
             // normal blit
             if(m_vScale == Vector2(1.0f, 1.0f))
-                image()->renderAt(m_vPos);
+                image()->renderAt(pos());
             else
             {
                 // scaled blit
@@ -64,7 +64,7 @@ void Sprite :: render() const
                     0.0f, 0.0f,
                     al_get_bitmap_width(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap())),
                     al_get_bitmap_height(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap())),
-                    m_vPos.x, m_vPos.y,
+                    x(), y(),
                     al_get_bitmap_width(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap())) * m_vScale.x,
                     al_get_bitmap_height(const_cast<ALLEGRO_BITMAP*>(m_spImage->bitmap())) * m_vScale.y,
                     0);

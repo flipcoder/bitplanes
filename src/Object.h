@@ -44,7 +44,10 @@ class Object :
             return m_Images[s];
         }
         bool setImage(const std::string& s) {
-            m_spSprite->setImage(image(s));
+            auto img = image(s);
+            if(!img)
+                return false;
+            m_spSprite->setImage(img);
             return true;
         }
         World* world() { return m_pWorld; }
@@ -77,7 +80,6 @@ class Object :
                 return;
             m_spSprite->render();
         }
-        virtual float depth() const { return 0.0f; }
 
         static const char* type() { return "object"; }
 

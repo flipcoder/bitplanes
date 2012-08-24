@@ -15,7 +15,7 @@ class GameState : public IState
 
     public:
         GameState() {
-            m_spWorld.reset(new World("data/maps/forest.lua"));
+            m_spWorld.reset(new World("data/maps/road.lua"));
             m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
 
             m_spPlayer.reset(new Player("plane1.ini"));

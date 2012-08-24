@@ -17,8 +17,9 @@
 #include "Image.h"
 #include "IDepthSortable.h"
 #include "Graphics.h"
+#include "IMovable.h"
 
-class Sprite : public IDepthSortable, public IFallible
+class Sprite : public IDepthSortable, public IFallible, public IMovable
 {
     public:
         enum eFlags {
@@ -32,7 +33,6 @@ class Sprite : public IDepthSortable, public IFallible
             m_vScale = Vector2(1.0f, 1.0f);
         }
 
-        Vector2 m_vPos;
         Vector2 m_vScale;
         //Vector2 m_vVel;
         
@@ -95,19 +95,12 @@ class Sprite : public IDepthSortable, public IFallible
             //return new Sprite(width, height);
         //}
         void render() const;
-        float x() { return m_vPos.x; }
-        float y() { return m_vPos.y; }
+
         //float w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }
         //float h() { return m_pBitmap ? al_get_bitmap_height(m_pBitmap) : 0; }
         std::bitset<MAX_FLAGS>& flags() { return m_bsFlags; }
         const std::bitset<MAX_FLAGS>& flags() const { return m_bsFlags; }
-        void pos(const Vector2& pos) {
-            m_vPos = pos;
-        }
-
-        const Vector2& pos() const {
-            return m_vPos;
-        }
+        
         Vector2 size() const {
             return m_spImage->size();
         }
