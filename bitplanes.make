@@ -81,6 +81,7 @@ OBJECTS := \
 	$(OBJDIR)/Log.o \
 	$(OBJDIR)/Events.o \
 	$(OBJDIR)/Object.o \
+	$(OBJDIR)/Audio.o \
 	$(OBJDIR)/ScriptInterface.o \
 	$(OBJDIR)/Sprite.o \
 
@@ -192,6 +193,9 @@ $(OBJDIR)/Events.o: src/Events.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Object.o: src/Object.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Audio.o: src/Audio.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/ScriptInterface.o: src/ScriptInterface.cpp

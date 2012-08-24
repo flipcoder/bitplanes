@@ -5,6 +5,7 @@
 #include "Backdrop.h"
 #include "World.h"
 #include "Text.h"
+#include "Audio.h"
 
 class TitleState : public IState
 {
@@ -14,6 +15,7 @@ class TitleState : public IState
         std::shared_ptr<Font> m_spFont;
         std::shared_ptr<Text> m_spText;
         std::shared_ptr<Object> m_spLogo;
+        std::shared_ptr<Audio::Stream> m_spMusic;
 
         Freq::Timed<Vector2> m_TitleDrop;
         Freq::Timed<Vector2> m_TextRise;
@@ -53,6 +55,9 @@ class TitleState : public IState
                 Vector2(System::get().size().x/2.0f, System::get().size().y / 2.0f)
             );
 
+            m_spMusic.reset(new Audio::Stream("data/audio/odd.ogg"));
+            m_spMusic->play();
+            
             m_spWorld->add(backdrop);
             m_spWorld->add(m_spLogo);
         }

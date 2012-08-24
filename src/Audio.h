@@ -13,12 +13,11 @@
 #include "IMovable.h"
 
 // Basic 2D positional audio system (no rotational, scaling, etc.)
-
 class Audio:
     public IRealtime,
     public IStaticInstance<Audio>
 {
-    private:
+    public:
 
         // Samples are all cached internally, no visibility needed
         class Sample
@@ -41,7 +40,6 @@ class Audio:
                 ALLEGRO_SAMPLE* sample() { return m_pSample; }
         };
 
-    public:
         
         class Stream : public IConfigurable
         {
@@ -66,7 +64,7 @@ class Audio:
                 };
                 void play(unsigned int flags = 0) {
                     al_set_audio_stream_playmode(m_pStream, (flags & REPEAT ? ALLEGRO_PLAYMODE_LOOP : ALLEGRO_PLAYMODE_ONCE));
-                    //al_attach_audio_stream_to_mixer(m_pStream, al_get_default_mixer());
+                    al_attach_audio_stream_to_mixer(m_pStream, al_get_default_mixer());
                     if(!(flags & CONTINUE))
                         stop();
                     al_set_audio_stream_playing(m_pStream, true);
@@ -106,27 +104,20 @@ class Audio:
                 }
                 bool m_bPosition;
             public:
-                Sound(const std::string& fn):
-                    IConfigurable(fn, "data/audio/")
-                {
-                    nullify();
-                    m_spSample = Audio::get().samples().cache(fn); // might throw
-                    if(!(m_pSound = al_create_sample_instance(m_spSample->sample())))
-                        throw Failure();
-                    // add scoped_dtor<> if you add any code below here
-                }
+                Sound(const std::string& fn);
+                
                 ~Sound() {
                     if(m_pSound)
                         al_destroy_sample_instance(m_pSound);
                 }
                 enum Play {
-                    P_REPEAT = BIT(0),
-                    P_CONTINUE = BIT(1)
+                    REPEAT = BIT(0),
+                    CONTINUE = BIT(1)
                 };
                 void play(unsigned int flags = 0) {
-                    if(!(flags & P_CONTINUE))
+                    if(!(flags & CONTINUE))
                         al_set_sample_instance_position(m_pSound, 0);
-                    al_set_sample_instance_playmode(m_pSound, flags & P_REPEAT ? ALLEGRO_PLAYMODE_LOOP : ALLEGRO_PLAYMODE_ONCE);
+                    al_set_sample_instance_playmode(m_pSound, flags & REPEAT ? ALLEGRO_PLAYMODE_LOOP : ALLEGRO_PLAYMODE_ONCE);
                     al_play_sample_instance(m_pSound);
                 }
                 void stop() {
@@ -144,6 +135,11 @@ class Audio:
                     pos(Vector2());
                     m_bPosition = false;
                 }
+                ALLEGRO_SAMPLE_INSTANCE* allegro() {
+                    return m_pSound;
+                }
+
+                bool positioned() const { return m_bPosition; }
                 //float pan() const {
                 //    return al_get_sample_instance_pan(m_pSound);
                 //}
@@ -156,39 +152,76 @@ class Audio:
             public IRealtime,
             virtual public IMovable
         {
+            private:
+                float m_fScale;
             public:
-                Listener() {}
+                Listener():
+                    m_fScale(2.0f)
+                {
+                }
                 virtual ~Listener() {}
 
                 virtual void logic(float t) {
                 }
+                float scale() const { return m_fScale; }
+                void scale(float f) { m_fScale = f; }
         };
 
 
     private:
         
         ResourceCache<Sample> m_Samples;
-        std::vector<std::shared_ptr<Listener>> m_Listeners;
+        std::vector<std::weak_ptr<Sound>> m_Sounds;
+        std::shared_ptr<Listener> m_Listener;
 
     public:
-
         Audio()
         {
-            al_install_audio();
-            al_init_acodec_addon();
+            scoped_dtor<Audio> dtor(this);
+            if(!al_install_audio())
+                throw Failure();
+            if(!al_init_acodec_addon())
+                throw Failure();
             al_reserve_samples(16);
             samples().addPath("data/audio/");
+            dtor.resolve();
+            m_Listener.reset(new Listener());
         }
         ~Audio() {
+            m_Samples.clear();
+            m_Sounds.clear();
             if(al_is_audio_installed())
                 al_uninstall_audio();
         }
 
         virtual void logic(float t) {
-            // TODO: update all listeners
+            // transform listener into panspace
+            float listener_pan = m_Listener->x() / (m_Listener->scale()/2.0f) - 1.0f;
+            for(auto itr = m_Sounds.begin();
+                itr != m_Sounds.end(); )
+            {
+                std::shared_ptr<Sound> snd;
+                if(!(snd = itr->lock())) {
+                    itr = m_Sounds.erase(itr);
+                    continue;
+                }
+                if(snd->positioned()) {
+                    itr = m_Sounds.erase(itr);
+                    continue;
+                }
+                float snd_pan = snd->x() / (m_Listener->scale()/2.0f) - 1.0f;
+                al_set_sample_instance_pan(snd->allegro(), snd_pan - listener_pan);
+
+                ++itr;
+            }
         }
 
         ResourceCache<Sample>& samples() { return m_Samples; }
+        Listener* listener() { return m_Listener.get(); }
+
+        void listen(std::shared_ptr<Sound>& sound) {
+            m_Sounds.push_back(std::weak_ptr<Sound>(sound));
+        }
 };
 
 #endif

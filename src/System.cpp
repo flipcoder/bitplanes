@@ -32,6 +32,9 @@ System :: System()
     al_init_ttf_addon();
     
     Audio::get(new Audio());
+    // TEMP: hardcoded values
+    Audio::get().listener()->scale(320.0f);
+    Audio::get().listener()->pos(160.0f, 0.0f);
 
     if(!al_install_keyboard())
         throw Failure("Could not initialize keyboard");
@@ -87,6 +90,7 @@ bool System :: logic()
     float t = adv * 0.001f;
 
     Events::get().logic(t);
+    Audio::get().logic(t);
     IState* state = currentState();
     if(state)
         state->logic(t);

@@ -52,6 +52,8 @@ void Player :: logic(float t)
         ((Particle*)bullet.get())->collidable(true);
         ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
+        m_spShoot->pos(bullet->pos());
+        m_spShoot->play();
         m_FireRate.set(Freq::Time(100));
     }
     else if(Events::get().mouse(1) && m_FireRate.hasElapsed())

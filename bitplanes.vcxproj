@@ -123,6 +123,7 @@
 		<ClInclude Include="src\IDamaging.h" />
 		<ClInclude Include="src\IOwnable.h" />
 		<ClInclude Include="src\ITaggable.h" />
+		<ClInclude Include="src\ScoreState.h" />
 		<ClInclude Include="src\Sound.h" />
 		<ClInclude Include="src\IScriptable.h" />
 		<ClInclude Include="src\IState.h" />
@@ -132,12 +133,11 @@
 		<ClInclude Include="src\IPosition.h" />
 		<ClInclude Include="src\GameState.h" />
 		<ClInclude Include="src\Log.h" />
-		<ClInclude Include="src\IContext.h" />
 		<ClInclude Include="src\Object.h" />
+		<ClInclude Include="src\IMovable.h" />
 		<ClInclude Include="src\Player.h" />
 		<ClInclude Include="src\IRenderable.h" />
 		<ClInclude Include="src\ICloneable.h" />
-		<ClInclude Include="src\Music.h" />
 		<ClInclude Include="src\Image.h" />
 		<ClInclude Include="src\IControllable.h" />
 		<ClInclude Include="src\IStateManager.h" />
@@ -192,6 +192,8 @@
 		<ClCompile Include="src\Events.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Object.cpp">
+		</ClCompile>
+		<ClCompile Include="src\Audio.cpp">
 		</ClCompile>
 		<ClCompile Include="src\ScriptInterface.cpp">
 		</ClCompile>
