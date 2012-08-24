@@ -8,8 +8,12 @@
 #include "math/vector2.h"
 #include "Graphics.h"
 #include "IDepthSortable.h"
+#include "IMovable.h"
 
-class Text : public IDepthSortable, virtual public IRenderable
+class Text:
+    public IDepthSortable,
+    public IMovable,
+    virtual public IRenderable
 {
     private:
         void nullify() {
@@ -18,7 +22,6 @@ class Text : public IDepthSortable, virtual public IRenderable
         }
         std::shared_ptr<Font> m_spFont;
         std::string m_sText;
-        Vector2 m_vPos;
         Color m_Color;
         int m_Align;
         bool m_bVisible;
@@ -27,7 +30,6 @@ class Text : public IDepthSortable, virtual public IRenderable
         Text(std::shared_ptr<Font>& font, const std::string& text, const Vector2 pos = Vector2(), Color c = Color(), int align = -1):
             m_spFont(font),
             m_sText(text),
-            m_vPos(pos),
             m_Color(c),
             m_Align(align)
         {
@@ -37,12 +39,12 @@ class Text : public IDepthSortable, virtual public IRenderable
         bool visible() const { return m_bVisible; }
         void visible(bool b = true) { m_bVisible = b; }
 
-        void pos(const Vector2& v) { m_vPos = v; }
-        const Vector2& pos() const { return m_vPos; }
-
         virtual void render() const;
         virtual ~Text() {
         }
+
+        const std::string& text() const { return m_sText; }
+        void text(std::string text) { m_sText = text; }
 
         Color color() const { return m_Color; }
         void color(Color c) { m_Color = c; }

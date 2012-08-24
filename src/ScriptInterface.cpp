@@ -18,6 +18,7 @@ ScriptInterface :: ScriptInterface(Script* script, World* world, ObjectFactory* 
     m_pScript->setCallback("unhook", std::bind(&ScriptInterface::cbUnhook, this, std::placeholders::_1));
     m_pScript->setCallback("pos", std::bind(&ScriptInterface::cbPosition, this, std::placeholders::_1));
     m_pScript->setCallback("vel", std::bind(&ScriptInterface::cbVelocity, this, std::placeholders::_1));
+    m_pScript->setCallback("size", std::bind(&ScriptInterface::cbSize, this, std::placeholders::_1));
     m_pScript->setCallback("depth", std::bind(&ScriptInterface::cbDepth, this, std::placeholders::_1));
     m_pScript->setCallback("clear", std::bind(&ScriptInterface::cbClear, this, std::placeholders::_1));
     m_pScript->setCallback("exists", std::bind(&ScriptInterface::cbExists, this, std::placeholders::_1));
@@ -128,6 +129,25 @@ int ScriptInterface :: cbVelocity(lua_State* state)
     return 0;
 }
 
+int ScriptInterface :: cbSize(lua_State* state)
+{
+    std::vector<std::shared_ptr<IScriptable>> objects = hook(round_int(lua_tonumber(state, 1)));
+    if(lua_gettop(state) == 1)
+    {
+        if(objects.size() != 1)
+            return 0; //error
+
+        Object* o = dynamic_cast<Object*>(objects[0].get());
+        lua_pushnumber(state, o->size().x);
+        lua_pushnumber(state, o->size().y);
+        return 2;
+    }
+
+    //std::shared_ptr<IScriptable> scriptable(m_Hooks[round_int(lua_tonumber(state, 1))]);
+    return 0;
+}
+
+
 int ScriptInterface :: cbClear(lua_State* state)
 {
     lua_pushboolean(state, m_pWorld->hasEnemies() ? 0 : 1);
@@ -180,3 +200,8 @@ int ScriptInterface :: cbExists(lua_State* state)
     return 1;
 }
 
+
+//int ScriptInterface :: cbStats(lua_State* state)
+//{
+    
+//}

@@ -34,11 +34,9 @@ void World :: logic(float t)
     {
         (*itr)->logic(t);
         if((*itr)->invalid())
-        {
             itr = m_Objects.erase(itr);
-            continue;
-        }
-        ++itr;
+        else
+            ++itr;
     }
 
     for(auto itr = m_Objects.begin();

@@ -43,7 +43,7 @@ class Font : public IFallible
         }
 
         int size() const { return m_Size; }
-        ALLEGRO_FONT* allegro() const { return m_pFont; }
+        const ALLEGRO_FONT* allegro() const { return m_pFont; }
 };
 
 #endif

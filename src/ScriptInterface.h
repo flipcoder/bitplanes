@@ -40,6 +40,7 @@ class ScriptInterface : public IScriptInterface
         int cbSpawn(lua_State* state);
         int cbPosition(lua_State* state);
         int cbVelocity(lua_State* state);
+        int cbSize(lua_State* state);
         int cbDepth(lua_State* state);
         int cbClear(lua_State* state);
         int cbExists(lua_State* state);
@@ -87,10 +88,10 @@ class ScriptInterface : public IScriptInterface
             for(auto itr = hooks.begin();
                 itr != hooks.end();) {
                 try{
-                    itr->lock();
+                    std::shared_ptr<IScriptable> test_hook(*itr);
                     ++itr;
                     ++count;
-                }catch(std::bad_weak_ptr&) {
+                }catch(const std::bad_weak_ptr&) {
                     itr = hooks.erase(itr);
                 }
             }

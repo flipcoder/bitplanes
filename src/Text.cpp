@@ -11,7 +11,7 @@ void Text :: render() const
         return;
     }
 
-    al_draw_text(const_cast<Font*>(m_spFont.get())->allegro(), m_Color.allegro(), m_vPos.x, m_vPos.y,
+    al_draw_text(const_cast<Font*>(m_spFont.get())->allegro(), m_Color.allegro(), x(), y(),
         m_Align==-1?ALLEGRO_ALIGN_LEFT:
             m_Align==0?ALLEGRO_ALIGN_CENTRE:
             ALLEGRO_ALIGN_RIGHT,

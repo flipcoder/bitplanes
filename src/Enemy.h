@@ -30,6 +30,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             IDamaging(properties().getInt("default","damage",1))
         {
             nullify();
+            pos(0.0f, System::get().w() / 2.0f + size().x / 2.0f);
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
             sprite().depth(properties().getFloat("default", "depth", -50.0f));
             owner(IOwnable::O_ENEMY);
@@ -51,7 +52,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
         virtual void logic(float t) {
             //move((m_vVel - world()->vel()) * t);
             Object::logic(t);
-            
+
             if(dead())
                 invalidate();
 
@@ -64,9 +65,9 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                 pos(Vector2(System::get().w()-size().x/2.0f, pos().y));
             }
 
-            if(pos().y < 0.0f && vel().y < 0.0f)
+            if(pos().y < -size().y && vel().y <= 0.0f)
                 invalidate();
-            if(pos().y > System::get().h())
+            if(pos().y > System::get().h() && vel().y >= 0.0f)
                 invalidate();
 
             if(m_FlashTimer && m_FlashTimer->hasElapsed()) {
