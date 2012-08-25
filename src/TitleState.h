@@ -55,8 +55,8 @@ class TitleState : public IState
                 Vector2(System::get().size().x/2.0f, System::get().size().y / 2.0f)
             );
 
-            m_spMusic.reset(new Audio::Stream("data/audio/odd.ogg"));
-            m_spMusic->play();
+            //m_spMusic.reset(new Audio::Stream("data/audio/lobby.ogg"));
+            //m_spMusic->play(Audio::Stream::REPEAT);
             
             m_spWorld->add(backdrop);
             m_spWorld->add(m_spLogo);

@@ -19,12 +19,11 @@ World :: World(const std::string& fn)
 
 void World :: logic(float t)
 {
-    m_WorldTime.logic(t*1000.0f);
+    // TODO: check for preserved/attached sounds (or other things, in the future) before deletion
+    
+    m_WorldTime.logic(t * 1000.0f);
     if(m_spScript)
-        m_spScript->logic(t*1000.0f);
-
-    // TODO: Add collision checking here for all objects that
-    //  obj.collidable()==true
+        m_spScript->logic(t);
    
     // locking below is not for thread-safety
     // it is just to make sure objects added while inside the loop are not called yet

@@ -118,6 +118,17 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                     hurt(d->damage());
                     m_FlashTimer = Freq::Alarm(Freq::Time(50));
                     sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
+
+                    std::string impact_fn;
+                    if(dead()
+                        && properties().getStringValue("events", "death", impact_fn)
+                        && Filesystem::hasExtension(impact_fn, "ini"))
+                    {
+                        std::shared_ptr<Object> impact(new Particle(impact_fn));
+                        impact->pos(pos() + size()/2.0f - impact->size()/2.0f);
+                        world()->add(impact);
+                        invalidate(); // called from logic() anyway, but might as well
+                    }
                 }
             }
         }

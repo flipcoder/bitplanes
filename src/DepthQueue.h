@@ -5,6 +5,7 @@
 #include <memory>
 #include "Util.h"
 #include "IDepthSortable.h"
+#include "IMovable.h"
 
 class DepthQueue
 {
@@ -19,8 +20,20 @@ class DepthQueue
                 {
                     std::shared_ptr<const IDepthSortable> sp = s.lock();
                     std::shared_ptr<const IDepthSortable> sp2 = s2.lock();
-                    if(sp && sp2)
+                    if(sp && sp2){
+                        // if the same depth, sort by y pos instead (to prevent z-fighting)
+                        if(floatcmp(sp->depth(), sp2->depth()))
+                        {
+                            const IMovable* m = dynamic_cast<const IMovable*>(sp.get());
+                            const IMovable* m2= dynamic_cast<const IMovable*>(sp2.get());
+                            if(m && m2)
+                                return m->y() < m2->y();
+                            else
+                                return false;
+                           // sort by y pos instead
+                        }
                         return sp->depth() < sp2->depth();
+                    }
                     else
                         return false;
                 }

@@ -31,8 +31,8 @@ class Player : public Object, public IControllable, public IOwnable, public IDes
         Freq::Alarm m_SmokeTimer;
         Freq::Alarm m_BlinkTimer;
         
-        std::shared_ptr<Audio::Sound> m_spShoot;
-
+        std::shared_ptr<Audio::Sound> m_spSound;
+        
     public:
         Player(const std::string& fn):
             Object(fn),
@@ -41,8 +41,6 @@ class Player : public Object, public IControllable, public IOwnable, public IDes
         {
             nullify();
             owner(IOwnable::O_FRIENDLY);
-            m_spShoot.reset(new Audio::Sound("shoot.wav"));
-            Audio::get().listen(m_spShoot);
             //sprite().tint(Color(0.0f,0.0f,0.0f,1.0f));
         }
         virtual ~Player() {}

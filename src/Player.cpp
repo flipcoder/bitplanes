@@ -10,6 +10,11 @@ void Player :: logic(float t)
     
     if(dead())
     {
+        std::string death_fn;
+        //if(properties().getStringValue("sounds", "death", death_fn)) {
+        //    m_spSound.reset(new Audio::Sound(properties().
+        //    m_spSound->play();
+        //}
         invalidate();
         return;
     }
@@ -52,8 +57,6 @@ void Player :: logic(float t)
         ((Particle*)bullet.get())->collidable(true);
         ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
-        m_spShoot->pos(bullet->pos());
-        m_spShoot->play();
         m_FireRate.set(Freq::Time(100));
     }
     else if(Events::get().mouse(1) && m_FireRate.hasElapsed())

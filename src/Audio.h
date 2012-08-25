@@ -140,6 +140,10 @@ class Audio:
                 }
 
                 bool positioned() const { return m_bPosition; }
+                
+                void positioned(bool b){
+                    m_bPosition = b;
+                }
                 //float pan() const {
                 //    return al_get_sample_instance_pan(m_pSound);
                 //}
@@ -182,7 +186,7 @@ class Audio:
                 throw Failure();
             if(!al_init_acodec_addon())
                 throw Failure();
-            al_reserve_samples(16);
+            al_reserve_samples(32);
             samples().addPath("data/audio/");
             dtor.resolve();
             m_Listener.reset(new Listener());
@@ -205,7 +209,7 @@ class Audio:
                     itr = m_Sounds.erase(itr);
                     continue;
                 }
-                if(snd->positioned()) {
+                if(!snd->positioned()) {
                     itr = m_Sounds.erase(itr);
                     continue;
                 }
@@ -219,8 +223,11 @@ class Audio:
         ResourceCache<Sample>& samples() { return m_Samples; }
         Listener* listener() { return m_Listener.get(); }
 
-        void listen(std::shared_ptr<Sound>& sound) {
-            m_Sounds.push_back(std::weak_ptr<Sound>(sound));
+        void listen(std::shared_ptr<Sound>& snd) {
+            float listener_pan = m_Listener->x() / (m_Listener->scale()/2.0f) - 1.0f;
+            float snd_pan = snd->x() / (m_Listener->scale()/2.0f) - 1.0f;
+            al_set_sample_instance_pan(snd->allegro(), snd_pan - listener_pan);
+            m_Sounds.push_back(std::weak_ptr<Sound>(snd));
         }
 };
 

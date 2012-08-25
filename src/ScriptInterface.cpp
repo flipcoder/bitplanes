@@ -200,6 +200,18 @@ int ScriptInterface :: cbExists(lua_State* state)
     return 1;
 }
 
+int ScriptInterface :: cbPlayers(lua_State* state)
+{
+    return 0;
+}
+
+int ScriptInterface :: cbEnemies(lua_State* state)
+{
+    //lua_pushboolean(state, m_pWorld->hasEnemies() ? 0 : 1);
+    return 0;
+}
+
+
 
 //int ScriptInterface :: cbStats(lua_State* state)
 //{

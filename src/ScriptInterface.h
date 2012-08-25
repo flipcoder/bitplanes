@@ -44,6 +44,8 @@ class ScriptInterface : public IScriptInterface
         int cbDepth(lua_State* state);
         int cbClear(lua_State* state);
         int cbExists(lua_State* state);
+        int cbEnemies(lua_State* state);
+        int cbPlayers(lua_State* state);
 
         //std::shared_ptr<IScriptable> hook(unsigned int id) { 
         //    std::map<unsigned int, std::weak_ptr<IScriptable>>::iterator itr = m_Hooks.find(id);
@@ -62,6 +64,7 @@ class ScriptInterface : public IScriptInterface
             ret.reserve(hooks.size());
             foreach(auto& hook, hooks) {
                 try{
+                    std::shared_ptr<IScriptable> test_hook(hook);
                     ret.push_back(hook.lock());
                 }catch(std::bad_weak_ptr&) {}
             }
@@ -99,6 +102,30 @@ class ScriptInterface : public IScriptInterface
                 m_Hooks.erase(id);
             return count;
         }
+
+        //unsigned int combine(unsigned int id, unsigned int id) {
+        //    return 0;
+        //}
+        
+        // TODO: seperate object spawns (backdrop, particle, item, enemy, etc.)
+        //  and searching functions for each
+        // Example: local all_particles = particles()
+        
+        // Node Types:
+        //  sound (attach to IMovable?)
+        //  music
+        //  enemy
+        //  backdrop
+        //  item
+        //  particle/custom
+        //  zone(?) -- specific non-renderable shapes probably not needed
+
+        // TODO: assigning scripts to objects
+        // TODO: groupings: add/intersect, combine/union, remove/subtract
+        // TODO: triggers/events
+        // TODO: generator?
+        // TODO: script(object, filename) -- assign a script
+        // TODO: filter functions with predicates? + each()/generators?
 };
 
 #endif
