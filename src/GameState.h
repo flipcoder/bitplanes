@@ -15,6 +15,7 @@ class GameState : public IState
         std::shared_ptr<World> m_spWorld;
         std::shared_ptr<Player> m_spPlayer;
         boost::optional<Freq::Alarm> m_aAfterDeath;
+        std::shared_ptr<Audio::Sound> m_spReviveSound;
 
     public:
         GameState() {
@@ -24,6 +25,9 @@ class GameState : public IState
             m_spPlayer.reset(new Player("plane1.ini"));
             
             m_spWorld->add(m_spPlayer);
+
+            m_spReviveSound.reset(new Audio::Sound("revive.wav"));
+            m_spReviveSound->play();
         }
         //virtual ~GameState() {}
 
@@ -40,13 +44,17 @@ class GameState : public IState
             if(m_spWorld->done())
                 System::get().swapState("title");
 
-            if(m_aAfterDeath && m_aAfterDeath->hasElapsed())
-                System::get().swapState("title");
-            else if(m_spPlayer->invalid())
-                m_aAfterDeath = Freq::Alarm(Freq::Time(1000));
-            
             if(m_aAfterDeath)
-                std::cout << m_aAfterDeath->milliseconds() << std::endl;
+            {
+                if(m_aAfterDeath->hasElapsed())
+                    System::get().swapState("game"); // restart
+            }
+            else if(m_spPlayer->invalid())
+            {
+                m_aAfterDeath = Freq::Alarm(Freq::Time(1000));
+            }
+
+            
         }
         virtual void render() const
         {
