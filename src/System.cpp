@@ -73,27 +73,15 @@ System :: ~System()
 
 bool System :: logic()
 {
-    unsigned long now, adv;
-    do{
-        now = Freq::get().getElapsedTime();
-        if(m_uiLastAdv == 0)
-            m_uiLastAdv = now;
-        adv = (now - m_uiLastAdv);
-        if(adv > 1) // if <1000tick/s stop waiting
-            break;
+    Freq::Time t;
+    while(!(t = Freq::get().tick()).milliseconds())
         al_rest(0.001f);
-    }while(true);
 
-    m_uiLastAdv = now;
-    Freq::get().logic(adv);
-
-    float t = adv * 0.001f;
-
-    Events::get().logic(t);
-    Audio::get().logic(t);
+    Events::get().logic(t.seconds());
+    Audio::get().logic(t.seconds());
     IState* state = currentState();
     if(state)
-        state->logic(t);
+        state->logic(t.seconds());
 
     return true;
 }

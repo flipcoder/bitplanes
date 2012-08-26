@@ -34,7 +34,7 @@ class Particle:
         {
             nullify();
             if(life)
-                m_Life = std::pair<float,float>(life->get(),life->get());
+                m_Life = std::pair<float,float>(life->milliseconds(),life->milliseconds());
             else
             {
                 float expiry = properties().getFloat("default","expiry",-1.0f);
@@ -82,7 +82,7 @@ class Particle:
 
             //move((m_vVel - world()->vel()) * t);
             if(m_Life) {
-                m_Life->first -= Freq::Time::seconds(t).get();
+                m_Life->first -= Freq::Time::seconds(t).milliseconds();
                 //if(m_Life->first > m_Life->second) {
                 if(m_Life->first <= 0.0f) {
                     invalidate();

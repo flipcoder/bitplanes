@@ -41,12 +41,14 @@ class World : public IRealtime
         Vector2 m_vScrollVel;
         std::unique_ptr<Script> m_spScript;
         Freq::Accumulator m_WorldTime;
+        unsigned int m_uiWorldTimeMark;
 
         // assumes AABB is overlapping
         bool pixelCollision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const;
 
         void nullify() {
             m_bLocked = false;
+            m_uiWorldTimeMark = 0;
         }
 
     public:
@@ -79,6 +81,8 @@ class World : public IRealtime
         bool done() const {
             return m_spScript ? m_spScript->done() : false;
         }
+        
+        Freq::Accumulator* time() { return &m_WorldTime; }
 };
 
 #endif

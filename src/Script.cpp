@@ -33,6 +33,7 @@ Script :: Script(const std::string& fn):
 
     setupBindings();
     m_TickFreq = 60;
+    //m_TickTime.speed(1000.0f);
 
     dtor.resolve();
 }
@@ -77,8 +78,8 @@ void Script :: setupBindings()
 void Script :: logic(float t)
 {
     // accumualate time
-    m_TickTime.logic(round_int(t*1000.0f));
-    if(m_TickTime.mark() < round_int(1000.0f / m_TickFreq))
+    m_TickTime.logic(t);
+    if(m_TickTime.milliseconds() < round_int(1000.0f / m_TickFreq))
         return;
     m_TickTime.reset();
 

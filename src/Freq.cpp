@@ -11,23 +11,23 @@
 
 unsigned long Freq :: getTicks() const
 {
-    return (unsigned long)(al_get_time() * 1000);
+    return (unsigned long)(round_int(al_get_time() * 1000.0f));
 }
 
-unsigned long Freq :: getElapsedTime() const
-{
-    return (getTicks() - m_ulStartTime);
-}
+//unsigned long Freq :: getElapsedTime() const
+//{
+//    return m_globalAccumulator.milliseconds();
+//}
 
-unsigned long Freq :: getAccumulatedTime() const
-{
-    return m_globalAccumulator.getElapsedTime(); // already subtracts out start time
-}
+//unsigned long Freq :: getAccumulatedTime() const
+//{
+//    return m_globalAccumulator.milliseconds(); // already subtracts out start time
+//}
 
-double Freq :: getElapsedSeconds() const
-{
-    return (((double)getElapsedTime()) / 1000.00);
-}
+//double Freq :: getElapsedSeconds() const
+//{
+//    return (((double)getElapsedTime()) / 1000.00);
+//}
 
 //bool Freq :: tick()
 //{

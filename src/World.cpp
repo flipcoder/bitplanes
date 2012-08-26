@@ -15,13 +15,15 @@ World :: World(const std::string& fn)
     m_spFactory.reset(new ObjectFactory(this));
     m_spScript->enable(new ScriptInterface(m_spScript.get(), this,  m_spFactory.get()));
     m_spScript->reset();
+    //m_WorldTime.speed(0.5f);
 }
 
 void World :: logic(float t)
 {
     // TODO: check for preserved/attached sounds (or other things, in the future) before deletion
     
-    m_WorldTime.logic(t * 1000.0f);
+    t = m_WorldTime.logic(t);
+
     if(m_spScript)
         m_spScript->logic(t);
    

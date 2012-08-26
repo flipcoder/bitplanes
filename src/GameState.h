@@ -5,6 +5,8 @@
 #include "Backdrop.h"
 #include "World.h"
 #include "Enemy.h"
+#include "Freq.h"
+#include <boost/optional.hpp>
 
 class GameState : public IState
 {
@@ -12,6 +14,7 @@ class GameState : public IState
 
         std::shared_ptr<World> m_spWorld;
         std::shared_ptr<Player> m_spPlayer;
+        boost::optional<Freq::Alarm> m_aAfterDeath;
 
     public:
         GameState() {
@@ -21,7 +24,6 @@ class GameState : public IState
             m_spPlayer.reset(new Player("plane1.ini"));
             
             m_spWorld->add(m_spPlayer);
-            //m_spWorld->add(std::dynamic_pointer_cast<Object>(m_spPlayer));
         }
         //virtual ~GameState() {}
 
@@ -34,10 +36,17 @@ class GameState : public IState
             
             m_spWorld->logic(t);
             
+            // replace with some sort of mode state logic
             if(m_spWorld->done())
                 System::get().swapState("title");
-            if(m_spPlayer->invalid())
+
+            if(m_aAfterDeath && m_aAfterDeath->hasElapsed())
                 System::get().swapState("title");
+            else if(m_spPlayer->invalid())
+                m_aAfterDeath = Freq::Alarm(Freq::Time(1000));
+            
+            if(m_aAfterDeath)
+                std::cout << m_aAfterDeath->milliseconds() << std::endl;
         }
         virtual void render() const
         {

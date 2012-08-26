@@ -4,6 +4,7 @@
 #include <iostream>
 #include "IStaticInstance.h"
 #include "math/common.h"
+#include "Util.h"
 //#include "IRealtime.h"
 
 class Freq : public IStaticInstance<Freq>/*,public IRealtime*/
@@ -12,7 +13,9 @@ public:
 
     class Accumulator/*: public IRealtime */{
         private:
+            //unsigned long m_ulAccumulatedTime;
             unsigned long m_ulAccumulatedTime;
+            //unsigned int m_uiLastAdvance;
             float m_fSpeed;
         public:
             Accumulator():
@@ -20,20 +23,32 @@ public:
                 m_fSpeed(1.0f)
             {}
             virtual ~Accumulator() {}
-            virtual unsigned long getElapsedTime() const {
+            virtual unsigned long milliseconds() const {
                 return m_ulAccumulatedTime;
             }
-            /*virtual */void logic(unsigned int a) {
-                m_ulAccumulatedTime += (a*m_fSpeed);
+            virtual float seconds() const {
+                return m_ulAccumulatedTime / 1000.0f;
             }
+            
+            /*virtual */unsigned int logic(unsigned int a) { // milliseconds
+                float advance = a * m_fSpeed;
+                //m_uiLastAdvance = round_int(advance);
+                m_ulAccumulatedTime += round_int(advance);
+                return round_int(advance);
+            }
+            float logic(float a) { // seconds
+                float advance = a * m_fSpeed;
+                //m_uiLastAdvance = round_int(advance);
+                m_ulAccumulatedTime += round_int(advance * 1000.0f);
+                return advance;
+            }
+            //unsigned int advance() const { return m_uiLastAdvance; }
+
             void speed(float s) {
                 m_fSpeed = s;
             }
             float speed() const {
                 return m_fSpeed;
-            }
-            unsigned long mark() const {
-                return m_ulAccumulatedTime;
             }
             void pause() {
                 m_fSpeed = 0.0f;
@@ -47,6 +62,7 @@ public:
             }
     };
 
+    // eventually migrate to chrono
     class Time
     {
     public:
@@ -57,16 +73,17 @@ public:
             value = ms;
         }
         Time(const Time& t) {
-            value = t.get();
+            value = t.getInternal();
         }
+        unsigned int getInternal() const { return value; }
         static Time seconds(unsigned int s) { return Time(s * 1000);}
         static Time seconds(float s) { return Time((unsigned int)(s * 1000.0f)); }
         static Time minutes(unsigned int m) { return Time(m * 60000);}
         static Time minutes(float m) { return Time((unsigned int)(m * 60000.0f));}
-        static Time milleseconds(unsigned int ms) { return Time(ms); }
+        static Time milliseconds(int ms) { return Time(ms); }
 
-        unsigned int get() const { return value; }
-        //unsigned int milleseconds() { return value; }
+        float seconds() const { return value / 1000.0f; }
+        unsigned int milliseconds() const { return value; }
     };
 
     class Alarm
@@ -87,6 +104,7 @@ public:
             m_ulStartTime(0L),
             m_pTimer(Freq::get().accumulator())
         {
+            assert(m_pTimer);
         }
 
         explicit Alarm(Accumulator* timer):
@@ -94,11 +112,13 @@ public:
             m_ulStartTime(0L),
             m_pTimer(timer)
         {
+            assert(m_pTimer);
         }
 
-        explicit Alarm(Time t):
-            m_pTimer(Freq::get().accumulator())
+        explicit Alarm(Time t, Accumulator* timer = NULL):
+            m_pTimer(timer ? timer : Freq::get().accumulator())
         {
+            assert(m_pTimer);
             set(t);
         }
 
@@ -108,85 +128,81 @@ public:
         
         void assignToTimer(Accumulator* timerRef)
         {
+            assert(timerRef);
             m_pTimer = timerRef;
         }
         
         void set(Time t)
         {
-            if(!m_pTimer)
-                return;
-            m_ulStartTime = m_pTimer->getElapsedTime();
-            m_ulAlarmTime = m_ulStartTime+((unsigned long)t.get());
+            assert(m_pTimer);
+            m_ulStartTime = m_pTimer->milliseconds();
+            m_ulAlarmTime = m_ulStartTime + t.milliseconds();
         }
 
         void delay(Time t) {
-            if(!m_pTimer)
-                return;
-            m_ulAlarmTime += ((unsigned long)t.get());
+            assert(m_pTimer);
+            m_ulAlarmTime += ((unsigned long)t.milliseconds());
         }
 
-        void setMinutes(unsigned int m)
+        Freq::Time pause() {
+            return Freq::Time(m_ulAlarmTime - m_ulStartTime);
+        }
+
+        void minutes(unsigned int m)
         {
            set(Time::minutes(m));
         }
         
-        void setSeconds(unsigned int s)
+        void seconds(unsigned int s)
         {
            set(Time::seconds(s));
         }
 
-        void setMilleseconds(unsigned int ms)
+        void milliseconds(unsigned int ms)
         {
            set(Time(ms));
         }
         
-        unsigned long remainingTime() const
+        unsigned long milliseconds() const
         {
-            if(m_pTimer)
+            assert(m_pTimer);
+            if(!hasElapsed())
             {
-                if(!hasElapsed())
-                {
-                    unsigned long t = (m_ulAlarmTime - m_pTimer->getElapsedTime());
-                    return t;
-                }
-            }
-            return 0L;
-        }
-        
-        unsigned long remainingSeconds() const
-        {
-            if(m_pTimer)
-            {
-                unsigned long t = (m_ulAlarmTime - m_pTimer->getElapsedTime()) / 1000;
+                unsigned long t = (m_ulAlarmTime - m_pTimer->milliseconds());
                 return t;
             }
             return 0L;
         }
         
-        bool hasElapsed() const
+        float seconds() const
         {
-            if(m_pTimer)
-                if(m_pTimer->getElapsedTime() >= m_ulAlarmTime)
-                    return true;
-            return false;
+            assert(m_pTimer);
+            float t = (m_ulAlarmTime - m_pTimer->milliseconds()) / 1000.0f;
+            return t;
         }
+        
+        bool elapsed() const
+        {
+            assert(m_pTimer);
+            return (m_pTimer->milliseconds() >= m_ulAlarmTime);
+        }
+        bool hasElapsed() const { return elapsed(); }
         
         float percentElapsed() const
         {
-            return 1.0f - percentRemaining();
+            return 1.0f - remaining();
         }
 
-        float percentRemaining() const
+        float remaining() const
         {
-            unsigned long remaining = remainingTime();
+            unsigned long remaining = milliseconds();
             unsigned long range = m_ulAlarmTime - m_ulStartTime;
             if(floatcmp(range, 0.0f))
                 return 0.0f;
             return (float)remaining / (float)range;
         }
 
-        unsigned long endTickTime() { return m_ulAlarmTime; }
-        
+        //unsigned long endTickTime() { return m_ulAlarmTime; }
     };
 
     template<class T>
@@ -265,35 +281,37 @@ public:
 
 private:
 
-    unsigned long m_ulStartTime;
-    unsigned long m_ulTicks;
-    //double m_dTimeBetweenTicks;
-    
     Accumulator m_globalAccumulator;
+    //unsigned long m_uiLastMark;
+    unsigned long m_ulStartTime;
+    unsigned int m_uiMinTick;
     
 public:
 
     Freq():
         m_ulStartTime(getTicks()),
-        m_ulTicks(0L)
+        m_uiMinTick(0L)
     {}
     
     unsigned long getTicks() const;
     
-    unsigned long getElapsedTime() const;
-    unsigned long getAccumulatedTime() const;
-    double getElapsedSeconds() const;
-    
-    unsigned long getElapsedTicks() const;
-
     // TODO: not yet implemented
     //void pause();
     //void unpause();
     
     //bool tick();
 
-    /* virtual */void logic(unsigned int a) {
-        m_globalAccumulator.logic(a);
+    // accumulates time passed, until enough has passed to advance forward
+    // may advance more than 1 frame's worth of time
+    // returns # of milliseconds to advance
+    /* virtual */Freq::Time tick() {
+        unsigned long ticks = getTicks() - m_ulStartTime;
+        unsigned int advance = (unsigned int)(ticks - m_globalAccumulator.milliseconds());
+        if(advance >= m_uiMinTick) {
+            m_globalAccumulator.logic(advance);
+            return Freq::Time::milliseconds(advance);
+        }
+        return Freq::Time::milliseconds(0);
     }
 
     Accumulator* accumulator() { return &m_globalAccumulator; }

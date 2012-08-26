@@ -23,7 +23,7 @@ void Player :: logic(float t)
     pos((Events::get().mousePos() / System::get().scale()) - sprite().size()/2.0f);
     
     // bounds just in case (tiled window managers can screw this up)
-    if(pos().x < -sprite().size().x/1.0f)
+    if(pos().x < -sprite().size().x/2.0f)
         pos(-sprite().size().x/2.0f, pos().y);
     if(pos().y < -sprite().size().y/2.0f)
         pos(pos().x, -sprite().size().y/2.0f);
@@ -84,7 +84,7 @@ void Player :: logic(float t)
         m_SmokeTimer.set(Freq::Time(20));
     }
 
-    if(!m_BlinkTimer.hasElapsed() && m_BlinkTimer.remainingTime()/50 % 2)
+    if(!m_BlinkTimer.hasElapsed() && m_BlinkTimer.milliseconds()/50 % 2)
         sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
     else
         sprite().untint();

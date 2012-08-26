@@ -74,7 +74,6 @@ OBJECTS := \
 	$(OBJDIR)/Text.o \
 	$(OBJDIR)/PropertyList.o \
 	$(OBJDIR)/ObjectFactory.o \
-	$(OBJDIR)/Animation.o \
 	$(OBJDIR)/IScriptable.o \
 	$(OBJDIR)/Script.o \
 	$(OBJDIR)/System.o \
@@ -172,9 +171,6 @@ $(OBJDIR)/PropertyList.o: src/PropertyList.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/ObjectFactory.o: src/ObjectFactory.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Animation.o: src/Animation.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/IScriptable.o: src/IScriptable.cpp
