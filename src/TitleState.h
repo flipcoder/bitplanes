@@ -28,9 +28,9 @@ class TitleState : public IState
             nullify();
 
             m_spWorld.reset(new World());
-            m_spWorld->vel(Vector2(0.0f, -100.0f));// in future: set by world script
-
             std::shared_ptr<Object> backdrop(new Backdrop("forest.ini"));
+            backdrop->vel(0.0f, 200.0f);
+
             m_spLogo.reset(new Object("data/interface/logo.png"));
 
             m_TitleDrop = Freq::Timed<Vector2>(

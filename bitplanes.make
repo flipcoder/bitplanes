@@ -26,7 +26,7 @@ ifeq ($(config),debug)
   DEFINES   += -DDEBUG
   INCLUDES  += -I/usr/include/lua5.1
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x -pedantic
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += 
   LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua
@@ -48,7 +48,7 @@ ifeq ($(config),release)
   DEFINES   += -DNDEBUG
   INCLUDES  += -I/usr/include/lua5.1
   CPPFLAGS  += -MMD -MP $(DEFINES) $(INCLUDES)
-  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x
+  CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x -pedantic
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -s
   LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua

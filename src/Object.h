@@ -10,15 +10,17 @@
 #include "ITaggable.h"
 #include "IType.h"
 #include "IMovable.h"
+#include "IAudible.h"
 
 class Object :
     public std::enable_shared_from_this<Object>,
     public IFallible,
     public IRealtime,
     public IRenderable,
-    public IConfigurable,
     public ITaggable,
     public IType,
+    public IConfigurable,
+    public IAudible,
     virtual public IMovable
 {
     private:
@@ -73,7 +75,8 @@ class Object :
         virtual ~Object();
         virtual void init() {}
         virtual void logic(float t) {
-            move((vel() - world()->vel()) * t);
+            move(vel() * t);
+            //move((vel() - world()->vel()) * t);
         }
         virtual void render() const {
             if(!m_spSprite || invalid())

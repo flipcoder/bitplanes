@@ -142,13 +142,13 @@
 		<ClInclude Include="src\IControllable.h" />
 		<ClInclude Include="src\IStateManager.h" />
 		<ClInclude Include="src\IRealtime.h" />
+		<ClInclude Include="src\IAudible.h" />
 		<ClInclude Include="src\Tags.h" />
 		<ClInclude Include="src\Weapon.h" />
 		<ClInclude Include="src\Font.h" />
 		<ClInclude Include="src\Script.h" />
 		<ClInclude Include="src\Graphics.h" />
 		<ClInclude Include="src\Backdrop.h" />
-		<ClInclude Include="src\Animation.h" />
 		<ClInclude Include="src\Console.h" />
 		<ClInclude Include="src\IStaticInstance.h" />
 		<ClInclude Include="src\Util.h" />
@@ -178,8 +178,6 @@
 		<ClCompile Include="src\PropertyList.cpp">
 		</ClCompile>
 		<ClCompile Include="src\ObjectFactory.cpp">
-		</ClCompile>
-		<ClCompile Include="src\Animation.cpp">
 		</ClCompile>
 		<ClCompile Include="src\IScriptable.cpp">
 		</ClCompile>

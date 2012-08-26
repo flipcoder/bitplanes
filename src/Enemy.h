@@ -43,12 +43,16 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             if(properties().getFloatValue("default", "speed", speed)) {
                 vel(Vector2(vel().x, speed));
             }
+            restoreTint();
             //dtor.resolve();
         }
         virtual ~Enemy() {
             // TODO: If you add anything here, make sure you put back in scoped_dtors
         }
 
+        void restoreTint() {
+            sprite().tint(Color(1.0f,(float)health()/maxHealth(),(float)health()/maxHealth(),1.0f));
+        }
         virtual void logic(float t) {
             //move((m_vVel - world()->vel()) * t);
             Object::logic(t);
@@ -71,7 +75,9 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                 invalidate();
 
             if(m_FlashTimer && m_FlashTimer->hasElapsed()) {
-                sprite().untint();
+                //sprite().untint();
+                restoreTint();
+
                 m_FlashTimer = boost::optional<Freq::Alarm>();
 
                 if(dead())

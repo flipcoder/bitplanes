@@ -40,6 +40,6 @@ solution("bitplanes")
 
 
         configuration { "gmake" }
-            buildoptions { "-std=c++0x" }
+            buildoptions { "-std=c++0x -pedantic" }
         configuration {}
         

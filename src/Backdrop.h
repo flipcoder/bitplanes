@@ -16,12 +16,18 @@ class Backdrop :
         }
 
     public:
-        Backdrop(const std::string& fn): Object(fn) {
+        Backdrop(const std::string& fn):
+            Object(fn)
+        {
             nullify();
+
+            float speed;
+            if(properties().getFloatValue("default", "speed", speed)) {
+                vel(Vector2(vel().x, speed));
+            }
         }
         virtual ~Backdrop() {}
         virtual void logic(float t) {
-            move(-world()->vel() * t);
             Object::logic(t);
         }
         virtual void render() const {

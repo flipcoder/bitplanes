@@ -8,6 +8,14 @@ void Player :: logic(float t)
     const float min_turn_vel = 50.0f;
     const unsigned int turn_frame_time = 100;
     
+    if(!m_bCalledInit) {
+        onInit();
+        m_bCalledInit = true;
+    }
+
+    if(m_spSound)
+        m_spSound->pos(pos());
+
     if(dead())
     {
         std::string death_fn;
@@ -53,7 +61,7 @@ void Player :: logic(float t)
     {
         std::shared_ptr<Object> bullet(new Particle((std::string)"bullet.ini"));
         bullet->pos(pos() + sprite().size()/2.0f - bullet->size()/2.0f);
-        bullet->vel(Vector2(0.0, -500.0f));
+        ((Particle*)bullet.get())->vel(0.0f, -500.0f);
         ((Particle*)bullet.get())->collidable(true);
         ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
@@ -63,7 +71,7 @@ void Player :: logic(float t)
     {
         std::shared_ptr<Object> bullet(new Particle((std::string)"rocket.ini"));
         bullet->pos(pos() + sprite().size()/2.0f - bullet->size()/2.0f);
-        bullet->vel(Vector2(0.0, -500.0f));
+        ((Particle*)bullet.get())->vel(0.0f, -500.0f);
         ((Particle*)bullet.get())->collidable(true);
         ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
@@ -78,7 +86,7 @@ void Player :: logic(float t)
         ));
         smoke->pos(pos() + size()/2.0f - smoke->size()/2.0f);
         smoke->pos(Vector2(smoke->pos().x, pos().y + size().y));
-        smoke->vel(Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f));
+        smoke->vel(Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 100.0f));
         smoke->sprite().depth(10.0f);
         world()->add(smoke);
         m_SmokeTimer.set(Freq::Time(20));
@@ -87,7 +95,9 @@ void Player :: logic(float t)
     if(!m_BlinkTimer.hasElapsed() && m_BlinkTimer.milliseconds()/50 % 2)
         sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
     else
-        sprite().untint();
+        sprite().tint(Color(1.0f,(float)health()/maxHealth(),(float)health()/maxHealth(),1.0f));
+        //sprite().tint(Color(1.0f,0.0f,0.0f,1.0f - (float)health()/maxHealth()));
+        //sprite().untint();
 
     Object::logic(t);
 }

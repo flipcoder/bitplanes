@@ -15,7 +15,7 @@ namespace Filesystem
     std::string getFileNameNoExt(std::string path);
     bool hasExtension(const std::string& path, const std::string& ext);
     bool pathCompare(const std::string& a, const std::string& b);
-};
+}
 
 #endif
 

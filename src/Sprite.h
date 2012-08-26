@@ -19,7 +19,10 @@
 #include "Graphics.h"
 #include "IMovable.h"
 
-class Sprite : public IDepthSortable, public IFallible, public IMovable
+class Sprite :
+    public IDepthSortable,
+    public IFallible,
+    public IMovable
 {
     public:
         enum eFlags {
@@ -76,6 +79,7 @@ class Sprite : public IDepthSortable, public IFallible, public IMovable
 
         void setImage(const std::shared_ptr<const Image>& image) {
             m_spImage = image;
+            size(image->size());
         }
         void erase() {
             m_spImage.reset();
@@ -94,22 +98,24 @@ class Sprite : public IDepthSortable, public IFallible, public IMovable
         //static Sprite* load(unsigned int width, unsigned int height) {
             //return new Sprite(width, height);
         //}
-        void render() const;
+        virtual void render() const;
 
         //float w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }
         //float h() { return m_pBitmap ? al_get_bitmap_height(m_pBitmap) : 0; }
         std::bitset<MAX_FLAGS>& flags() { return m_bsFlags; }
         const std::bitset<MAX_FLAGS>& flags() const { return m_bsFlags; }
         
-        Vector2 size() const {
-            return m_spImage->size();
-        }
+        //Vector2 size() const {
+        //    return m_spImage->size();
+        //}
+        
         Vector2& scale() {
             return m_vScale;
         }
         const Vector2& scale() const {
             return m_vScale;
         }
+
         //Vector2& vel() {
         //    return m_vVel;
         //}

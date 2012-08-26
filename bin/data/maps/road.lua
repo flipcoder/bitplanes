@@ -1,5 +1,5 @@
-SCREEN_W = 320
-SCREEN_H = 480
+--SCREEN_W = 320
+--SCREEN_H = 480
 
 spawn("road")
 
@@ -31,7 +31,7 @@ while frames < 100 do
     local enemy = spawn_hook("planeE2")
     x, y = pos(enemy)
     pos(enemy, math.random(SCREEN_W), y)
-    vel(enemy, (math.random(0,1) * 2 - 1) * math.random(0,10), math.random(50,200))
+    vel(enemy, (math.random(0,1) * 2 - 1) * math.random(0,10), math.random(150,300))
     unhook(enemy)
     frames = frames + 1
     coroutine.yield(2)
@@ -43,7 +43,7 @@ while frames < 100 do
     local enemy = spawn_hook("planeE1")
     x, y = pos(enemy)
     pos(enemy, math.random(SCREEN_W), y)
-    vel(enemy, 0, math.random(50,200))
+    vel(enemy, 0, math.random(150,300))
     unhook(enemy)
     frames = frames + 1
     coroutine.yield(10)
@@ -55,7 +55,7 @@ while frames < 200 do
     local enemy = spawn_hook("planeE1")
     x, y = pos(enemy)
     pos(enemy, math.random(SCREEN_W), y)
-    vel(enemy, 0, math.random(50,200))
+    vel(enemy, 0, math.random(150,300))
     unhook(enemy)
     frames = frames + 1
     coroutine.yield(5)
@@ -109,14 +109,14 @@ while exists(boss) > 0 do
         local enemy = spawn_hook("planeE2")
         esx, esy = size(enemy)
         pos(enemy, x + sx/2 - esx/2, y + sy - esy/2) -- spawn on boss
-        vel(enemy, (math.random(0,1) * 2 - 1) * math.random(0,3)*10, math.random(50,200))
+        vel(enemy, (math.random(0,1) * 2 - 1) * math.random(0,3)*10, math.random(150,300))
         unhook(enemy)
     end
     if math.random() < 0.01 then
         local enemy = spawn_hook("planeE1")
         x, y = pos(enemy)
         pos(enemy, math.random(SCREEN_W), y)
-        vel(enemy, 0, math.random(200,400))
+        vel(enemy, 0, math.random(300,500))
         unhook(enemy)
     end
 

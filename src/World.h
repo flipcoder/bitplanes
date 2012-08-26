@@ -68,10 +68,6 @@ class World : public IRealtime
         // current screen contain any enemiess
         bool hasEnemies() const;
 
-        const Vector2 vel() const { return m_vScrollVel; }
-        Vector2 vel() { return m_vScrollVel; }
-        void vel(Vector2 s) { m_vScrollVel = s; }
-
         bool collision(const Box_t& a, const Box_t& b) const;
         bool collision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const;
 

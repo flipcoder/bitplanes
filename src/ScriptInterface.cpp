@@ -13,6 +13,11 @@ ScriptInterface :: ScriptInterface(Script* script, World* world, ObjectFactory* 
     m_pWorld = world;
     m_pFactory = factory;
 
+    lua_pushnumber(m_pState, System::get().w());
+    lua_setglobal(m_pState, "SCREEN_W");
+    lua_pushnumber(m_pState, System::get().h());
+    lua_setglobal(m_pState, "SCREEN_H");
+
     m_pScript->setCallback("spawn", std::bind(&ScriptInterface::cbSpawn, this, std::placeholders::_1));
     m_pScript->setCallback("spawn_hook", std::bind(&ScriptInterface::cbSpawnHook, this, std::placeholders::_1));
     m_pScript->setCallback("unhook", std::bind(&ScriptInterface::cbUnhook, this, std::placeholders::_1));

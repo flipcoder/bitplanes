@@ -11,7 +11,12 @@
 #include "IDamaging.h"
 #include "Audio.h"
 
-class Player : public Object, public IControllable, public IOwnable, public IDestroyable, public IDamaging
+class Player :
+    public Object,
+    public IControllable,
+    public IOwnable,
+    public IDestroyable,
+    public IDamaging
 {
     private:
 
@@ -32,7 +37,19 @@ class Player : public Object, public IControllable, public IOwnable, public IDes
         Freq::Alarm m_BlinkTimer;
         
         std::shared_ptr<Audio::Sound> m_spSound;
-        
+
+        bool m_bCalledInit;
+
+        virtual void onInit() {
+            std::string sound;
+            if(properties().getStringValue("sounds","spawn",sound)) {
+                m_spSound.reset(new Audio::Sound(sound));
+                m_spSound->play();
+                m_spSound->pos(pos());
+                Audio::get().listen(m_spSound);
+            }
+        }
+
     public:
         Player(const std::string& fn):
             Object(fn),

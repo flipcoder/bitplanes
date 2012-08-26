@@ -12,7 +12,7 @@
 
 class Text:
     public IDepthSortable,
-    public IMovable,
+    virtual public IMovable,
     virtual public IRenderable
 {
     private:

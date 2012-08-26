@@ -14,7 +14,12 @@ class IConfigurable
         boost::filesystem::path m_path;
 
     public:
-        IConfigurable(const std::string& fn, const std::string& path = "") {
+        
+        //IConfigurable() {
+        //    assert(false);
+        //}
+
+        explicit IConfigurable(const std::string& fn, const std::string& path = "") {
             m_bConfig = open(fn, path);
         }
         virtual ~IConfigurable() {}
