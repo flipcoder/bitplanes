@@ -7,6 +7,8 @@
 #include "Script.h"
 #include "Freq.h"
 #include "ObjectFactory.h"
+#include "Audio.h"
+
 class Object;
 class World : public IRealtime
 {
@@ -42,6 +44,8 @@ class World : public IRealtime
         std::unique_ptr<Script> m_spScript;
         Freq::Accumulator m_WorldTime;
         unsigned int m_uiWorldTimeMark;
+        
+        std::shared_ptr<Audio::Stream> m_spMusic;
 
         // assumes AABB is overlapping
         bool pixelCollision(const std::shared_ptr<const Object>& a, const std::shared_ptr<const Object>& b) const;
@@ -79,6 +83,16 @@ class World : public IRealtime
         }
         
         Freq::Accumulator* time() { return &m_WorldTime; }
+        
+        std::shared_ptr<Audio::Stream> music() { return m_spMusic; }
+        bool music(const std::string& fn) {
+            try{
+                m_spMusic.reset(new Audio::Stream(fn));
+            }catch(Failure& f){
+                return false;
+            }
+            return true;
+        }
 };
 
 #endif

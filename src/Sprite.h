@@ -98,6 +98,7 @@ class Sprite :
         //static Sprite* load(unsigned int width, unsigned int height) {
             //return new Sprite(width, height);
         //}
+        virtual void logic(float t);
         virtual void render() const;
 
         //float w() { return m_pBitmap ? al_get_bitmap_width(m_pBitmap) : 0; }

@@ -2,6 +2,7 @@
 #define _OBJECTFACTORY_H
 
 #include <memory>
+#include <string>
 class Object;
 class World;
 
@@ -14,7 +15,7 @@ class ObjectFactory
             m_pWorld(world)
         {}
         virtual ~ObjectFactory() {}
-        std::shared_ptr<Object> create(const std::string& name);
+        std::shared_ptr<Object> create(std::string name, std::string type="");
 };
 
 #endif

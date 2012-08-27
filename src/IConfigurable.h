@@ -37,8 +37,6 @@ class IConfigurable
         bool config() const { return m_bConfig; }
         const PropertyList& properties() const { return m_Properties; }
         PropertyList& properties() { return m_Properties; }
-        
-        boost::filesystem::path path() const { return m_path; }
 };
 
 #endif

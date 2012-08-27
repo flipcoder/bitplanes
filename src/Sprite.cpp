@@ -10,13 +10,22 @@ Sprite :: Sprite(const std::string& fn)
     dtor.resolve();
 }
 
+void Sprite ::logic(float t) 
+{
+    Vector2 offset(
+       fmodf(x(), w()),
+       fmodf(y(), h())
+    );
+    pos(offset);
+}
+
 
 void Sprite :: render() const
 {
     if(!m_spImage)
         return;
     
-    // TODO: Probably move this queue crap out of system and into a Renderer class
+    // TODO: Probably should move this queue crap out of System and into a Renderer class
     if(System::get().queued()) {
         //std::shared_ptr<const IDepthSortable> spthis = shared_from_this();
         System::get().depthEnqueue(shared_from_this());

@@ -33,20 +33,24 @@ class ScriptInterface : public IScriptInterface
         // TODO: add type-specific spawn()s
         //  .ini names are getting too similar
         //  ex: enemy("planeE1")
-        int cbSpawnHook(lua_State* state);
+        int cbSpawnHook(lua_State* state, std::string type);
         //int cbHookEnemies(lua_State* state);
         //void cbHook();
         int cbUnhook(lua_State* state);
-        int cbSpawn(lua_State* state);
+        int cbSpawn(lua_State* state, std::string type);
         int cbPosition(lua_State* state);
+        int cbCenter(lua_State* state);
         int cbVelocity(lua_State* state);
         int cbSize(lua_State* state);
+        int cbHealth(lua_State* state);
+        int cbMaxHealth(lua_State* state);
         int cbDepth(lua_State* state);
         int cbClear(lua_State* state);
         int cbExists(lua_State* state);
         int cbEnemies(lua_State* state);
         int cbPlayers(lua_State* state);
-
+        int cbMusic(lua_State* state);
+        
         //std::shared_ptr<IScriptable> hook(unsigned int id) { 
         //    std::map<unsigned int, std::weak_ptr<IScriptable>>::iterator itr = m_Hooks.find(id);
         //    if(itr==m_Hooks.end())

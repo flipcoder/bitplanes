@@ -51,8 +51,6 @@ class GameState : public IState
             {
                 m_aAfterDeath = Freq::Alarm(Freq::Time(1000));
             }
-
-            
         }
         virtual void render() const
         {

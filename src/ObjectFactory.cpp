@@ -2,23 +2,29 @@
 #include "Enemy.h"
 #include "Particle.h"
 #include "Backdrop.h"
+#include "Filesystem.h"
 
-std::shared_ptr<Object> ObjectFactory :: create(const std::string& name)
+std::shared_ptr<Object> ObjectFactory :: create(std::string name, std::string type)
 {
     // create an Object class as a prototype to open config file of above name
     std::unique_ptr<Object> prototype;
+
+    if(!Filesystem::hasExtension(name))
+        name += ".ini";
     
-    PropertyList properties;
-    boost::filesystem::path path = System::get().imageResources().resolvePath(name);
-    if(!properties.open(path.string().c_str())) {
-        assert(false);
-        return std::shared_ptr<Object>();
-    }
-    std::string type = properties.getString("default", "type", "");
     if(type.empty()) {
-        assert(false);
-        return std::shared_ptr<Object>();
-    }
+        PropertyList properties;
+        boost::filesystem::path path = System::get().imageResources().resolvePath(name);
+        if(!properties.open(path.string().c_str())) {
+            assert(false);
+            return std::shared_ptr<Object>();
+        }
+        type = properties.getString("default", "type", "");
+        if(type.empty()) {
+            assert(false);
+            return std::shared_ptr<Object>();
+        }
+    }   
 
     try{
         std::shared_ptr<Object> object;

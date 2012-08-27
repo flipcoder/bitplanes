@@ -3,6 +3,7 @@
 
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
+#include <boost/filesystem.hpp>
 #include <memory>
 #include <vector>
 #include "IStaticInstance.h"
@@ -12,7 +13,7 @@
 #include "ResourceCache.h"
 #include "IMovable.h"
 
-// Basic 2D positional audio system (no rotational, scaling, etc.)
+// Basic stereo positional audio system (no rotation, falloff, etc.)
 class Audio:
     public IRealtime,
     public IStaticInstance<Audio>
@@ -200,7 +201,7 @@ class Audio:
 
         virtual void logic(float t) {
             // transform listener into panspace
-            float listener_pan = m_Listener->x() / (m_Listener->scale()/2.0f) - 1.0f;
+            float listener_pan = m_Listener->center().x / (m_Listener->scale()/2.0f) - 1.0f;
             for(auto itr = m_Sounds.begin();
                 itr != m_Sounds.end(); )
             {
@@ -213,7 +214,7 @@ class Audio:
                     itr = m_Sounds.erase(itr);
                     continue;
                 }
-                float snd_pan = snd->x() / (m_Listener->scale()/2.0f) - 1.0f;
+                float snd_pan = snd->center().x / (m_Listener->scale()/2.0f) - 1.0f;
                 al_set_sample_instance_pan(snd->allegro(), snd_pan - listener_pan);
 
                 ++itr;
@@ -224,8 +225,8 @@ class Audio:
         Listener* listener() { return m_Listener.get(); }
 
         void listen(std::shared_ptr<Sound>& snd) {
-            float listener_pan = m_Listener->x() / (m_Listener->scale()/2.0f) - 1.0f;
-            float snd_pan = snd->x() / (m_Listener->scale()/2.0f) - 1.0f;
+            float listener_pan = m_Listener->center().x / (m_Listener->scale()/2.0f) - 1.0f;
+            float snd_pan = snd->center().x / (m_Listener->scale()/2.0f) - 1.0f;
             al_set_sample_instance_pan(snd->allegro(), snd_pan - listener_pan);
             m_Sounds.push_back(std::weak_ptr<Sound>(snd));
         }

@@ -8,7 +8,8 @@ void Player :: logic(float t)
     const float min_turn_vel = 50.0f;
     const unsigned int turn_frame_time = 100;
     
-    if(!m_bCalledInit) {
+    if(!m_bCalledInit)
+    {
         onInit();
         m_bCalledInit = true;
     }

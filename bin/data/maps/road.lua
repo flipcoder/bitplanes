@@ -1,7 +1,5 @@
---SCREEN_W = 320
---SCREEN_H = 480
-
-spawn("road")
+backdrop("road")
+music("road")
 
 -- simple wave of planes
 i = 0
@@ -112,7 +110,7 @@ while exists(boss) > 0 do
         vel(enemy, (math.random(0,1) * 2 - 1) * math.random(0,3)*10, math.random(150,300))
         unhook(enemy)
     end
-    if math.random() < 0.01 then
+    if math.random() < 0.1 * (1.0 -  (health(boss) / max_health(boss))) then
         local enemy = spawn_hook("planeE1")
         x, y = pos(enemy)
         pos(enemy, math.random(SCREEN_W), y)

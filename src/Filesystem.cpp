@@ -54,6 +54,18 @@ bool hasExtension(const std::string& path, const std::string& ext)
     return stringEndsWith<std::string>(boost::to_lower_copy(path), boost::to_lower_copy(ext));
 }
 
+bool hasExtension(const std::string& path)
+{
+    size_t dot, pathsep;
+
+    if(std::string::npos == (dot = path.find_last_of("."))) // get dot location
+        return false; // no dot = no extension
+    if(std::string::npos == (pathsep = path.find_last_of("\\/")))
+        return true; // dot + no pathsep = has extension
+
+    return dot > pathsep; // last dot comes after last pathsep?
+}
+
 bool pathCompare(const std::string& a, const std::string& b)
 {
     return boost::filesystem::equivalent(
@@ -62,4 +74,5 @@ bool pathCompare(const std::string& a, const std::string& b)
     //return a==b;
 }
 
-};
+}
+
