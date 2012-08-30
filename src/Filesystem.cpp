@@ -49,8 +49,13 @@ std::string getFileNameNoExt(std::string path)
     return cutExtension(path);
 }
 
-bool hasExtension(const std::string& path, const std::string& ext)
+bool hasExtension(const std::string& path, std::string ext)
 {
+    try{
+        if(ext.at(0) != '.')
+            ext = "." + ext;
+    }catch(const std::out_of_range&){}
+
     return stringEndsWith<std::string>(boost::to_lower_copy(path), boost::to_lower_copy(ext));
 }
 
@@ -74,5 +79,36 @@ bool pathCompare(const std::string& a, const std::string& b)
     //return a==b;
 }
 
+boost::filesystem::path locate(
+    std::string fn,
+    const std::vector<boost::filesystem::path>& paths,
+    std::vector<std::string> extensions
+)
+{
+    if(fn.find("\\") != std::string::npos || 
+        fn.find("/") != std::string::npos || 
+        fn.find(":") != std::string::npos)
+    {
+        return boost::filesystem::path(fn); // return actual path
+    }
+    boost::filesystem::path path;
+    foreach(auto& search_path, paths) {
+        //Log::get().write(search_path.string());
+        path = search_path / fn;
+        //Log::get().write(path.string());
+
+        if(path.extension().empty()) {
+            foreach(auto& ext, extensions) { // each extenion
+                boost::filesystem::path temp_path = path;
+                temp_path.replace_extension("."+ext);
+                if(boost::filesystem::exists(temp_path))
+                    return temp_path;
+            }
+        }
+        else if(boost::filesystem::exists(path))
+            return path;
+    }
+    return boost::filesystem::path(); // empty
 }
 
+} // END OF NAMESPACE

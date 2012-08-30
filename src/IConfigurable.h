@@ -26,9 +26,16 @@ class IConfigurable
 
         bool open(const std::string& fn, const std::string& path = "") {
             if(Filesystem::hasExtension(fn,"ini")) {
-                // TODO: use something broader than imageResources()
-                //  this needs to work for audio paths also (see new path param)
-                m_path = System::get().imageResources().resolvePath(fn);
+                std::vector<boost::filesystem::path> search_paths;
+                if(!path.empty()) {
+                    search_paths.push_back(boost::filesystem::path(path));
+                    m_path = Filesystem::locate(fn, search_paths);
+                } else {
+                    // use system imageResources path as default
+                    m_path = System::get().imageResources().locate(fn);
+                }
+                if(m_path.empty())
+                    return false;
                 return m_Properties.open(m_path.string().c_str());
             }
             return false;

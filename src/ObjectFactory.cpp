@@ -12,20 +12,51 @@ std::shared_ptr<Object> ObjectFactory :: create(std::string name, std::string ty
     if(!Filesystem::hasExtension(name))
         name += ".ini";
     
-    if(type.empty()) {
+    // deduce type from ini
+    if(type.empty())
+    {
+        // trying to deduce type of object without extension is impossible
+        if(!Filesystem::hasExtension(name, "ini"))
+        {
+            assert(false);
+            return std::shared_ptr<Object>();
+        }
+
         PropertyList properties;
-        boost::filesystem::path path = System::get().imageResources().resolvePath(name);
-        if(!properties.open(path.string().c_str())) {
+        boost::filesystem::path path = System::get().imageResources().locate(name);
+        name = path.string();
+
+        if(!properties.open(name.c_str()))
+        {
             assert(false);
             return std::shared_ptr<Object>();
         }
         type = properties.getString("default", "type", "");
-        if(type.empty()) {
+        if(type.empty())
+        {
             assert(false);
             return std::shared_ptr<Object>();
         }
     }   
 
+    //// locate an object
+    //if(Filesystem::hasExtension("ini"))
+    //{
+    //    std::vector<boost::filesystem::path> search_paths;
+    //    if(type == "backdrop")
+    //        search_paths.push_back(boost::filesystem::path("data/backdrops/"));
+    //    else
+    //        search_paths.push_back(boost::filesystem::path("data/objects/"));
+    //    std::vector<std::string> extensions;
+
+    //    extensions.push_back("ini"); // load as image
+
+    //    boost::filesystem::path found = Filesystem::locate(name, search_paths, extensions);
+    //    if(found)
+    //        name = found.string();
+    //}
+
+    // dispatch pattern by object type, return Object pointer
     try{
         std::shared_ptr<Object> object;
         // add more object types to this list
@@ -44,8 +75,6 @@ std::shared_ptr<Object> ObjectFactory :: create(std::string name, std::string ty
         assert(false);
     }
 
-    // check the type of the object
-    // dispatch pattern by object type, return Object pointer
     return std::shared_ptr<Object>();
 }
 

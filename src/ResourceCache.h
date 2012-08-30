@@ -6,6 +6,7 @@
 #include <memory>
 #include <algorithm>
 #include <boost/filesystem.hpp>
+#include "Filesystem.h"
 
 template<class T>
 class ResourceCache
@@ -81,25 +82,8 @@ public:
     //    return itr->second.get();
     //}
     //
-    boost::filesystem::path resolvePath(std::string name) {
-        boost::filesystem::path path;
-        foreach(auto& search_path, m_Paths) {
-            //Log::get().write(search_path.string());
-            path = search_path / name;
-            //Log::get().write(path.string());
-
-            if(path.extension().empty()) {
-                foreach(auto& ext, m_Extensions) { // each extenion
-                    boost::filesystem::path temp_path = path;
-                    temp_path.replace_extension("."+ext);
-                    if(boost::filesystem::exists(temp_path))
-                        return temp_path;
-                }
-            }
-            else if(boost::filesystem::exists(path))
-                return path;
-        }
-        return boost::filesystem::path(); // empty
+    boost::filesystem::path locate(std::string name) {
+        return Filesystem::locate(name, m_Paths, m_Extensions);
     }
 
     std::shared_ptr<T> cache(std::string name) {
@@ -114,7 +98,7 @@ public:
             name.find(":") == std::string::npos // ignore path resolution for interfile resources
             )
         {
-            boost::filesystem::path path = resolvePath(name);
+            boost::filesystem::path path = locate(name);
             if(path.empty())
                 return std::shared_ptr<T>();
             name = path.string();
@@ -175,6 +159,9 @@ public:
                 ++itr;
         }
     }
+    
+    std::vector<boost::filesystem::path> paths() { return m_Paths; }
+    std::vector<std::string> extensions() { return m_Extensions; }
 };
 
 #endif

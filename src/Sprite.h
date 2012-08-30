@@ -79,7 +79,8 @@ class Sprite :
 
         void setImage(const std::shared_ptr<const Image>& image) {
             m_spImage = image;
-            size(image->size());
+            if(image)
+                size(image->size());
         }
         void erase() {
             m_spImage.reset();
