@@ -49,7 +49,7 @@ class GameState : public IState
             }
             else if(m_spPlayer->invalid())
             {
-                m_aAfterDeath = Freq::Alarm(Freq::Time(1000));
+                m_aAfterDeath = Freq::Alarm(Freq::Time(1000), m_spWorld->time());
             }
         }
         virtual void render() const

@@ -126,14 +126,18 @@ public:
         
         bool hasTimer() const { return (m_pTimer!=NULL); }
         
-        void assignToTimer(Accumulator* timerRef)
+        void timer(Accumulator* timerRef)
         {
             assert(timerRef);
             m_pTimer = timerRef;
         }
+        const Accumulator* timer() const { return m_pTimer; }
+        Accumulator* timer() { return m_pTimer; }
         
-        void set(Time t)
+        void set(Time t, Accumulator* timer = NULL)
         {
+            if(timer)
+                m_pTimer = timer;
             assert(m_pTimer);
             m_ulStartTime = m_pTimer->milliseconds();
             m_ulAlarmTime = m_ulStartTime + t.milliseconds();
@@ -224,7 +228,7 @@ public:
         }
         explicit Timed(Accumulator* timer) {
             m_Length = Time(0);
-            assignToTimer(timer);
+            this->timer(timer);
         }
         //Timed(const Timed<T>& t) {
         //    m_Start = t.start();

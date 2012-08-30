@@ -71,10 +71,8 @@ int ScriptInterface :: cbSpawnHook(lua_State* state, std::string type)
         for(i=0;;i++)
             if(m_Hooks.find(i) == m_Hooks.end())
             {
-                m_Hooks[i] = {
-                    std::weak_ptr<IScriptable>(std::dynamic_pointer_cast<IScriptable>(object))
-                };
-                //m_Hooks[i].push_back(std::weak_ptr<IScriptable>(std::dynamic_pointer_cast<IScriptable>(object)));
+                //m_Hooks[i] = std::vector<>();
+                m_Hooks[i].push_back(std::weak_ptr<IScriptable>(std::dynamic_pointer_cast<IScriptable>(object)));
                 break;
             }
     }

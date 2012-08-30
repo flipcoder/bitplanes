@@ -7,3 +7,4 @@ libpng12-dev
 zlib1g-dev
 xorg-dev
 libxcursor-dev
+liblua5.1-dev

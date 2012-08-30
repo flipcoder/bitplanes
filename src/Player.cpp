@@ -45,12 +45,12 @@ void Player :: logic(float t)
     if(xvel > min_turn_vel)
     {
         setImage("right");
-        m_FrameResetAlarm.set(Freq::Time(turn_frame_time));
+        m_FrameResetAlarm.set(Freq::Time(turn_frame_time), world()->time());
     }
     else if(xvel < -min_turn_vel)
     {
         setImage("left");
-        m_FrameResetAlarm.set(Freq::Time(turn_frame_time));
+        m_FrameResetAlarm.set(Freq::Time(turn_frame_time), world()->time());
     }
     else
     {

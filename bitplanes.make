@@ -29,7 +29,7 @@ ifeq ($(config),debug)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -g -std=c++0x -pedantic
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += 
-  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua
+  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua5.1
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)
@@ -51,7 +51,7 @@ ifeq ($(config),release)
   CFLAGS    += $(CPPFLAGS) $(ARCH) -O2 -std=c++0x -pedantic
   CXXFLAGS  += $(CFLAGS) 
   LDFLAGS   += -s
-  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua
+  LIBS      += -lallegro -lallegro_image -lallegro_acodec -lallegro_ttf -lallegro_font -lallegro_audio -lboost_system -lboost_filesystem -llua5.1
   RESFLAGS  += $(DEFINES) $(INCLUDES) 
   LDDEPS    += 
   LINKCMD    = $(CXX) -o $(TARGET) $(OBJECTS) $(LDFLAGS) $(RESOURCES) $(ARCH) $(LIBS)

@@ -1,12 +1,44 @@
-Bitplanes
+# Bitplanes
 http://github.com/flipcoder/bitplanes
-Copyright (c) 2011 Grady O'Connell
+Copyright &copy; 2012 Grady O'Connell
 
 See CREDITS for a list of all contributors
+See LICENSE for more information
 
-LICENSE
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+=====
 
-The above copyright notice, this permission notice, and the included CREDITS document, shall be included in all copies or substantial portions of the Software.
+## About ##
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Bitplanes is a retro-styled vertical shooter written in C++ using the Allegro library and Lua for scripting.
+It is temporarily limited to MSVC2010-compatible C++11 features, although I develop it in Linux so every once in
+a while I'll add something incompatible by accident.
+
+## Building ##
+
+If you're on Ubuntu, run:
+    chmod +x get_libs.sh && ./get_libs.sh
+
+This will get most of the libraries you need, with the exception of Allegro5, which you can
+build yourself using the instructions at the following link: http://wiki.allegro.cc/index.php?title=Ubuntu_and_Allegro_5
+
+If you're on another distro or windows, you'll need allegro5, boost, and lua5.1.  For a list of libs you'll need, look at:
+    third_party/lib_names.txt
+
+Once you've gotten the libraries, build it with:
+    make
+
+For windows users, I recommend grabbing binary versions of the libraries, and adding them to c:/msvc/libs and c:/msvc/include (or something similar).
+then add those directories into MSVC's search path.  Before you run the .exe, Make sure you have right the DLLs in your env path or in the bitplanes bin folder.
+
+## Creating Maps ##
+
+Bitplanes has a basic Lua API for spawning, hooking, and interfacing with objects and parts of the game engine.  For an example map and boss fight, look at:
+    bin/data/maps/road.lua
+
+This is a work in progress since there are no ways to load custom maps yet (other than swapping them out with road.lua).  I will fix this soon.
+
+It does not take advantage of Lua's object system but instead uses IDs to refer to each "hooked" object in the system (see ScriptInterface.h/cpp)
+
+Objects (including stats of players, weapons, and enemies) look at the .ini files under:
+    bin/data/objects/
+
