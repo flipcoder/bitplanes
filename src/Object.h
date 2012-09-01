@@ -73,7 +73,11 @@ class Object :
 
         Object(const std::string& fn);
         virtual ~Object();
-        virtual void init() {}
+        
+        virtual void onAdd() {}
+        virtual void onRemove() {}
+
+        //virtual void init() {}
         virtual void logic(float t) {
             move(vel() * t);
             //move((vel() - world()->vel()) * t);
@@ -89,7 +93,6 @@ class Object :
         // (to be called by World) assigns a world pointer to this item
         void setWorld(World* world) {
             m_pWorld = world;
-            init();
         }
 
         bool invalid() const { return m_bInvalid; }

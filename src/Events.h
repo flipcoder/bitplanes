@@ -6,6 +6,8 @@
 #include "IRealtime.h"
 #include "math/vector2.h"
 
+// TODO: Add "Controller" system that can check certain keys based on bindings
+
 class Events : public IStaticInstance<Events>, public IRealtime
 {
     public:

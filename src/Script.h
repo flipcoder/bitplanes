@@ -19,7 +19,6 @@ class Script : public IFallible, public IConfigurable, public IRealtime
 {
     private:
 
-        std::ifstream m_Script;
         std::vector<std::unique_ptr<IScriptInterface>> m_Interfaces;
         std::map<std::string, std::function<int(lua_State*)>> m_Callbacks;
         lua_State* m_pState;
@@ -45,7 +44,7 @@ class Script : public IFallible, public IConfigurable, public IRealtime
 
         virtual void logic(float t);
 
-        bool enable(IScriptInterface* interface);
+        bool enable(IScriptInterface* iface);
         bool reset();
 
         // Load in resources used by script

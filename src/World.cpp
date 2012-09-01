@@ -14,7 +14,8 @@ World :: World(const std::string& fn)
     m_spScript.reset(new Script(fn));
     m_spFactory.reset(new ObjectFactory(this));
     m_spScript->enable(new ScriptInterface(m_spScript.get(), this,  m_spFactory.get()));
-    m_spScript->reset();
+    if(!m_spScript->reset())
+        throw Failure("Unable to load world script.");
     //m_WorldTime.speed(0.5f);
 }
 
@@ -35,7 +36,10 @@ void World :: logic(float t)
     {
         (*itr)->logic(t);
         if((*itr)->invalid())
+        {
+            (*itr)->onRemove();
             itr = m_Objects.erase(itr);
+        }
         else
             ++itr;
     }
@@ -69,6 +73,8 @@ void World :: logic(float t)
     m_bLocked = false;
 
     // move spawners (objects added during loop above) to object list
+    foreach(auto& obj, m_SpawnList)
+        obj->onAdd();
     m_Objects.splice(m_Objects.end(), m_SpawnList);
 }
 
@@ -84,13 +90,17 @@ bool World :: add(std::shared_ptr<Object> obj) {
     //if(m_SpawnList.find(obj) != m_SpawnList.end())
     //    return false;
     
+    obj->setWorld(this);
+
     // locking takes place in World::logic(), so we don't modify the list while iterating and miss object logic calls
     if(m_bLocked)
         m_SpawnList.push_back(obj);
     else
+    {
         m_Objects.push_back(obj);
+        obj->onAdd();
+    }
     
-    obj->setWorld(this);
     return true;
 }
 

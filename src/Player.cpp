@@ -8,11 +8,11 @@ void Player :: logic(float t)
     const float min_turn_vel = 50.0f;
     const unsigned int turn_frame_time = 100;
     
-    if(!m_bCalledInit)
-    {
-        onInit();
-        m_bCalledInit = true;
-    }
+    //if(!m_bCalledInit)
+    //{
+    //    onInit();
+    //    m_bCalledInit = true;
+    //}
 
     if(m_spSound)
         m_spSound->pos(pos());
@@ -45,12 +45,12 @@ void Player :: logic(float t)
     if(xvel > min_turn_vel)
     {
         setImage("right");
-        m_FrameResetAlarm.set(Freq::Time(turn_frame_time), world()->time());
+        m_FrameResetAlarm.set(Freq::Time(turn_frame_time));
     }
     else if(xvel < -min_turn_vel)
     {
         setImage("left");
-        m_FrameResetAlarm.set(Freq::Time(turn_frame_time), world()->time());
+        m_FrameResetAlarm.set(Freq::Time(turn_frame_time));
     }
     else
     {

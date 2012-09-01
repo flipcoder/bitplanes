@@ -51,9 +51,9 @@ void Script :: precache()
     // precache resources used by script
 }
 
-bool Script :: enable(IScriptInterface* interface)
+bool Script :: enable(IScriptInterface* iface)
 {
-    m_Interfaces.push_back(std::unique_ptr<IScriptInterface>(interface));
+    m_Interfaces.push_back(std::unique_ptr<IScriptInterface>(iface));
     return true;
 }
 

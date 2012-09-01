@@ -60,15 +60,19 @@ System :: System()
     //m_ImageResources.addExtension("png");
     m_ImageResources.addPath("data/objects/");
     m_ImageResources.addPath("data/backdrops/");
+    
+    m_spSession.reset(new Session());
 
     dtor.resolve();
+    // Note: Do not load any sprites, images, or anything that may access System::get() while in this constructor
 }
 
 System :: ~System()
 {
     destroyStateManager();
     al_set_target_bitmap(nullptr);
-    al_destroy_display(m_pDisplay);
+    if(m_pDisplay)
+        al_destroy_display(m_pDisplay);
 }
 
 bool System :: logic()
@@ -134,14 +138,18 @@ bool System :: run()
 IState* System :: newState(const std::string id)
 {
     IState* state = nullptr;
-    if(id == "game")
-        state = new GameState();
-    else if(id == "title")
-        state = new TitleState();
-    if(state->hasError()){
-        delete state;
-        state = NULL;
-    }
+    
+    try{
+        if(id == "game")
+            state = new GameState();
+        else if(id == "title")
+            state = new TitleState();
+        if(state->hasError()){
+            delete state;
+            state = NULL;
+        }
+    }catch(const Failure&){}
+
     return state;
 }
 

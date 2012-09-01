@@ -67,6 +67,7 @@ OBJECTS := \
 	$(OBJDIR)/Filesystem.o \
 	$(OBJDIR)/World.o \
 	$(OBJDIR)/Main.o \
+	$(OBJDIR)/MapList.o \
 	$(OBJDIR)/Particle.o \
 	$(OBJDIR)/Image.o \
 	$(OBJDIR)/Player.o \
@@ -81,6 +82,7 @@ OBJECTS := \
 	$(OBJDIR)/Events.o \
 	$(OBJDIR)/Object.o \
 	$(OBJDIR)/Audio.o \
+	$(OBJDIR)/GameState.o \
 	$(OBJDIR)/ScriptInterface.o \
 	$(OBJDIR)/Sprite.o \
 
@@ -152,6 +154,9 @@ $(OBJDIR)/World.o: src/World.cpp
 $(OBJDIR)/Main.o: src/Main.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/MapList.o: src/MapList.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Particle.o: src/Particle.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
@@ -192,6 +197,9 @@ $(OBJDIR)/Object.o: src/Object.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Audio.o: src/Audio.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/GameState.o: src/GameState.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/ScriptInterface.o: src/ScriptInterface.cpp

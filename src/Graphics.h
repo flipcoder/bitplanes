@@ -4,6 +4,8 @@
 //#include "GfxAPI.h"
 #include "Util.h"
 #include "math/common.h"
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 
 class Color
 {
@@ -13,11 +15,6 @@ class Color
         else if(f<0.0f)
             f=0.0f;
         return f;
-    }
-
-    void parseHex(const char* p) {
-        assert(p);
-        // TODO: hex string -> color parsing
     }
 
 public:
@@ -102,7 +99,7 @@ public:
         saturate();
         return *this;
     }
-    Color operator*=(Color& c) {
+    Color operator*=(const Color& c) {
         r*=c.r;
         b*=c.b;
         g*=c.g;
@@ -110,7 +107,13 @@ public:
         saturate();
         return *this;
     }
-    
+    friend bool operator==(const Color& a, const Color& b) {
+        for(unsigned int i=0; i<4; i++)
+            if(!floatcmp(a.c[i], b.c[i]))
+                return false;
+        return true;
+    }
+        
     void saturate() {
         r = saturate(r);
         b = saturate(b);
@@ -141,6 +144,30 @@ public:
     ALLEGRO_COLOR allegro() const {
         return al_map_rgba_f(r,g,b,a);
     }
+    
+    bool hex(std::string s){
+        unsigned int v;
+
+        if(boost::starts_with(s, "0x"))
+            s = s.substr(2);
+        else if(boost::starts_with(s, "#"))
+            s = s.substr(1);
+
+        for(size_t i=0;i<s.size();++i) {
+            try{ 
+                v = boost::lexical_cast<unsigned int>(str("0x") + s.substr(i*2,i+2));
+                c[i] = round_int(v/255.0f);
+            }catch(const boost::bad_lexical_cast&){
+                return false;
+            }catch(const std::out_of_range&){
+                return false;
+            }
+        }
+        return true;
+    }
+    //std::string hex() const {
+    //    return "":
+    //}
 
     //void glColor() const { glColor4fv(array()); }
     //void glColor(float _a) const { glColor4f(r, g, b, _a); }

@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <stack>
+#include "ISuspendable.h"
 
 template <class tID, class tState>
 class IStateManager
@@ -179,6 +180,8 @@ class IStateManager
         virtual void freeState(const tState* s) {
             delete s;
         }
+
+        virtual void configure(tState* s) {}
 };
 
 #endif

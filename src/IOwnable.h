@@ -3,6 +3,8 @@
 
 #include <memory>
 
+// TODO: add weak_ptr to owning object so we can keep track of stats
+
 class IOwnable
 {
     public:

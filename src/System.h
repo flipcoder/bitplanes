@@ -4,6 +4,7 @@
 #include <allegro5/allegro5.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
+#include <boost/optional.hpp>
 #include "IFallible.h"
 #include "IStaticInstance.h"
 #include "IStateManager.h"
@@ -15,6 +16,7 @@
 #include "DepthQueue.h"
 #include "Image.h"
 #include "ResourceCache.h"
+#include "Session.h"
 
 class System :
     public IStaticInstance<System>,
@@ -31,6 +33,8 @@ class System :
         unsigned int m_Scale;
         DepthQueue m_DepthQueue;
         ResourceCache<Image> m_ImageResources;
+        std::shared_ptr<Session> m_spSession;
+        boost::optional<Freq::Alarm> m_ScreenFade;
 
         //std::list<Alarm*> m_AlarmList;
 
@@ -72,8 +76,18 @@ class System :
 
         ResourceCache<Image>& imageResources() { return m_ImageResources; }
         const ResourceCache<Image>& imageResources() const { return m_ImageResources; }
+        
+        Session* session() { return m_spSession.get(); }
+        const Session* session() const { return m_spSession.get(); }
+        Session* newSession() {
+            m_spSession.reset(new Session());
+            return m_spSession.get();
+        }
 
         float scale() const { return 1.0f*m_Scale; }
+
+        // TODO: Add timed screen fader (use Freq::Timed) (maybe with retro stairstep interp function?)
+        //  Use m_ScreenFade (above)
 };
 
 #endif

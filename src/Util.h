@@ -13,7 +13,6 @@
 //#include <boost/optional/optional.hpp>
 //#include <boost/serialization/shared_ptr.hpp>
 
-
 //typedef signed char byte;
 typedef unsigned char ubyte;
 typedef unsigned int uint;
@@ -207,6 +206,8 @@ bool push_back_unique(T& container, const U& element)
     }
     return false;
 }
+
+
 
 //#define NO_DEALLOCATOR boost::serialization::null_deleter()
 
