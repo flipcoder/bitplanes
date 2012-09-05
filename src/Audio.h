@@ -167,6 +167,7 @@ class Audio:
                 virtual ~Listener() {}
 
                 virtual void logic(float t) {
+                    IMovable::logic(t);
                 }
                 float scale() const { return m_fScale; }
                 void scale(float f) { m_fScale = f; }
@@ -189,8 +190,8 @@ class Audio:
                 throw Failure();
             al_reserve_samples(32);
             samples().addPath("data/audio/");
-            dtor.resolve();
             m_Listener.reset(new Listener());
+            dtor.resolve();
         }
         ~Audio() {
             m_Samples.clear();

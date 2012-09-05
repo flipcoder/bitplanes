@@ -79,7 +79,8 @@ class Object :
 
         //virtual void init() {}
         virtual void logic(float t) {
-            move(vel() * t);
+            IMovable::logic(t);
+            //move(vel() * t);
             //move((vel() - world()->vel()) * t);
         }
         virtual void render() const {

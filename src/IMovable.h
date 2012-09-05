@@ -4,8 +4,9 @@
 #include <functional>
 #include "math/vector2.h"
 
-// make callbacks signal/slot
-class IMovable
+// TODO: make callbacks signal/slot
+class IMovable:
+    public IRealtime
 {
     public:
 
@@ -62,7 +63,42 @@ class IMovable
             center(Vector2(x,y)); // calls move
         }
 
+        void attach(std::shared_ptr<IMovable>& target, Vector2 offset = Vector2()) {
+            m_wpTarget = target;
+            m_vOffset = offset;
+            snapToTarget();
+        }
+
+        void dettach() {
+            snapToTarget();
+            m_wpTarget.reset();
+            m_vOffset = Vector2();
+        }
+
+        virtual void logic(float t) {
+            snapToTarget();
+            m_vPos += (m_vVel * t);
+            callMove();
+        }
+
+        std::shared_ptr<IMovable> target() {
+            return m_wpTarget.lock();
+        }
+
+        bool attached() const {
+            return !m_wpTarget.expired();
+        }
+
     private:
+
+        void snapToTarget() {
+            std::shared_ptr<IMovable> target;
+            if((target = m_wpTarget.lock()))
+                m_vPos = target->pos();
+            else
+                m_wpTarget.reset();
+        }
+
         void callMove() {
             try{
                 m_cbOnMove();
@@ -73,6 +109,8 @@ class IMovable
         Vector2 m_vPos;
         Vector2 m_vVel;
         Vector2 m_vSize;
+        Vector2 m_vOffset;
+        std::weak_ptr<IMovable> m_wpTarget;
 };
 
 #endif

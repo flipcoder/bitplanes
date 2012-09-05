@@ -64,7 +64,7 @@
 			<PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>allegro.lib;allegro_image.lib;allegro_acodec.lib;allegro_ttf.lib;allegro_font.lib;allegro_audio.lib;boost_system.lib;boost_filesystem.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>allegro.lib;allegro_image.lib;allegro_acodec.lib;allegro_ttf.lib;allegro_font.lib;allegro_audio.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)bitplanes.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -90,7 +90,7 @@
 			<PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
 		</ResourceCompile>
 		<Link>
-			<AdditionalDependencies>allegro.lib;allegro_image.lib;allegro_acodec.lib;allegro_ttf.lib;allegro_font.lib;allegro_audio.lib;boost_system.lib;boost_filesystem.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>allegro.lib;allegro_image.lib;allegro_acodec.lib;allegro_ttf.lib;allegro_font.lib;allegro_audio.lib;boost_system.lib;boost_filesystem.lib;lua5.1.lib;%(AdditionalDependencies)</AdditionalDependencies>
 			<OutputFile>$(OutDir)bitplanes.exe</OutputFile>
 			<AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
 			<SubSystem>Windows</SubSystem>
@@ -102,17 +102,20 @@
 		</Link>
 	</ItemDefinitionGroup>
 	<ItemGroup>
+		<ClInclude Include="src\IStats.h" />
 		<ClInclude Include="src\Audio.h" />
 		<ClInclude Include="src\Text.h" />
 		<ClInclude Include="src\ScriptInterface.h" />
 		<ClInclude Include="src\Freq.h" />
 		<ClInclude Include="src\TitleState.h" />
 		<ClInclude Include="src\Sprite.h" />
+		<ClInclude Include="src\LobbyState.h" />
 		<ClInclude Include="src\ResourceCache.h" />
 		<ClInclude Include="src\IDepthSortable.h" />
 		<ClInclude Include="src\IType.h" />
 		<ClInclude Include="src\PropertyList.h" />
 		<ClInclude Include="src\IScriptInterface.h" />
+		<ClInclude Include="src\Session.h" />
 		<ClInclude Include="src\Filesystem.h" />
 		<ClInclude Include="src\IDestroyable.h" />
 		<ClInclude Include="src\Events.h" />
@@ -123,25 +126,25 @@
 		<ClInclude Include="src\IDamaging.h" />
 		<ClInclude Include="src\IOwnable.h" />
 		<ClInclude Include="src\ITaggable.h" />
-		<ClInclude Include="src\ScoreState.h" />
 		<ClInclude Include="src\Sound.h" />
 		<ClInclude Include="src\IScriptable.h" />
 		<ClInclude Include="src\IState.h" />
 		<ClInclude Include="src\System.h" />
 		<ClInclude Include="src\Particle.h" />
 		<ClInclude Include="src\Enemy.h" />
-		<ClInclude Include="src\IPosition.h" />
 		<ClInclude Include="src\GameState.h" />
 		<ClInclude Include="src\Log.h" />
+		<ClInclude Include="src\Client.h" />
 		<ClInclude Include="src\Object.h" />
+		<ClInclude Include="src\MapList.h" />
 		<ClInclude Include="src\IMovable.h" />
 		<ClInclude Include="src\Player.h" />
 		<ClInclude Include="src\IRenderable.h" />
-		<ClInclude Include="src\ICloneable.h" />
 		<ClInclude Include="src\Image.h" />
 		<ClInclude Include="src\IControllable.h" />
 		<ClInclude Include="src\IStateManager.h" />
 		<ClInclude Include="src\IRealtime.h" />
+		<ClInclude Include="src\ISuspendable.h" />
 		<ClInclude Include="src\IAudible.h" />
 		<ClInclude Include="src\Tags.h" />
 		<ClInclude Include="src\Weapon.h" />
@@ -164,6 +167,8 @@
 		<ClCompile Include="src\World.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Main.cpp">
+		</ClCompile>
+		<ClCompile Include="src\MapList.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Particle.cpp">
 		</ClCompile>
@@ -192,6 +197,8 @@
 		<ClCompile Include="src\Object.cpp">
 		</ClCompile>
 		<ClCompile Include="src\Audio.cpp">
+		</ClCompile>
+		<ClCompile Include="src\GameState.cpp">
 		</ClCompile>
 		<ClCompile Include="src\ScriptInterface.cpp">
 		</ClCompile>
