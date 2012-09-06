@@ -49,6 +49,9 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
         virtual ~Enemy() {
             // TODO: If you add anything here, make sure you put back in scoped_dtors
         }
+        //virtual void onAdd() {
+            
+        //}
 
         void restoreTint() {
             sprite().tint(Color(1.0f,(float)health()/maxHealth(),(float)health()/maxHealth(),1.0f));
@@ -95,7 +98,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                 smoke->vel(Vector2(0.1f * (rand() % 1000) * (rand() % 2 ? 1.0f : -1.0f), 0.0f));
                 smoke->sprite().depth(10.0f);
                 world()->add(smoke);
-                m_SmokeTimer.set(Freq::Time(20));
+                m_SmokeTimer.set(Freq::Time(20), world()->time());
             }
         }
         //virtual void render() const {
@@ -122,7 +125,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                 IOwnable* o = dynamic_cast<IOwnable*>(object.get());
                 if(o->owner() == IOwnable::O_FRIENDLY) {
                     hurt(d->damage());
-                    m_FlashTimer = Freq::Alarm(Freq::Time(50));
+                    m_FlashTimer = Freq::Alarm(Freq::Time(50), world()->time());
                     sprite().tint(Color(0.5f,0.5f,0.5f,0.5f));
 
                     std::string impact_fn;

@@ -16,7 +16,7 @@ World :: World(const std::string& fn)
     m_spScript->enable(new ScriptInterface(m_spScript.get(), this,  m_spFactory.get()));
     if(!m_spScript->reset())
         throw Failure("Unable to load world script.");
-    //m_WorldTime.speed(0.5f);
+    //m_WorldTime.speed(0.2f); // slow motion
 }
 
 void World :: logic(float t)

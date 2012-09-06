@@ -33,10 +33,10 @@ class Sprite :
     private:
 
         void nullify() {
-            m_vScale = Vector2(1.0f, 1.0f);
+            //m_vScale = Vector2(1.0f, 1.0f);
         }
 
-        Vector2 m_vScale;
+        //Vector2 m_vScale;
         //Vector2 m_vVel;
         
         std::bitset<MAX_FLAGS> m_bsFlags;
@@ -79,8 +79,10 @@ class Sprite :
 
         void setImage(const std::shared_ptr<const Image>& image) {
             m_spImage = image;
-            if(image)
+            if(image) {
                 size(image->size());
+                pivot(image->size()/2.0f);
+            }
         }
         void erase() {
             m_spImage.reset();
@@ -111,12 +113,12 @@ class Sprite :
         //    return m_spImage->size();
         //}
         
-        Vector2& scale() {
-            return m_vScale;
-        }
-        const Vector2& scale() const {
-            return m_vScale;
-        }
+        //Vector2& scale() {
+        //    return m_vScale;
+        //}
+        //const Vector2& scale() const {
+        //    return m_vScale;
+        //}
 
         //Vector2& vel() {
         //    return m_vVel;

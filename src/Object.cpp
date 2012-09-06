@@ -35,8 +35,8 @@ Object :: Object(const std::string& fn):
         m_spSprite.reset(new Sprite(fn));
     }
 
+    updateSprite();
     callbackOnMove(std::bind(&Object::updateSprite, this));
-
     dtor.resolve();
 }
 

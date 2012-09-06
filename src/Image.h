@@ -4,11 +4,12 @@
 #include <allegro5/allegro5.h>
 #include "math/vector2.h"
 #include "IFallible.h"
-#include "IRenderable.h"
+#include "IRenderable.h" // might be unused
 #include "Graphics.h"
+#include "IMovable.h" // for pass into render()
 
 // OO wrapper for allegro bitmap
-class Image : public IFallible, public IRenderable
+class Image : public IFallible//, public IRenderable
 {
     private:
 
@@ -16,10 +17,10 @@ class Image : public IFallible, public IRenderable
 
         void nullify() {
             m_pBitmap = nullptr;
-            m_pPos = nullptr;
+            //m_pPos = nullptr;
         }
 
-        Vector2* m_pPos; // weak
+        //Vector2* m_pPos; // weak
 
     public:
         
@@ -27,8 +28,8 @@ class Image : public IFallible, public IRenderable
         Image(int w, int h);
         virtual ~Image();
 
-        virtual void render() const;
-        void renderAt(const Vector2& v) const;
+        //virtual void render() const;
+        void render(const IMovable* pos) const;
         //void render(const Vector2& pos, const Vector2& size);
         ALLEGRO_BITMAP* bitmap() { return m_pBitmap; }
         const ALLEGRO_BITMAP* bitmap() const { return m_pBitmap; }

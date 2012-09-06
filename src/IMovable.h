@@ -3,6 +3,8 @@
 
 #include <functional>
 #include "math/vector2.h"
+#include "math/angle.h"
+#include "IRealtime.h"
 
 // TODO: make callbacks signal/slot
 class IMovable:
@@ -21,7 +23,7 @@ class IMovable:
         float w() const { return m_vSize.x; }
         float h() const { return m_vSize.y; }
 
-        const Vector2& pos() const { return m_vPos; }
+        const Vector2& pos() const {return m_vPos;}
         void pos(float x, float y) {
             m_vPos = Vector2(x,y);
             callMove();
@@ -53,6 +55,16 @@ class IMovable:
             m_vSize = size;
         }
         Vector2 size() const { return m_vSize; }
+        
+        void offset(Vector2 offset) {
+            m_vOffset = offset;
+        }
+        Vector2 offset() const { return m_vOffset; }
+        
+        void pivot(Vector2 pivot) {
+            m_vPivot = pivot;
+        }
+        Vector2 pivot() const { return m_vPivot; }
 
         Vector2 center() const { return Vector2(m_vPos.x + m_vSize.x/2.0f, m_vPos.y + m_vSize.y/2.0f); }
         void center(Vector2 c) {
@@ -89,12 +101,27 @@ class IMovable:
             return !m_wpTarget.expired();
         }
 
+        // Does not sync targets
+        //void sync(const IMovable* newer) {
+        //    m_vPos = pos();
+        //    m_vVel = vel();
+        //    m_vSize = size();
+        //    m_vOffset = offset();
+        //    //m_wpTarget = target();
+        //    m_Rot = rot();
+        //}
+
+        Angle rot() const { return m_Rot; }
+        void rot(Angle a) { m_Rot=a; }
+
+        bool isRotated() const { return Angle(0.0f) != m_Rot; }
+
     private:
 
         void snapToTarget() {
             std::shared_ptr<IMovable> target;
             if((target = m_wpTarget.lock()))
-                m_vPos = target->pos();
+                m_vPos = target->pos() + m_vOffset;
             else
                 m_wpTarget.reset();
         }
@@ -106,11 +133,20 @@ class IMovable:
         }
         
         std::function<void()> m_cbOnMove;
+        
+        // basic stuff
         Vector2 m_vPos;
         Vector2 m_vVel;
         Vector2 m_vSize;
+
+        // attaching
         Vector2 m_vOffset;
+        Vector2 m_vParallax; // linear offset (for shadows, etc.)
         std::weak_ptr<IMovable> m_wpTarget;
+
+        // rotating
+        Vector2 m_vPivot;
+        Angle m_Rot;
 };
 
 #endif

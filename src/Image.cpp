@@ -34,15 +34,22 @@ Image :: ~Image()
     al_destroy_bitmap(m_pBitmap);
 }
 
-void Image :: render() const
-{
-    assert(m_pPos);
-    renderAt(*m_pPos);
-}
+//void Image :: render() const
+//{
+//    assert(m_pPos);
+//    renderAt(*m_pPos);
+//}
 
-void Image :: renderAt(const Vector2& pos) const
+void Image :: render(const IMovable* pos) const
 {
-    al_draw_bitmap(const_cast<ALLEGRO_BITMAP*>(m_pBitmap), pos.x, pos.y, 0);
+    Vector2 transformed = pos->pos(); // temp
+    al_draw_rotated_bitmap(const_cast<ALLEGRO_BITMAP*>(m_pBitmap),
+        //pos->pivot().x, pos->pivot().y,
+        //pos->pos().x, pos->pos().y,
+        0.0f, 0.0f,
+        transformed.x, transformed.y,
+        pos->rot().degrees(),
+        0);
 }
 
 //void Image :: render(const Vector2& pos, const Vector2& size)

@@ -67,51 +67,54 @@ class Angle
         Angle operator -() const {
             return Angle(-m_fDeg);
         }
-        Angle operator *(const float& f) {
+        Angle operator *(const float f) {
             return Angle(m_fDeg * f);
         }
-        Angle operator*=(const float& f) {
+        Angle operator*=(const float f) {
             return (*this = *this*f);
         }
-        bool operator==(const Angle& a) {
+        bool operator==(const Angle& a) const {
             return floatcmp(m_fDeg, a.degrees());
         }
+        bool operator!=(const Angle& a) const {
+            return !floatcmp(m_fDeg, a.degrees());
+        }
 
-        bool operator==(const float& f) {
+        bool operator==(const float f) const {
             return floatcmp(m_fDeg, f);
         }
-        bool operator!=(const float& f) {
+        bool operator!=(const float f) const {
             return !floatcmp(m_fDeg, f);
         }
-        Angle operator=(const float& f) {
+        Angle operator=(const float f) {
             m_fDeg = f;
             wrap();
             return *this;
         }
 
-        bool operator>(const float& f) {
+        bool operator>(const float f) const {
             return degrees() > f;
         }
-        bool operator>=(const float& f) {
+        bool operator>=(const float f) const {
             return degrees() >= f;
         }
-        bool operator<(const float& f) {
+        bool operator<(const float f) const {
             return degrees() < f;
         }
-        bool operator<=(const float& f) {
+        bool operator<=(const float f) const {
             return degrees() <= f;
         }
 
-        bool operator>(const Angle& a) {
+        bool operator>(const Angle& a) const {
             return degrees() > a.degrees();
         }
-        bool operator>=(const Angle& a) {
+        bool operator>=(const Angle& a) const {
             return degrees() >= a.degrees();
         }
-        bool operator<(const Angle& a) {
+        bool operator<(const Angle& a) const {
             return degrees() < a.degrees();
         }
-        bool operator<=(const Angle& a) {
+        bool operator<=(const Angle& a) const {
             return degrees() <= a.degrees();
         }
 };

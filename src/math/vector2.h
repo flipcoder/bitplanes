@@ -161,6 +161,9 @@ class Vector2
             );
         }
 
+        static float distance(const Vector2& a, const Vector2& b) {
+            return sqrt(pow(b.x - a.x, 2.0f) + pow(b.y - a.y, 2.0f));
+        }
 };
 
 #endif

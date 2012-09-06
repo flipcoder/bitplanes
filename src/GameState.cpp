@@ -4,6 +4,7 @@
 GameState :: GameState()
 {
     // load the current map
+    std::cout<< (str("data/maps/") + System::get().session()->maps()->current() + ".lua") <<  std::endl;
     m_spWorld.reset(new World(str("data/maps/") + System::get().session()->maps()->current() + ".lua"));
 
     // initialize a plane for each client/player (only 1 right now)

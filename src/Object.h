@@ -99,7 +99,7 @@ class Object :
         bool invalid() const { return m_bInvalid; }
         void invalidate(bool b = true) { m_bInvalid = b; }
 
-        Vector2 size() const { return sprite().image() ? sprite().image()->size() : Vector2(); }
+        //Vector2 size() const { return sprite().image() ? sprite().image()->size() : Vector2(); }
         const Sprite& sprite() const { return *m_spSprite.get(); }
         Sprite& sprite() { return *m_spSprite.get(); }
 
@@ -109,7 +109,18 @@ class Object :
         virtual void collisionEvent(std::shared_ptr<Object>& obj) {}
         
         void updateSprite() {
-            m_spSprite->pos(pos());
+            
+            // [KLUDGE: beware]
+            // sync sprite with object properties
+            // exchange some IMovable properties between sprite and object (sprite knows image which knows size)
+            m_spSprite->pos(pos()); // give sprite the pos and rot of the object
+            m_spSprite->rot(rot());
+            
+            size(m_spSprite->size()); // sprite sets the size of the object (gets it from image)
+            pivot(m_spSprite->pivot());
+
+            //m_spSprite->sync(this);
+            //m_spSprite->pos(pos());
         }
 };
 
