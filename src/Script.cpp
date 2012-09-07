@@ -32,7 +32,7 @@ Script :: Script(const std::string& fn):
     //}
 
     setupBindings();
-    m_TickFreq = 60;
+    m_TickFrames  = 60;
     //m_TickTime.speed(1000.0f);
 
     dtor.resolve();
@@ -42,7 +42,7 @@ void Script :: nullify()
 {
     m_pState = NULL;
     m_bDone = false;
-    m_TickFreq = 0;
+    m_TickFrames = 0;
     m_SleepFrames = 0;
 }
 
@@ -77,13 +77,23 @@ void Script :: setupBindings()
 
 void Script :: logic(float t)
 {
-    const unsigned int time_between_ticks = round_int(1000.0f / m_TickFreq);
+    const unsigned int time_between_ticks = round_int(1000.0f / m_TickFrames);
     // accumualate time
     m_TickTime.logic(t);
-    if(m_TickTime.milliseconds() < time_between_ticks)
+    //std::cout << m_TickTime.milliseconds() << std::endl;
+    if(m_TickTime.milliseconds() < time_between_ticks) {
         return;
+    }
+    
+    // DEBUG{
+        unsigned int remaining_frames = (unsigned int)(m_TickTime.milliseconds() / time_between_ticks - 1);
+        unsigned int remaining_time = (unsigned int)m_TickTime.milliseconds() % time_between_ticks;
+        //Log::get().write(str("Remaining Frames: ") + str(remaining_frames));
+        assert(remaining_frames == 0); // if this happens, computer is processing frames fast enough
+    // }DEBUG
+    
     m_TickTime.reset();
-    m_TickTime.logic((unsigned int)m_TickTime.milliseconds() % time_between_ticks);
+    m_TickTime.logic(((remaining_frames)*time_between_ticks) + remaining_time);
 
     // need to sleep?
     if(m_SleepFrames > 0)
