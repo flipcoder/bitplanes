@@ -77,11 +77,13 @@ void Script :: setupBindings()
 
 void Script :: logic(float t)
 {
+    const unsigned int time_between_ticks = round_int(1000.0f / m_TickFreq);
     // accumualate time
     m_TickTime.logic(t);
-    if(m_TickTime.milliseconds() < round_int(1000.0f / m_TickFreq))
+    if(m_TickTime.milliseconds() < time_between_ticks)
         return;
     m_TickTime.reset();
+    m_TickTime.logic((unsigned int)m_TickTime.milliseconds() % time_between_ticks);
 
     // need to sleep?
     if(m_SleepFrames > 0)

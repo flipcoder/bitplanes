@@ -79,7 +79,7 @@ bool System :: logic()
 {
     Freq::Time t;
     while(!(t = Freq::get().tick()).milliseconds())
-        al_rest(0.001f);
+        al_rest(0.0001f);
 
     Events::get().logic(t.seconds());
     Audio::get().logic(t.seconds());
