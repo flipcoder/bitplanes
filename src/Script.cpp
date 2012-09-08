@@ -88,8 +88,8 @@ void Script :: logic(float t)
     // DEBUG{
         unsigned int remaining_frames = (unsigned int)(m_TickTime.milliseconds() / time_between_ticks - 1);
         unsigned int remaining_time = (unsigned int)m_TickTime.milliseconds() % time_between_ticks;
-        //Log::get().write(str("Remaining Frames: ") + str(remaining_frames));
-        assert(remaining_frames == 0); // if this happens, computer is processing frames fast enough
+        Log::get().write(str("Remaining Frames: ") + str(remaining_frames));
+        //assert(remaining_frames == 0); // if this happens, computer is processing frames fast enough
     // }DEBUG
     
     m_TickTime.reset();
