@@ -3,6 +3,7 @@
 #include "Particle.h"
 #include "Backdrop.h"
 #include "Filesystem.h"
+#include "Item.h"
 
 std::shared_ptr<Object> ObjectFactory :: create(std::string name, std::string type)
 {
@@ -66,6 +67,8 @@ std::shared_ptr<Object> ObjectFactory :: create(std::string name, std::string ty
             object.reset(new Particle(name));
         else if(type == "backdrop")
             object.reset(new Backdrop(name));
+        else if(type == "item")
+            object.reset(new Item(name));
         else
             return std::shared_ptr<Object>();
 

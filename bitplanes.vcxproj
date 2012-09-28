@@ -135,6 +135,7 @@
 		<ClInclude Include="src\GameState.h" />
 		<ClInclude Include="src\Log.h" />
 		<ClInclude Include="src\Client.h" />
+		<ClInclude Include="src\ScriptContext.h" />
 		<ClInclude Include="src\Object.h" />
 		<ClInclude Include="src\MapList.h" />
 		<ClInclude Include="src\IMovable.h" />

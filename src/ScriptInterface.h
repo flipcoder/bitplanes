@@ -37,6 +37,7 @@ class ScriptInterface : public IScriptInterface
         //int cbHookEnemies(lua_State* state);
         //void cbHook();
         int cbUnhook(lua_State* state);
+        int cbUnhookAll(lua_State* state);
         int cbSpawn(lua_State* state, std::string type);
         int cbPosition(lua_State* state);
         int cbCenter(lua_State* state);
@@ -50,6 +51,7 @@ class ScriptInterface : public IScriptInterface
         int cbEnemies(lua_State* state);
         int cbPlayers(lua_State* state);
         int cbMusic(lua_State* state);
+        int cbConfig(lua_State* state);
         
         //std::shared_ptr<IScriptable> hook(unsigned int id) { 
         //    std::map<unsigned int, std::weak_ptr<IScriptable>>::iterator itr = m_Hooks.find(id);
@@ -94,13 +96,14 @@ class ScriptInterface : public IScriptInterface
             auto& hooks = m_Hooks[id];
             for(auto itr = hooks.begin();
                 itr != hooks.end();) {
-                try{
-                    std::shared_ptr<IScriptable> test_hook(*itr);
-                    ++itr;
-                    ++count;
-                }catch(const std::bad_weak_ptr&) {
-                    itr = hooks.erase(itr);
-                }
+                //try{
+                //    std::shared_ptr<IScriptable> test_hook(*itr);
+                //    ++itr;
+                //    ++count;
+                //}catch(const std::bad_weak_ptr&) {
+                    if(itr->expired())
+                        itr = hooks.erase(itr);
+                //}
             }
             if(hooks.empty())
                 m_Hooks.erase(id);

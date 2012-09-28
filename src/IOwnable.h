@@ -3,13 +3,19 @@
 
 #include <memory>
 
+
+class IOwner
+{
+    public:
+};
+
 // TODO: add weak_ptr to owning object so we can keep track of stats
 
 class IOwnable
 {
     public:
         
-        //std::weak_ptr<> m_wpOwner; // <- way to associate specific groups (adapter for singleplayers and teams both)
+        std::weak_ptr<IOwner> m_wpOwner; // <- way to associate specific groups (adapter for singleplayers and teams both)
 
         enum eOwner {
             O_NONE = 0,

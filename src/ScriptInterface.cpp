@@ -14,30 +14,35 @@ ScriptInterface :: ScriptInterface(Script* script, World* world, ObjectFactory* 
     m_pWorld = world;
     m_pFactory = factory;
 
+    // globals
     lua_pushnumber(m_pState, System::get().w());
     lua_setglobal(m_pState, "SCREEN_W");
     lua_pushnumber(m_pState, System::get().h());
     lua_setglobal(m_pState, "SCREEN_H");
 
+    // world spawning functions
     m_pScript->setCallback("spawn", std::bind(&ScriptInterface::cbSpawn, this, std::placeholders::_1, ""));
     m_pScript->setCallback("backdrop", std::bind(&ScriptInterface::cbSpawn, this, std::placeholders::_1, "backdrop"));
     m_pScript->setCallback("enemy", std::bind(&ScriptInterface::cbSpawn, this, std::placeholders::_1, "enemy"));
     m_pScript->setCallback("particle", std::bind(&ScriptInterface::cbSpawn, this, std::placeholders::_1, "particle"));
     m_pScript->setCallback("item", std::bind(&ScriptInterface::cbSpawn, this, std::placeholders::_1, "item"));
-
+    m_pScript->setCallback("music", std::bind(&ScriptInterface::cbMusic, this, std::placeholders::_1));
     m_pScript->setCallback("spawn_hook", std::bind(&ScriptInterface::cbSpawnHook, this, std::placeholders::_1, ""));
     m_pScript->setCallback("backdrop_hook", std::bind(&ScriptInterface::cbSpawnHook, this, std::placeholders::_1, "backdrop"));
     m_pScript->setCallback("enemy_hook", std::bind(&ScriptInterface::cbSpawnHook, this, std::placeholders::_1, "enemy"));
     m_pScript->setCallback("particle_hook", std::bind(&ScriptInterface::cbSpawnHook, this, std::placeholders::_1, "particle"));
     m_pScript->setCallback("item_hook", std::bind(&ScriptInterface::cbSpawnHook, this, std::placeholders::_1, "item"));
 
+    // attributes
     m_pScript->setCallback("unhook", std::bind(&ScriptInterface::cbUnhook, this, std::placeholders::_1));
+    m_pScript->setCallback("unhook_all", std::bind(&ScriptInterface::cbUnhook, this, std::placeholders::_1));
     m_pScript->setCallback("pos", std::bind(&ScriptInterface::cbPosition, this, std::placeholders::_1));
     m_pScript->setCallback("vel", std::bind(&ScriptInterface::cbVelocity, this, std::placeholders::_1));
     m_pScript->setCallback("size", std::bind(&ScriptInterface::cbSize, this, std::placeholders::_1));
     m_pScript->setCallback("depth", std::bind(&ScriptInterface::cbDepth, this, std::placeholders::_1));
     m_pScript->setCallback("health", std::bind(&ScriptInterface::cbHealth, this, std::placeholders::_1));
     m_pScript->setCallback("max_health", std::bind(&ScriptInterface::cbMaxHealth, this, std::placeholders::_1));
+    m_pScript->setCallback("config", std::bind(&ScriptInterface::cbConfig, this, std::placeholders::_1));
     
     // more:
     // damage() -- for getting/setting damage
@@ -47,7 +52,6 @@ ScriptInterface :: ScriptInterface(Script* script, World* world, ObjectFactory* 
     m_pScript->setCallback("clear", std::bind(&ScriptInterface::cbClear, this, std::placeholders::_1));
     m_pScript->setCallback("exists", std::bind(&ScriptInterface::cbExists, this, std::placeholders::_1));
 
-    m_pScript->setCallback("music", std::bind(&ScriptInterface::cbMusic, this, std::placeholders::_1));
 }
 
 ScriptInterface :: ~ScriptInterface()
@@ -99,6 +103,12 @@ int ScriptInterface :: cbUnhook(lua_State* state)
 {
     unsigned int id = (unsigned int)round_int(lua_tonumber(state, 1));
     m_Hooks.erase(id);
+    return 0;
+}
+
+int ScriptInterface :: cbUnhookAll(lua_State* state)
+{
+    m_Hooks.clear();
     return 0;
 }
 
@@ -261,7 +271,7 @@ int ScriptInterface :: cbDepth(lua_State* state)
     //std::shared_ptr<IScriptable> scriptable(m_Hooks[round_int(lua_tonumber(state, 1))]);
     std::vector<std::shared_ptr<IScriptable>> objects = hook(round_int(lua_tonumber(state, 1)));
 
-    if(lua_gettop(state) == 0) // get depth()
+    if(lua_gettop(state) == 1) // get depth()
     {
         if(objects.size() != 1)
             return 0; // error
@@ -277,6 +287,20 @@ int ScriptInterface :: cbDepth(lua_State* state)
         o->sprite().depth((float)lua_tonumber(state, 2));
     }
     return 0;
+}
+
+int ScriptInterface :: cbConfig(lua_State* state)
+{
+    if(lua_gettop(state) != 3) // must contain object hook, and two strings
+        return 0;
+    std::vector<std::shared_ptr<IScriptable>> objects = hook(round_int(lua_tonumber(state, 1)));
+    if(objects.size() != 1)
+        return 0; // error
+    // get string values, two keys for config lookup (group and prop)
+    Object* o = dynamic_cast<Object*>(objects[0].get());
+    //o->properties().getString(group, prop);
+    // push value
+    return 1;
 }
 
 //int ScriptInterface :: cbImage(lua_State* state)

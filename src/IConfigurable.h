@@ -10,7 +10,7 @@ class IConfigurable
 {
     private:
         PropertyList m_Properties;
-        bool m_bConfig;
+        bool m_bConfigLoaded;
         boost::filesystem::path m_path;
 
     public:
@@ -20,7 +20,7 @@ class IConfigurable
         //}
 
         explicit IConfigurable(const std::string& fn, const std::string& path = "") {
-            m_bConfig = open(fn, path);
+            m_bConfigLoaded = open(fn, path);
         }
         virtual ~IConfigurable() {}
 
@@ -41,7 +41,7 @@ class IConfigurable
             return false;
         }
 
-        bool config() const { return m_bConfig; }
+        bool hasConfig() const { return m_bConfigLoaded; }
         const PropertyList& properties() const { return m_Properties; }
         PropertyList& properties() { return m_Properties; }
 };

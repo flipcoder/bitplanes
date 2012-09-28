@@ -15,20 +15,31 @@ class IMovable:
         IMovable() {}
         virtual ~IMovable() {}
 
-        float x() const { return m_vPos.x; }
-        float y() const { return m_vPos.y; }
+        float x() const {
+            snapToTarget();
+            return m_vPos.x;
+        }
+        float y() const {
+            snapToTarget();
+            return m_vPos.y;
+        }
         float dx() const { return m_vVel.x; }
         float dy() const { return m_vVel.y; }
         
         float w() const { return m_vSize.x; }
         float h() const { return m_vSize.y; }
 
-        const Vector2& pos() const {return m_vPos;}
+        const Vector2& pos() const {
+            snapToTarget();
+            return m_vPos;
+        }
         void pos(float x, float y) {
+            snapToTarget();
             m_vPos = Vector2(x,y);
             callMove();
         }
         void pos(const Vector2& pos) {
+            snapToTarget();
             m_vPos = pos;
             callMove();
         }
@@ -39,6 +50,7 @@ class IMovable:
         }
         void vel(Vector2 v) { m_vVel = v; }
         void move(Vector2 rel) {
+            snapToTarget();
             m_vPos += rel;
             callMove();
         }
@@ -90,6 +102,7 @@ class IMovable:
         virtual void logic(float t) {
             snapToTarget();
             m_vPos += (m_vVel * t);
+            m_aRot += m_aOmega;
             callMove();
         }
 
@@ -108,17 +121,17 @@ class IMovable:
         //    m_vSize = size();
         //    m_vOffset = offset();
         //    //m_wpTarget = target();
-        //    m_Rot = rot();
+        //    m_aRot = rot();
         //}
 
-        Angle rot() const { return m_Rot; }
-        void rot(Angle a) { m_Rot=a; }
+        Angle rot() const { return m_aRot; }
+        void rot(Angle a) { m_aRot=a; }
 
-        bool isRotated() const { return Angle(0.0f) != m_Rot; }
+        bool isRotated() const { return Angle(0.0f) != m_aRot; }
 
     private:
 
-        void snapToTarget() {
+        void snapToTarget() const {
             std::shared_ptr<IMovable> target;
             if((target = m_wpTarget.lock()))
                 m_vPos = target->pos() + m_vOffset;
@@ -135,18 +148,19 @@ class IMovable:
         std::function<void()> m_cbOnMove;
         
         // basic stuff
-        Vector2 m_vPos;
+        mutable Vector2 m_vPos; // calculated on the fly based on attachments
         Vector2 m_vVel;
         Vector2 m_vSize;
 
         // attaching
         Vector2 m_vOffset;
         Vector2 m_vParallax; // linear offset (for shadows, etc.)
-        std::weak_ptr<IMovable> m_wpTarget;
+        mutable std::weak_ptr<IMovable> m_wpTarget;
 
         // rotating
         Vector2 m_vPivot;
-        Angle m_Rot;
+        Angle m_aRot;
+        Angle m_aOmega;
 };
 
 #endif
