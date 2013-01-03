@@ -13,7 +13,9 @@ class MapList
 
         std::string current() { return *m_MapItr; }
 
-        bool done() const { return m_MapItr==m_Maps.end(); }
+        bool done() const {
+            return m_MapItr==m_Maps.end();
+        }
         bool next() {
             if(m_MapItr==m_Maps.end())
                 return false;

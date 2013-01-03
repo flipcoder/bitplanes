@@ -103,6 +103,8 @@ class ScriptInterface : public IScriptInterface
                 //}catch(const std::bad_weak_ptr&) {
                     if(itr->expired())
                         itr = hooks.erase(itr);
+                    else
+                        ++itr;
                 //}
             }
             if(hooks.empty())
