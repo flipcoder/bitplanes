@@ -78,10 +78,10 @@ class IStateManager
         }
 
         
-        virtual bool isNullID(const tID tid) const {
-            return tid == tID();
-        }
-        virtual const tID nullID() { return tID(); }
+        //virtual bool isNullID(const tID tid) const {
+        //    return tid == tID();
+        //}
+        //virtual const tID nullID() { return tID(); }
         
     public:
         IStateManager() {
@@ -121,7 +121,7 @@ class IStateManager
             return stackTop();
         }
 
-        bool schedule(eOperation op, tID id = nullID()) {
+        bool schedule(eOperation op, tID id = tID()) {
             if(pending())
                 return false; // already scheduled
             m_Operation = op;
@@ -152,7 +152,7 @@ class IStateManager
             else if(m_Operation == OP_CLEAR)
             {
                 stackClear();
-                if(!isNullID(m_OperandID))
+                if(m_OperandID != tID())
                 {
                     tState* s = newState(m_OperandID);
                     if(s)

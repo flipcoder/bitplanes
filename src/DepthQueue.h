@@ -55,7 +55,7 @@ class DepthQueue
         virtual void render() {
             while(!m_pqQueue.empty()) {
                 std::shared_ptr<const IDepthSortable> s;
-                if(s = m_pqQueue.top().lock())
+                if((s = m_pqQueue.top().lock()))
                     s->render();
                 m_pqQueue.pop();
             }

@@ -8,7 +8,7 @@ void Particle :: collisionEvent(std::shared_ptr<Object>& object)
     if(object->solid())
     {
         IOwnable* owned;
-        if(owned = dynamic_cast<IOwnable*>(object.get()))
+        if((owned = dynamic_cast<IOwnable*>(object.get())))
             if(owner() && owned->owner() && owned->owner() != owner()) // diff owner?
             {
 

@@ -20,7 +20,11 @@ class ITaggable
             return m_Tags.insert(boost::algorithm::to_lower_copy(fn)).second;
         }
         bool untag(const std::string& fn) {
-            m_Tags.erase(m_Tags.find(boost::algorithm::to_lower_copy(fn)));
+            auto itr  = m_Tags.find(boost::algorithm::to_lower_copy(fn));
+            if(itr == m_Tags.end())
+                return false;
+            m_Tags.erase(itr);
+            return true;
         }
         unsigned int numTags() { return m_Tags.size(); }
         bool hasTags() { return m_Tags.empty(); }
