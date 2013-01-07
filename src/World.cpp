@@ -181,7 +181,7 @@ bool World :: hasEnemies() const
     foreach(auto& obj, m_SpawnList)
     {
         IOwnable* ownable;
-        if(ownable = dynamic_cast<IOwnable*>(obj.get()))
+        if((ownable = dynamic_cast<IOwnable*>(obj.get())))
         {
             if(ownable->owner() && ownable->owner() == IOwnable::O_ENEMY)
                 return true; // area contains enemey
@@ -190,7 +190,7 @@ bool World :: hasEnemies() const
     foreach(auto& obj, m_Objects)
     {
         IOwnable* ownable;
-        if(ownable = dynamic_cast<IOwnable*>(obj.get()))
+        if(((ownable = dynamic_cast<IOwnable*>(obj.get()))))
         {
             if(ownable->owner() && ownable->owner() == IOwnable::O_ENEMY)
                 return true; // area contains enemey

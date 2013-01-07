@@ -121,7 +121,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                 return;
 
             IDamaging* d;
-            if(d = dynamic_cast<IDamaging*>(object.get())) {
+            if((d = dynamic_cast<IDamaging*>(object.get()))) {
                 IOwnable* o = dynamic_cast<IOwnable*>(object.get());
                 if(o->owner() == IOwnable::O_FRIENDLY) {
                     hurt(d->damage());

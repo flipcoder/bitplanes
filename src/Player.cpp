@@ -120,7 +120,7 @@ void Player :: collisionEvent(std::shared_ptr<Object>& object)
 
     IDamaging* d;
     if(m_BlinkTimer.hasElapsed())
-        if(d = dynamic_cast<IDamaging*>(object.get())) {
+        if((d = dynamic_cast<IDamaging*>(object.get()))) {
             IOwnable* o = dynamic_cast<IOwnable*>(object.get());
             if(owner() && o->owner() && owner() != o->owner()) {
                 m_BlinkTimer.set(Freq::Time(800));
