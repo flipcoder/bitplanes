@@ -87,7 +87,7 @@ class World : public IRealtime
         std::shared_ptr<Audio::Stream> music() { return m_spMusic; }
         bool music(const std::string& fn) {
             try{
-                m_spMusic.reset(new Audio::Stream(fn));
+                m_spMusic.reset(new Audio::Stream("data/audio/"+fn+".ogg"));
             }catch(Failure& f){
                 return false;
             }

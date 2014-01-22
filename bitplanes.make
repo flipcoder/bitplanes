@@ -64,26 +64,26 @@ ifeq ($(config),release)
 endif
 
 OBJECTS := \
-	$(OBJDIR)/MapList.o \
-	$(OBJDIR)/Player.o \
-	$(OBJDIR)/Image.o \
-	$(OBJDIR)/Main.o \
-	$(OBJDIR)/Audio.o \
-	$(OBJDIR)/ScriptInterface.o \
-	$(OBJDIR)/Text.o \
-	$(OBJDIR)/Filesystem.o \
 	$(OBJDIR)/Sprite.o \
-	$(OBJDIR)/Freq.o \
-	$(OBJDIR)/Log.o \
+	$(OBJDIR)/Image.o \
+	$(OBJDIR)/ScriptInterface.o \
 	$(OBJDIR)/Events.o \
-	$(OBJDIR)/Particle.o \
-	$(OBJDIR)/Script.o \
-	$(OBJDIR)/IScriptable.o \
-	$(OBJDIR)/GameState.o \
-	$(OBJDIR)/ObjectFactory.o \
-	$(OBJDIR)/System.o \
-	$(OBJDIR)/PropertyList.o \
+	$(OBJDIR)/Log.o \
 	$(OBJDIR)/Object.o \
+	$(OBJDIR)/Audio.o \
+	$(OBJDIR)/MapList.o \
+	$(OBJDIR)/PropertyList.o \
+	$(OBJDIR)/ObjectFactory.o \
+	$(OBJDIR)/Script.o \
+	$(OBJDIR)/Main.o \
+	$(OBJDIR)/Particle.o \
+	$(OBJDIR)/IScriptable.o \
+	$(OBJDIR)/Filesystem.o \
+	$(OBJDIR)/GameState.o \
+	$(OBJDIR)/Freq.o \
+	$(OBJDIR)/Text.o \
+	$(OBJDIR)/System.o \
+	$(OBJDIR)/Player.o \
 	$(OBJDIR)/World.o \
 
 RESOURCES := \
@@ -145,64 +145,64 @@ $(GCH): $(PCH)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 endif
 
-$(OBJDIR)/MapList.o: src/MapList.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Player.o: src/Player.cpp
+$(OBJDIR)/Sprite.o: src/Sprite.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Image.o: src/Image.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Main.o: src/Main.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Audio.o: src/Audio.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/ScriptInterface.o: src/ScriptInterface.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Text.o: src/Text.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Filesystem.o: src/Filesystem.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Sprite.o: src/Sprite.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Freq.o: src/Freq.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Log.o: src/Log.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/Events.o: src/Events.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Particle.o: src/Particle.cpp
+$(OBJDIR)/Log.o: src/Log.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Script.o: src/Script.cpp
+$(OBJDIR)/Object.o: src/Object.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/IScriptable.o: src/IScriptable.cpp
+$(OBJDIR)/Audio.o: src/Audio.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/GameState.o: src/GameState.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/ObjectFactory.o: src/ObjectFactory.cpp
-	@echo $(notdir $<)
-	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/System.o: src/System.cpp
+$(OBJDIR)/MapList.o: src/MapList.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/PropertyList.o: src/PropertyList.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
-$(OBJDIR)/Object.o: src/Object.cpp
+$(OBJDIR)/ObjectFactory.o: src/ObjectFactory.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Script.o: src/Script.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Main.o: src/Main.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Particle.o: src/Particle.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/IScriptable.o: src/IScriptable.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Filesystem.o: src/Filesystem.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/GameState.o: src/GameState.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Freq.o: src/Freq.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Text.o: src/Text.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/System.o: src/System.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
+$(OBJDIR)/Player.o: src/Player.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(CXXFLAGS) -o "$@" -c "$<"
 $(OBJDIR)/World.o: src/World.cpp

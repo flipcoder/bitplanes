@@ -4,7 +4,9 @@
 #include <memory>
 #include "IRenderable.h"
 
-class IDepthSortable: virtual public IRenderable, public std::enable_shared_from_this<IDepthSortable>
+class IDepthSortable:
+    virtual public IRenderable,
+    public std::enable_shared_from_this<IDepthSortable>
 {
     private:
         float m_fDepth;

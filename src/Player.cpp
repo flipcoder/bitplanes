@@ -76,7 +76,7 @@ void Player :: logic(float t)
         ((Particle*)bullet.get())->collidable(true);
         ((Particle*)bullet.get())->owner(IOwnable::O_FRIENDLY);
         world()->add(bullet);
-        m_FireRate.set(Freq::Time(1000));
+        m_FireRate.set(Freq::Time(500));
     }
 
     if(m_SmokeTimer.hasElapsed())

@@ -19,7 +19,7 @@ MapList :: MapList(const string& fn)
     m_MapItr = m_Maps.begin();
     int i =0;
     foreach(auto& itr, m_Maps) {
-        std::cout << i << " " << itr << std::endl;
+        //std::cout << i << " " << itr << std::endl;
         i++;
     }
 }

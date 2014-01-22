@@ -56,7 +56,7 @@ class TitleState : public IState
             );
 
             try{
-                m_spMusic.reset(new Audio::Stream("title.ogg"));
+                m_spMusic.reset(new Audio::Stream("data/audio/lobby.ogg"));
                 if(m_spMusic)
                     m_spMusic->play(Audio::Stream::REPEAT);
             } catch(Failure& f) {
