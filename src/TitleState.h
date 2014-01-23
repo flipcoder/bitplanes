@@ -70,7 +70,7 @@ class TitleState : public IState
 
         virtual void logic(float t)
         {
-            if(Events::get().key(ALLEGRO_KEY_F10)) {
+            if(Events::get().key(ALLEGRO_KEY_ESCAPE)) {
                 System::get().quit();
                 return;
             }

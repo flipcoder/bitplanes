@@ -4,6 +4,7 @@ music("space")
 -- boss approaching
 local boss = spawn_hook("crab")
 local sx, sy = size(boss)
+
 while exists(boss) > 0 do
     x, y = pos(boss)
     if y >= -sy/2 then

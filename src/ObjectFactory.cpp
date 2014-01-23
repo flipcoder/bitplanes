@@ -72,7 +72,8 @@ std::shared_ptr<Object> ObjectFactory :: create(std::string name, std::string ty
         else
             return std::shared_ptr<Object>();
 
-        m_pWorld->add(object);
+        if(object)
+            m_pWorld->add(object);
         return object;
     } catch(const Failure& f){
         assert(false);

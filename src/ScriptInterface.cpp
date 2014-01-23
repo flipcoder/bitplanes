@@ -3,6 +3,8 @@
 #include "Object.h"
 #include "World.h"
 #include "IDestroyable.h"
+#include "Log.h"
+using namespace std;
 
 ScriptInterface :: ScriptInterface(Script* script, World* world, ObjectFactory* factory)
 {
@@ -71,7 +73,6 @@ int ScriptInterface :: cbSpawnHook(lua_State* state, std::string type)
     if(object)
     {
         //std::shared_ptr<IScriptable> scriptable = std::dynamic_pointer_cast<IScriptable>(object);
-        // following code is O(hell no) -- TODO: fix
         for(i=0;;i++)
             if(m_Hooks.find(i) == m_Hooks.end())
             {
@@ -87,7 +88,8 @@ int ScriptInterface :: cbSpawnHook(lua_State* state, std::string type)
         return 1;
     }
     // TODO: something went wrong...
-    return 0;
+    lua_pushnumber(state, 0.0);
+    return 1;
 }
 
 int ScriptInterface :: cbSpawn(lua_State* state, std::string type)
@@ -349,3 +351,53 @@ int ScriptInterface :: cbMusic(lua_State* state)
 //{
     
 //}
+
+std::vector<std::shared_ptr<IScriptable>> ScriptInterface :: hook(unsigned int id)
+{
+    if(m_Hooks.find(id) == m_Hooks.end())
+        return std::vector<std::shared_ptr<IScriptable>>();
+
+    auto& hooks = m_Hooks[id];
+    std::vector<std::shared_ptr<IScriptable>> ret;
+    ret.reserve(hooks.size());
+    foreach(auto& hook, hooks) {
+        try{
+            std::shared_ptr<IScriptable> test_hook(hook);
+            ret.push_back(hook.lock());
+        }catch(std::bad_weak_ptr&) {}
+    }
+    return ret;
+}
+
+
+int ScriptInterface :: flush(unsigned int id)
+{
+    int count = 0;
+    if(m_Hooks.find(id) == m_Hooks.end())
+        return 0;
+    std::vector<std::weak_ptr<IScriptable>>* hooks;
+    try{
+        hooks = &m_Hooks.at(id);
+    }catch(const std::out_of_range&){
+        return 0;
+    }
+    for(auto itr = hooks->begin();
+        itr != hooks->end();)
+    {
+        //try{
+        //    std::shared_ptr<IScriptable> test_hook(*itr);
+        //    ++itr;
+        //    ++count;
+        //}catch(const std::bad_weak_ptr&) {
+            if(itr->expired())
+                itr = hooks->erase(itr);
+            else{
+                ++itr;
+            }
+        //}
+    }
+    if(hooks->empty())
+        m_Hooks.erase(id);
+    return hooks->size();
+}
+

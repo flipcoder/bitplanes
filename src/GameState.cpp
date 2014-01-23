@@ -4,7 +4,7 @@
 GameState :: GameState()
 {
     // load the current map
-    std::cout<< (str("data/maps/") + System::get().session()->maps()->current() + ".lua") <<  std::endl;
+    //std::cout<< (str("data/maps/") + System::get().session()->maps()->current() + ".lua") <<  std::endl;
     m_spWorld.reset(new World(str("data/maps/") + System::get().session()->maps()->current() + ".lua"));
 
     // initialize a plane for each client/player (only 1 right now)
@@ -41,6 +41,7 @@ void GameState :: logic(float t)
         return;
     }if(Events::get().key(ALLEGRO_KEY_ESCAPE)){
         //System::get().pushState("pause")
+        System::get().quit(); // temp
         return;
     }
 

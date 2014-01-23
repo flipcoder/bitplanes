@@ -61,21 +61,7 @@ class ScriptInterface : public IScriptInterface
         //}
         
         // get a list of scriptable objects for the given identifier
-        std::vector<std::shared_ptr<IScriptable>> hook(unsigned int id) {
-            if(m_Hooks.find(id) == m_Hooks.end())
-                return std::vector<std::shared_ptr<IScriptable>>();
-
-            auto& hooks = m_Hooks[id];
-            std::vector<std::shared_ptr<IScriptable>> ret;
-            ret.reserve(hooks.size());
-            foreach(auto& hook, hooks) {
-                try{
-                    std::shared_ptr<IScriptable> test_hook(hook);
-                    ret.push_back(hook.lock());
-                }catch(std::bad_weak_ptr&) {}
-            }
-            return ret;
-        }
+        std::vector<std::shared_ptr<IScriptable>> hook(unsigned int id);
 
         // TODO: do this without invalidating iterators
         //void flush() {
@@ -89,28 +75,7 @@ class ScriptInterface : public IScriptInterface
         
         // removes all invalid hooks for the given indentifier
         // also, returns hook count
-        int flush(unsigned int id) {
-            int count = 0;
-            if(m_Hooks.find(id) == m_Hooks.end())
-                return 0;
-            auto& hooks = m_Hooks[id];
-            for(auto itr = hooks.begin();
-                itr != hooks.end();) {
-                //try{
-                //    std::shared_ptr<IScriptable> test_hook(*itr);
-                //    ++itr;
-                //    ++count;
-                //}catch(const std::bad_weak_ptr&) {
-                    if(itr->expired())
-                        itr = hooks.erase(itr);
-                    else
-                        ++itr;
-                //}
-            }
-            if(hooks.empty())
-                m_Hooks.erase(id);
-            return count;
-        }
+        int flush(unsigned int id);
 
         //unsigned int combine(unsigned int id, unsigned int id) {
         //    return 0;

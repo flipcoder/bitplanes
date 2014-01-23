@@ -63,7 +63,7 @@ repeat coroutine.yield() until clear()
 
 
 -- boss approaching
-local boss = spawn_hook("horseshoe")
+local boss = spawn_hook("crab")
 local sx, sy = size(boss)
 while exists(boss) > 0 do
     x, y = pos(boss)
