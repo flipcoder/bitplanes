@@ -39,7 +39,7 @@ then add those directories into MSVC's search path.  Before you run the .exe, Ma
 Bitplanes has a basic Lua API for spawning, hooking, and interfacing with objects and parts of the game engine.  For an example map and boss fight, look at:
     bin/data/maps/road.lua
 
-This is a work in progress since there are no ways to load custom maps yet (other than swapping them out with road.lua).  I will fix this soon.
+Add custom maps by appending the name to data/maps/map.list
 
 It does not take advantage of Lua's object system but instead uses IDs to refer to each "hooked" object in the system (see ScriptInterface.h/cpp)
 

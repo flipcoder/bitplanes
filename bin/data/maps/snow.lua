@@ -1,7 +1,5 @@
-SCREEN_W = 320
-SCREEN_H = 480
-
 spawn("snow")
+music("sea")
 
 i = 0
 while i < 100 do

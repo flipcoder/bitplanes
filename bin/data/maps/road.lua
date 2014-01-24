@@ -1,5 +1,5 @@
 backdrop("road")
-music("road")
+music("sea")
 
 -- simple wave of planes
 i = 0

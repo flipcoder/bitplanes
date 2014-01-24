@@ -1,65 +1,70 @@
 backdrop("space")
-music("space")
+music("sea")
 
--- boss approaching
-local boss = spawn_hook("crab")
-local sx, sy = size(boss)
+coroutine.yield(10)
 
-while exists(boss) > 0 do
-    x, y = pos(boss)
-    if y >= -sy/2 then
-        break
+-- let's make a maze !
+
+tile = 40
+tiles = SCREEN_W / tile
+layers = 0
+open = math.random(0, tiles) * tile
+while layers < 25 do
+    c = 0
+    open = open + (math.random(0,5) - 2) * tile
+    
+    if open/tile >= tiles then
+        open = tile * (tiles - 1)
     end
-    dx, dy = vel(boss)
-    vel(boss, dx, dy+1)
-
-    coroutine.yield()
+    if open/tile <= 0 then
+        open = 0
+    end
+    
+    while c <= tiles*tile do
+        if c ~= open then
+            local rock = spawn_hook("debrisSpace4")
+            pos(rock, c, 0)
+            vel(rock, 0, 300)
+            --x, y = size(rock)
+            unhook(rock)
+        end
+        c = c + tile
+    end
+    coroutine.yield(25)
+    layers = layers + 1
 end
+repeat coroutine.yield() until clear()
 
--- boss wave
-vel(boss, 0, -100)
-i = 0
-dir = 1
-while exists(boss) > 0 do
-    x, y = pos(boss)
-    mid_x = (SCREEN_W / 2 - sx/2)
+-- now random asteroids with ships!
 
-    -- flip direction
-    i = i + .01
-    if i > 1 then
-        dir = math.random(0,1) * 2 - 1
-        i = 0
-    end
-
-    -- wave pattern
-    pos(boss,
-        mid_x  +
-        (
-            dir * math.sin(i * math.pi) * mid_x
-        ),
-        - sy/2 +
-        (
-            math.sin(i * math.pi) * (sy/2)
-        )
-    )
-
-    if math.random() < 0.2 then
-        local enemy = spawn_hook("planeE2")
-        esx, esy = size(enemy)
-        pos(enemy, x + sx/2 - esx/2, y + sy - esy/2) -- spawn on boss
-        vel(enemy, (math.random(0,1) * 2 - 1) * math.random(0,3)*10, math.random(150,300))
+frames = 0
+while frames < 100 do
+    local enemy = spawn_hook("debrisSpace4")
+    x, y = pos(enemy)
+    pos(enemy, math.random(SCREEN_W), y)
+    vel(enemy, (math.random(0,1) * 2 - 1) * math.random(10,30), math.random(100,200))
+    unhook(enemy)
+    frames = frames + 1
+    if math.random(0,20) == 0 then
+        local plane = spawn_hook("planeE4")
+        x,y = pos(plane)
+        sx,sy = size(plane)
+        pos(enemy, math.random(SCREEN_W), 0)
+        vel(enemy, (math.random(0,1) * 2 - 1) * math.random(100), math.random(50,100))
         unhook(enemy)
     end
-    if math.random() < 0.1 * (1.0 -  (health(boss) / max_health(boss))) then
-        local enemy = spawn_hook("planeE1")
-        x, y = pos(enemy)
-        pos(enemy, math.random(SCREEN_W), y)
-        vel(enemy, 0, math.random(300,500))
+    if math.random(0,20) == 0 then
+        local plane = spawn_hook("planeE5")
+        x,y = pos(plane)
+        sx,sy = size(plane)
+        vel(enemy, (math.random(0,1) * 2 - 1) * math.random(100), math.random(10,20))
+        pos(enemy, math.random(SCREEN_W), 0)
         unhook(enemy)
     end
-
-    coroutine.yield()
+    coroutine.yield(10)
 end
 
+-- boss?
+    
 repeat coroutine.yield() until clear()
 

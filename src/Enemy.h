@@ -22,6 +22,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
 
         Freq::Alarm m_SmokeTimer;
         boost::optional<Freq::Alarm> m_FlashTimer;
+        bool m_bSmoke;
 
     public:
         Enemy(const std::string& fn):
@@ -30,6 +31,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
             IDamaging(properties().getInt("default","damage",1))
         {
             nullify();
+            m_bSmoke = properties().getInt("default","smoke",1);
             pos(0.0f, System::get().w() / 2.0f + size().x / 2.0f);
             //scoped_dtor<Enemy> dtor; // code below probably won't throw but just in case
             sprite().depth(properties().getFloat("default", "depth", -50.0f));
@@ -87,7 +89,7 @@ class Enemy : public Object, public IOwnable, public IDamaging, public IDestroya
                     invalidate();
             }
 
-            if(m_SmokeTimer.hasElapsed())
+            if(m_bSmoke && m_SmokeTimer.hasElapsed())
             {
                 std::shared_ptr<Object> smoke(new Particle(
                     (std::string)"trailSmoke.png",
