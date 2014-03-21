@@ -1,4 +1,4 @@
-# Bitplanes
+![bitplanes](https://raw.githubusercontent.com/flipcoder/bitplanes/af2593329cefd1f9d5fe390ae58deb4a92233fad/bin/data/interface/logo_a.png)
 http://github.com/flipcoder/bitplanes
 Copyright &copy; 2012 Grady O'Connell
 
