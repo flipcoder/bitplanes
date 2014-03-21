@@ -16,13 +16,13 @@ See LICENSE for more information
 ## Credits ##
 
 ### Programming
-- Grady O'Connell (@flipcoder, flipcoder@gmail.com)
+- [Grady O'Connell](http://github.com/flipcoder) (flipcoder@gmail.com)
 
 ### Graphics
-- Mark "Alfred" McDaniel (@AlfredAnonymous, alfred523@gmail.com)
+- [Mark "Alfred" McDaniel](http://github.com/AlfredAnonymous) (alfred523@gmail.com)
 
 ### Music & Sound
-- Grady O'Connell (@flipcoder, flipcoder@gmail.com)
+- [Grady O'Connell](http://github.com/flipcoder) (flipcoder@gmail.com)
 
 ## About ##
 
