@@ -21,6 +21,9 @@ See LICENSE for more information
 ### Graphics
 - Mark "Alfred" McDaniel (alfred523@gmail.com)
 
+### Music & Sound
+- Grady O'Connell (flipcoder@gmail.com)
+
 ## About ##
 
 Bitplanes is a retro-styled vertical shooter written in C++ using the Allegro library and Lua for scripting.
