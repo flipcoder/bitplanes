@@ -16,10 +16,10 @@ See LICENSE for more information
 ## Credits ##
 
 ### Programming
-- Grady O'Connell <flipcoder@gmail.com>
+- Grady O'Connell (flipcoder@gmail.com)
 
 ### Graphics
-- Mark "Alfred" McDaniel <alfred523@gmail.com>
+- Mark "Alfred" McDaniel (alfred523@gmail.com)
 
 ## About ##
 
