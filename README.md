@@ -4,7 +4,6 @@ http://github.com/flipcoder/bitplanes
 
 Copyright &copy; 2012 Grady O'Connell
 
-See CREDITS for a list of all contributors
 See LICENSE for more information
 
 =====
